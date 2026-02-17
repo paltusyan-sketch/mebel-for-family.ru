@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Семейная мастерская{% endblock %}</title>
+    
+    <!-- Подключение всех шрифтов и основного CSS (STYLES.CSS) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    
+    <!-- Сюда дочерние шаблоны смогут добавить свой CSS (например, catalog_style.css) -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header (Шапка) -->
+    <header>
+        <div class="logo-nav-order">
+            <a href="{% url 'main' %}"><div class="logo">Семейная мастерская</div></a>
+            
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+            <label for="menu-toggle" class="menu-icon">
+                <span class="navicon"></span>
+            </label>
+            
+            <div class="nav-order">
+                <nav class="navigation">
+                    <a href="{% url 'main' %}">Главная</a>
+                    <a href="{% url 'catalog' %}">Каталог</a>
+                    <a href="{% url 'main' %}#about-us">О нас</a>
+                    <a href="{% url 'main' %}#contacts">Контакты</a>
+                </nav>
+                <a href="{% url 'contacts' %}"><button class="order-call">Заказать звонок</button></a>
+            </div>
+
+            <div class="mobile-nav-order">
+                <nav class="navigation">
+                    <ul>
+                        <li><a href="{% url 'main' %}">Главная</a></li>
+                        <li><a href="{% url 'catalog' %}">Каталог</a></li>
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </nav>
+                <a href="{% url 'contacts' %}"><button class="order-call">Заказать звонок</button></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ОСНОВНОЕ МЕСТО ДЛЯ КОНТЕНТА -->
+        <!-- Все, что ты будешь писать в других файлах внутри {-% block content %}, появится тут -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer (Подвал) -->
+    <footer>
+        <p>Контакты: {{ site_settings.phone }} | {{ site_settings.address }}</p>
+    </footer>
+
+    <!-- Если нужен общий JS, его можно подключить здесь -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

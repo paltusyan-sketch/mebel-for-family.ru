@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/index2.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <!-- Banner -->
+    <section class="banner">
+        <div class="banner-content">
+            <h1>Мебель с&nbsp;душой</h1>
+            <p>Создаём уют для вашего дома</p>
+            <!-- <p>Екатеринбург</p> -->
+            <a href="{% url 'contacts' %}"><button class="order-call">Заказать звонок</button></a>
+        </div>
+    </section>
+
+    <!-- Catalog -->
+    <section class="catalog">
+        <a href="{% url 'catalog' %}"><h2>Наш каталог</h2></a>
+        <div class="catalog-grid">
+            <a href="{% url 'catalog_by_category' 'sofas' %}">
+                <div class="catalog-item">
+                    <img src="{% static 'img/sofa.jpg' %}" alt="Диваны">
+                    <h3>Диваны</h3>
+                </div>
+            </a>
+
+            <a href="{% url 'catalog_by_category' 'beds' %}">
+                <div class="catalog-item">
+                    <img src="{% static 'img/bed.jpg' %}" alt="Кровати">
+                    <h3>Кровати</h3>
+                </div>
+            </a>
+
+            <a href="{% url 'catalog_by_category' 'chairs' %}">
+                <div class="catalog-item">
+                    <img src="{% static 'img/chair.jpg' %}" alt="Стулья">
+                    <h3>Стулья</h3>
+                </div>
+            </a>
+
+            <a href="{% url 'catalog_by_category' 'panels' %}">
+                <div class="catalog-item">
+                    <img src="{% static 'img/wall_panel.jpg' %}" alt="Настенные панели">
+                    <h3>Панели</h3>
+                </div>
+            </a>
+        </div>
+    </section>    
+  
+    <!-- О нас -->
+    <section class="about-us-section" id="about-us">
+        <div class="about-us-container">
+            <h1>О нас</h1>
+            
+            <!-- Секция 1: Вступление и история -->
+            <section class="about-section introduction-section">
+                <p>Двадцать лет назад наша история начиналась с небольшой мастерской, где собирали первый диван. Идея была простой: создавать такую мебель, которую не страшно поставить в центр гостиной, на которую с радостью запрыгнут дети и в которой с комфортом разместятся все родные за большим праздничным столом.</p>
+                <p>Сегодня «Семейная Мастерская» — это уже имя, которое знают в сотнях домов. Но для нас по-прежнему важно, чтобы за этими словами стояли не просто годы работы, а живые ценности, которые не меняются с годами:</p>
+            </section>
+
+            <!-- Секция 2: Ценности списком -->
+            <section class="about-section values-section">
+                <div class="value-item">
+                    <h3>Семейные традиции мастерства</h3>
+                    <p>Наши главные специалисты работают с нами с самого начала. Их руки помнят каждый шов, а опыт подсказывает, как добиться идеальной посадки подушки. Это знание, которое не прочитаешь в инструкциях, оно передается здесь, в цеху, от мастера к ученику.</p>
+                </div>
+                
+                <div class="value-item">
+                    <h3>Ответственность за каждую деталь</h3>
+                    <p>Мы выбираем только проверенные материалы: прочные каркасы из сухой древесины, упругие и долговечные наполнители, качественные ткани и кожу. Потому что знаем — наша мебель станет частью вашей повседневной жизни на долгие годы.</p>
+                </div>
+                
+                <div class="value-item">
+                    <h3>Понимание жизни семьи</h3>
+                    <p>Мы создаем мебель не просто для интерьера, а для жизни. Поэтому наши диваны выдерживают активные игры, легко трансформируются, скрывают вместительные ящики для хранения, а ткани на многих моделях обработаны защитными составами. Мы думаем о практичности, чтобы вам оставалось думать об уюте.</p>
+                </div>
+                
+                <div class="value-item">
+                    <h3>Индивидуальный подход</h3>
+                    <p>Мы сохранили возможность создавать мебель по вашим уникальным размерам и пожеланиям. Хотите диван нестандартной длины, особую жесткость или уникальный оттенок ткани? Для «Семейной Мастерской» это не проблема, а интересная задача.</p>
+                </div>
+                <!-- Блок 5: Философия -->
+                <div class="value-item philosophy-item">
+                    <h3>Наша философия</h3>
+                    <p>Хорошая мебель — та, которую не хочется менять. Она становится молчаливым свидетелем ваших семейных историй: вечерних посиделок, детского смеха, спокойных выходных. Мы вкладываем в каждое изделие не только материалы и труд, но и частичку этого тепла.</p>
+                    <p class="signature">С уважением, основатели и команда «Семейной Мастерской».</p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Order Form -->
+    <div class="contacts-page-container" id="contacts">
+
+        <!-- Правая колонка: Форма -->
+        <div class="contact-form-wrapper">
+            <section class="order-form" id="order-section">
+                <h2>Заказать звонок</h2>
+                <form method="post" action="{% url 'main' %}">
+                    {% csrf_token %}
+                    
+                    <!-- Рендерим поля вручную, чтобы стили работали корректно -->
+                    <div class="form-field">
+                        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div>
+                    
+                    <div class="form-field">
+                        <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="form-field">
+                        <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
+                        {{ form.comment }}
+                    </div>
+                    {% if messages %}{% for message in messages %}<div class="message" style="color: darkgreen; margin-top: -1rem;">{{ message }}</div>{% endfor %}{% endif %}
+                    <button type="submit" class="order-btn-big">Оставить заявку</button>
+                </form>
+            </section>
+        </div>
+
+            
+        <!-- Левая колонка: Контакты и адрес -->
+        <div class="contact-info">
+            <h1>Наши контакты</h1>
+            <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
+            
+            
+            <p><strong>Телефон:</strong> {{ site_settings.phone }}</p>
+            <p><strong>Email:</strong> {{ site_settings.email }}</p>
+            <p><strong>Адрес:</strong> {{ site_settings.address }}</p>
+            <p><strong>Режим работы:</strong> {{ site_settings.working_hours }}</p>
+        
+            
+            <!-- Можно добавить карту здесь -->
+        </div>
+    </div>
+
+    <!-- Content Blocks -->
+    <section class="content-block">
+        <h2>Наши проекты</h2>
+        <div class="gallery">
+            <img src="{% static 'img/flat1.jpg' %}" alt="Квартира 1">
+            <img src="{% static 'img/flat2.jpg' %}" alt="Квартира 2">
+            <img src="{% static 'img/flat3.jpg' %}" alt="Квартира 3">
+            <img src="{% static 'img/flat4.jpg' %}" alt="Квартира 4">
+        </div>
+    </section>
+
+    <!-- <section class="content-block">
+        <h2>Возможности компании</h2>
+        <p>Индивидуальный дизайн, качественные материалы, короткие сроки.</p>
+    </section>
+
+    <section class="content-block">
+        <h2>Производственные площади</h2>
+        <img src="https://via.placeholder.com/600x300/6a0dad/ffffff?text=Производство" alt="Производство" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px;"> -->
+    </section>
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const formSection = document.getElementById('order-section');
+        
+        // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
+        const savedScrollPos = localStorage.getItem('formScrollPos');
+        
+        if (savedScrollPos) {
+            // 2. Если есть, прокручиваем страницу к этой позиции
+            window.scrollTo(0, parseInt(savedScrollPos, 10));
+            // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
+            localStorage.removeItem('formScrollPos');
+        }
+
+        // 3. Перехватываем событие отправки формы
+        formSection.querySelector('form').addEventListener('submit', () => {
+            // 4. Перед отправкой сохраняем текущую позицию прокрутки
+            localStorage.setItem('formScrollPos', window.scrollY);
+        });
+    });
+</script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/inputmask.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber/9.0.15/phonenumberutil.min.js"></script>
+
+<!-- <script>
+    // Предположим, что у вашего поля ID 'id_phone'
+    var phoneInput = document.getElementById('id_phone');
+
+    if (phoneInput) {
+        Inputmask({"mask": "+7 (999) 999-99-99", "clearIncomplete": true}).mask(phoneInput);
+    }
+</script> -->
+
+<script>
+    // Ждем полной загрузки страницы перед поиском поля
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var phoneInput = document.getElementById('id_phone');
+
+        if (phoneInput) {
+            Inputmask({
+                "mask": "+7 (999) 999-99-99",
+                "clearIncomplete": true,
+                "showMaskOnFocus": true, // Показать маску, когда поле в фокусе (уже работает)
+                "showMaskOnHover": true  // Показать маску, когда вы просто наводите курсор (это должно решить вашу проблему)
+            }).mask(phoneInput);
+        }
+    });
+</script>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load active_link_tags %}
+
+
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/catalog.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <section class="catalog-header">
+        <h1>Наш ассортимент</h1>
+        <!-- Фильтры (просто ссылки, которые Django поймет) -->
+        <div class="category-filters">
+            <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>
+            <a href="{% url 'catalog_by_category' 'sofas' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='sofas' strict=True %}">Диваны</a>
+            <a href="{% url 'catalog_by_category' 'beds' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='beds' strict=True %}">Кровати</a>
+            <a href="{% url 'catalog_by_category' 'chairs' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='chairs' strict=True %}">Стулья</a>
+            <a href="{% url 'catalog_by_category' 'panels' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='panels' strict=True %}">Панели</a>
+        </div>
+    </section>
+
+    <section class="products-grid">
+        <!-- Карточка товара (в Джанго тут будет цикл {-% for %}) -->
+        {% for product in products %}
+            
+            <a href="{% url 'product_page' product.category.slug product.id %}">
+                <div class="product-card">
+                    <div class="product-img-container">
+                        <img src="{{ product.image.url }}" alt="Диван">
+                        {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
+                    </div>
+                    <div class="product-details">
+                        <h3>{{ product.name }}</h3>
+                        <p class="product-desc">{{ product.subtitle }}</p>
+                        <div class="product-footer">
+                            <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price }}₽</span>
+                            <button class="buy-btn">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </section>
+{% endblock %}

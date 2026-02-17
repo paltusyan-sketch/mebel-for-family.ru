@@ -1,0 +1,375 @@
+
+
+
+/* --- index.css: Стили главной страницы и общие компоненты --- */
+
+/* --- Секция баннера --- */
+.banner {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('../img/background_back.jpg') center/cover;
+    height: 74vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.banner-content {
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+.banner h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: rgb(186 186 186 / 95%);
+}
+
+.banner p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: rgb(186 186 186 / 95%);
+}
+
+/* --- Общие контентные блоки и галерея --- */
+.content-block {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #f9f9f9;
+}
+
+.content-block h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.gallery {
+    justify-content: space-around;
+    display: flex;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.gallery img {
+    width: 17.6rem;
+    height: 16.8rem;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+}
+
+/* --- Секция каталога (главная страница) --- */
+.catalog {
+    padding: 4rem 2rem;
+    background-color: #f9f9f9;
+    z-index: 0;
+}
+
+.catalog h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+}
+
+.catalog-grid {
+    display: flex; /* На десктопе используем Flexbox */
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.catalog-item {
+    background: #d8d8d8;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    width: 17.6rem;
+    height: 16.8rem;
+    margin: 1rem;
+}
+
+.catalog-item:hover {
+    transform: translateY(-5px);
+}
+
+.catalog-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.catalog-item h3 {
+    padding: 1rem;
+    color: #2c3e50;
+}
+
+/* --- Стили формы заказа (используется на главной и странице контактов) --- */
+.contacts-page-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    scroll-margin-top: 6rem;
+}
+
+.contact-form-wrapper {
+    margin: 2rem 0;
+}
+
+.contact-info {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 38vh;
+}
+
+/* Контейнер, который центрирует форму на странице */
+.form-section-standalone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 2rem 1rem;
+}
+
+.order-form {
+    max-width: 550px;
+    width: 100%;
+    margin: 0;
+    padding: 2rem;
+    background: #c1cbc3;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+
+input, textarea {
+    background-color: #e4e4e4;
+    border-radius: 5px;
+    resize: none;
+}
+
+textarea {
+    width: 70%;
+    height: 6rem;
+    margin-bottom: 1rem;
+}
+
+.order-form h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.order-form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.order-form button {
+    width: 100%;
+    background: #5a7650;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    box-sizing: border-box;
+}
+
+.order-form button:hover {
+    background: #177c3e;
+}
+
+
+/* Медиа-запрос для телефонов */
+@media (max-width: 768px) {
+    .contacts-page-container {
+        flex-direction: column;
+        margin-top: 1rem;
+        padding: 0 1rem;
+    }
+
+    .contact-form-wrapper {
+        margin-top: 1.5rem; 
+    }
+
+    .contact-info{
+        margin-top: 0rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* --- Стили страницы "О нас" (Макет Олимпиады 3 сверху, 2 снизу) --- */
+.about-us-section {
+    background-color: #ffffff;
+    scroll-margin-top: 4.5rem;
+}
+
+.about-us-container {
+    max-width: 1200px;
+    margin: 0rem auto;
+    padding: 0 2rem;
+    padding-top: 4rem;
+    line-height: 1.6;
+    color: #7c2a2a;
+}
+
+.about-us-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.about-section {
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.introduction-section p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Контейнер для 5 блоков: 3 колонки на десктопе */
+.values-philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    justify-content: center;
+}
+
+.value-item {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.value-item h3 {
+    color: #5a7650;
+    margin-bottom: 0.5rem;
+}
+
+.signature {
+    margin-top: 2rem;
+    font-style: italic;
+    text-align: right;
+}
+
+/* Чтобы последние 2 элемента (Философия и Индивидуальный подход) оказались по центру снизу */
+.values-philosophy-grid .value-item:nth-child(4), 
+.values-philosophy-grid .value-item:nth-child(5) {
+    grid-column: span 2; /* Занимают две колонки */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 550px; /* Ограничиваем ширину для красоты */
+}
+
+
+/* --- Медиа-запросы (Адаптивность) --- */
+
+@media (max-width: 1024px) {
+    /* На средних экранах (планшеты) переходим на 2 колонки для ценностей */
+    .values-philosophy-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Сбрасываем специфичное позиционирование для макета 3/2 */
+    .values-philosophy-grid .value-item:nth-child(4), 
+    .values-philosophy-grid .value-item:nth-child(5) {
+        grid-column: auto;
+        margin: 0;
+        max-width: none;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: calc(5rem + env(safe-area-inset-top));
+    }
+
+    /* Общие отступы на мобильных устройствах */
+    .catalog, .content-block, .banner-content, .about-us-container {
+        padding: 2rem 1rem;
+    }
+
+    .catalog h2, .content-block h2 {
+        font-size: 1.5rem;
+    margin-bottom: 1rem;
+    }
+
+    /* Сетка каталога на мобильных (2 колонки) */
+    .catalog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .catalog-item {
+        width: auto; 
+        height: auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .catalog-item img {
+        height: 150px;
+        margin: 0;
+    }
+
+    /* Галерея на мобильных (1 колонка) */
+    .gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .gallery img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Секция "О нас" на мобильных (1 колонка) */
+    .values-philosophy-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Адаптация страницы продукта на мобильных */
+    .product-container { 
+        flex-direction: column; 
+        gap: 1.5rem; 
+    }
+    .main-image {
+        height: auto;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+    }
+
+    textarea {
+    width: 100%;
+    }
+}

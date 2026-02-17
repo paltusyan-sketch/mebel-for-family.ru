@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Наши проекты{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/projects.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <section class="projects-page">
+        <h1>Наши реализованные проекты</h1>
+        <p class="subtitle">Посмотрите, как мы создаем уют в домах наших клиентов.</p>
+
+        <div class="projects-grid">
+            <!-- Пример карточки проекта (повторять для каждого) -->
+            <a href="" class="project-card">
+                <img src="{% static 'img/flat1.jpg' %}" alt="Квартира в стиле Модерн">
+                <div class="project-info">
+                    <h3>Квартира в стиле Модерн</h3>
+                    <span>г. Екатеринбург, 2024 г.</span>
+                </div>
+            </a>
+            <!-- Повтор -->
+             <a href="" class="project-card">
+                <img src="{% static 'img/flat2.jpg' %}" alt="Дом из бруса">
+                <div class="project-info">
+                    <h3>Загородный дом</h3>
+                    <span>МО, 2025 г.</span>
+                </div>
+            </a>
+             <a href="" class="project-card">
+                <img src="{% static 'img/flat3.jpg' %}" alt="Лофт дизайн">
+                <div class="project-info">
+                    <h3>Офис в стиле Лофт</h3>
+                    <span>г. Москва, 2024 г.</span>
+                </div>
+            </a>
+        </div>
+    </section>
+{% endblock content %}

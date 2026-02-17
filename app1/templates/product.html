@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <main class="product-page">
+        <div class="container">
+            <div class="product-container">
+                <!-- Лево: Фото -->
+                <div class="product-gallery">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+                </div>
+
+                <!-- Право: Инфо -->
+                <div class="product-info-side">
+                    <a href="javascript:history.back()" class="back-link">
+                            ← Вернуться в каталог
+                    </a>
+                    <!-- <nav class="breadcrumb">
+                        <a href="{% url 'catalog' %}">Каталог</a> / <a href="{% url 'catalog_by_category' 'sofas' %}">Диваны</a>
+                    </nav> -->
+                    <h1>{{ product.name }}</h1>
+                    <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price }}₽</p>
+                    
+                    <div class="characteristics">
+                        <div class="char-item"><span>Материал:</span> <span>{{ product.material }}</span></div>
+                        <div class="char-item"><span>Срок изг.:</span> <span>{{ product.production_time }}</span></div>
+                        <div class="char-item"><span>Габариты:</span> <span>{{ product.dimensions }}</span></div>
+                    </div>
+
+                    <div class="description">
+                        <h3>Описание</h3>
+                        <p>{{ product.description }}</p>
+                    </div>
+
+                    <a href="{% url 'contacts' %}?product_id={{ product.id }}"><button class="order-btn-big">Оставить заявку</button></a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

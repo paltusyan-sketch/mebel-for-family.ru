@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="contacts-page-container">
+
+    <!-- Правая колонка: Форма -->
+    <div class="contact-form-wrapper">
+        <section class="order-form" id="order-section">
+            <h2>Заказать звонок</h2>
+            <form method="post" action="{% url 'contacts' %}">
+                {% csrf_token %}
+                
+                <!-- Рендерим поля вручную, чтобы стили работали корректно -->
+                <div class="form-field">
+                    <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                    {{ form.name }}
+                </div>
+                
+                <div class="form-field">
+                    <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="form-field">
+                    <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
+                    {{ form.comment }}
+                </div>
+                {% if messages %}{% for message in messages %}<div class="message" style="color: darkgreen; margin-top: -1rem;">{{ message }}</div>{% endfor %}{% endif %}
+                <button type="submit" class="order-btn-big">Оставить заявку</button>
+            </form>
+        </section>
+    </div>
+
+        
+    <!-- Левая колонка: Контакты и адрес -->
+    <div class="contact-info">
+        <h1>Наши контакты</h1>
+        <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
+        
+        
+        <p><strong>Телефон:</strong> {{ site_settings.phone }}</p>
+        <p><strong>Email:</strong> {{ site_settings.email }}</p>
+        <p><strong>Адрес:</strong> {{ site_settings.address }}</p>
+        <p><strong>Режим работы:</strong> {{ site_settings.working_hours }}</p>
+    
+        
+        <!-- Можно добавить карту здесь -->
+    </div>
+
+</div>
+{% endblock content %}
+
+
+
+
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const formSection = document.getElementById('order-section');
+        
+        // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
+        const savedScrollPos = localStorage.getItem('formScrollPos');
+        
+        if (savedScrollPos) {
+            // 2. Если есть, прокручиваем страницу к этой позиции
+            window.scrollTo(0, parseInt(savedScrollPos, 10));
+            // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
+            localStorage.removeItem('formScrollPos');
+        }
+
+        // 3. Перехватываем событие отправки формы
+        formSection.querySelector('form').addEventListener('submit', () => {
+            // 4. Перед отправкой сохраняем текущую позицию прокрутки
+            localStorage.setItem('formScrollPos', window.scrollY);
+        });
+    });
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/inputmask.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber/9.0.15/phonenumberutil.min.js"></script>
+
+<!-- <script>
+    // Предположим, что у вашего поля ID 'id_phone'
+    var phoneInput = document.getElementById('id_phone');
+
+    if (phoneInput) {
+        Inputmask({"mask": "+7 (999) 999-99-99", "clearIncomplete": true}).mask(phoneInput);
+    }
+</script> -->
+
+<script>
+    // Ждем полной загрузки страницы перед поиском поля
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var phoneInput = document.getElementById('id_phone');
+
+        if (phoneInput) {
+            Inputmask({
+                "mask": "+7 (999) 999-99-99",
+                "clearIncomplete": true,
+                "showMaskOnFocus": true, // Показать маску, когда поле в фокусе (уже работает)
+                "showMaskOnHover": true  // Показать маску, когда вы просто наводите курсор (это должно решить вашу проблему)
+            }).mask(phoneInput);
+        }
+    });
+</script>
+
+{% endblock %}

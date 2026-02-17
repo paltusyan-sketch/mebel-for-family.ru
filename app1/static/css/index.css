@@ -1,0 +1,212 @@
+/* В этом файле ТОЛЬКО уникальные стили главной страницы */
+
+/* Banner */
+.banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                    url('../img/background_back.jpg') center/cover;
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    /* margin-top: 5rem; Удалил этот костыль, теперь body padding-top разруливает */
+}
+
+.banner-content {
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+.banner h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.banner p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Content Blocks */
+.content-block {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #f9f9f9;
+}
+
+.content-block h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.gallery {
+    justify-content: space-around;
+    display: flex;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.gallery img {
+    width: 17.6rem;
+    height: 16.8rem;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+}
+
+/* Catalog (стили для секции "Наш каталог" на главной) */
+.catalog {
+    padding: 4rem 2rem;
+}
+
+.catalog h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+}
+
+.catalog-grid {
+    display: flex;
+    justify-content: space-around;
+}
+
+.catalog-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    width: 17.6rem;
+    height: 16.8rem;
+}
+
+.catalog-item:hover {
+    transform: translateY(-5px);
+}
+
+.catalog-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.catalog-item h3 {
+    padding: 1rem;
+    color: #2c3e50;
+}
+
+/* Order Form */
+.order-form {
+    max-width: 500px;
+    margin: 6rem;
+    padding: 2rem;
+    background: #9b9ab9;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #ddd;
+}
+
+input {
+    background-color: #e4e4e4;
+}
+
+textarea {
+    background-color: #e4e4e4;
+}
+
+.order-form h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.order-form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.order-form button {
+    width: 100%;
+    background: #5a7650;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.order-form button:hover {
+    background: #5a0b9d;
+}
+
+@media (max-width: 768px) {
+
+    body {
+        padding-top: 0rem;
+    }
+    
+    /* Общие отступы на маленьких экранах */
+    .catalog, .content-block, .banner-content {
+        padding: 2rem 1rem;
+    }
+
+    /* Названия секций меньше */
+    .catalog h2, .content-block h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Сетка каталога */
+    .catalog-grid {
+        /* Убираем flexbox на телефоне и переходим на grid */
+        display: grid;
+        /* Две колонки, которые автоматически подстраиваются под размер экрана (минимум 150px) */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem; /* Отступ между карточками */
+        justify-content: center; /* Центрируем, если не хватает карточек */
+    }
+
+    /* Элемент каталога */
+    .catalog-item {
+        /* Убираем фиксированную ширину, делаем ее адаптивной */
+        width: auto; 
+        height: auto; /* Высота тоже должна быть гибкой */
+        /* Убираем лишнюю тень или уменьшаем ее для мобильных */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .catalog-item img {
+        height: 150px; /* Фиксируем высоту картинки для единообразия */
+    }
+    
+    /* Галерея */
+    .gallery {
+        flex-direction: column; /* Элементы галереи выстраиваем вертикально */
+        align-items: center;
+    }
+    
+    .gallery img {
+        width: 100%; /* Картинки галереи на всю ширину контейнера */
+        height: auto;
+    }
+}

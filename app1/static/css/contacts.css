@@ -1,0 +1,120 @@
+/* --- Стили для ОТДЕЛЬНОЙ страницы формы --- */
+
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.contacts-page-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.contact-form-wrapper {
+    margin: 2rem 0;
+}
+
+.contact-info {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 38vh;
+}
+
+/* Контейнер, который центрирует форму на странице */
+.form-section-standalone {
+    display: flex;
+    justify-content: center; /* Центрируем форму по горизонтали */
+    align-items: center; /* Выравниваем по центру по вертикали (если экран высокий) */
+    min-height: 70vh; /* Обеспечивает минимальную высоту, чтобы футер не "взлетал" */
+    padding: 2rem 1rem; /* Добавляет базовый адаптивный отступ по бокам */
+}
+
+/* Основной блок формы */
+.order-form {
+    max-width: 550px;
+    width: 100%; /* Форма занимает 100% ширины контейнера до max-width */
+    margin: 0; /* Убираем неадаптивный "margin: 6rem;", центрирование теперь делает .form-section-standalone */
+    padding: 2rem;
+    background: #c1cbc3;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Важно: padding не увеличивает общую ширину */
+}
+
+/* --- Ваши существующие стили для элементов формы --- */
+
+input, textarea {
+    background-color: #e4e4e4;
+    border-radius: 5px;
+    resize: none;
+}
+
+textarea {
+    width: 70%;
+    height: 6rem;
+    margin-bottom: 1rem;
+}
+
+.order-form h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.order-form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Гарантируем, что input не вылезает за пределы формы */
+}
+
+.order-form button {
+    width: 100%;
+    background: #5a7650;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    box-sizing: border-box; /* Гарантируем, что кнопка не вылезает за пределы формы */
+}
+
+.order-form button:hover {
+    background: #177c3e;
+}
+
+/* Медиа-запрос для телефонов */
+@media (max-width: 768px) {
+    /* Переход на ОДНУ КОЛОНКУ на мобильных */
+    .contacts-page-container {
+        flex-direction: column; /* Элементы выстраиваются вертикально */
+        margin-top: 1rem;
+        padding: 0 1rem;
+    }
+
+    .contact-form-wrapper {
+        /* Добавляем отступ между контактами (сверху) и формой (снизу) */
+        margin-top: 1.5rem; 
+    }
+
+    .contact-info{
+        margin-top: 0rem;
+        margin-bottom: 1rem;
+    }
+
+    textarea {
+    width: 100%;
+    }
+}
