@@ -118,3 +118,95 @@ textarea {
     width: 100%;
     }
 }
+
+
+.policy_label {
+    display: flex;
+    margin: 0.4rem 0rem;
+    margin-bottom: 0rem;
+    align-items: center;
+}
+
+input.policy_checkbox {
+    margin: 0.3rem;
+    width: 3.1rem;
+}
+
+.policy_text {
+
+}
+
+.policy_link {
+    color: #5d5e99;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+   .policy_label {
+    display: flex;
+    align-items: self-start;
+    margin: 0.7rem 0rem;
+    margin-bottom: 0rem;
+    justify-content: space-evenly;
+    }
+
+    input.policy_checkbox {
+        margin: 0.3rem 0;
+        width: 1.9rem;
+    }
+
+    textarea.policy_checkbox {
+        background-color: #fd0000;
+    }
+
+    .policy_text {
+        width: 16rem;
+    }
+
+    .policy_link {
+        color: #5d5e99;
+        text-decoration: underline;
+    } 
+}
+
+input[type="checkbox"] {
+    appearance: none; /* Убиваем системный вид */
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    background-color: #e4e4e4; /* Цвет внутри, когда НЕ нажат */
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Цвет фона, когда НАЖАТ */
+input[type="checkbox"]:checked {
+    background-color: #e4e4e4; 
+    border-color: #e4e4e4;
+}
+
+/* Рисуем саму галочку (белую) */
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 2px;
+    width: 6px;
+    height: 13px;
+    border: solid #006412; /* Цвет самой галочки */
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.message {
+    margin-top: -1rem;
+    margin-bottom: 0.5rem;
+}
+
+.alert-success { color: #155724; } /* Зеленый */
+.alert-error { color: #721c24; }   /* Красный */
+.alert-warning { color: #856404; } /* Желтый */
+color: darkgreen; 

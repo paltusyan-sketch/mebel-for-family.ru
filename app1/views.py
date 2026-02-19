@@ -1,4 +1,5 @@
 import requests
+from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
@@ -29,6 +30,9 @@ def send_telegram_notification(data):
 def index_page(request):
     # Если данные отправлены методом POST
     if request.method == 'POST':
+        if request.POST.get('honeypot'):
+            messages.error(request, 'Система распосзнала, что вы бот!')
+            return redirect('main')
         form = OrderForm(request.POST)
         if form.is_valid():
             send_telegram_notification(form.cleaned_data)
@@ -83,6 +87,10 @@ def contacts_page(request):
             pass
 
     if request.method == 'POST':
+        if request.POST.get('honeypot'):
+            messages.error(request, 'Система распосзнала, что вы бот!')
+            return redirect('contacts')
+        
         form = OrderForm(request.POST, initial=initial_data)
         if form.is_valid():
             send_telegram_notification(form.cleaned_data)

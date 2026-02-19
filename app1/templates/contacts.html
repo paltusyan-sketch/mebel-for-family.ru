@@ -29,12 +29,31 @@
                     {{ form.phone }}
                 </div>
 
+                <div style="display:none;">
+                    <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                </div>
+
                 <div class="form-field">
                     <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
                     {{ form.comment }}
                 </div>
-                {% if messages %}{% for message in messages %}<div class="message" style="color: darkgreen; margin-top: -1rem;">{{ message }}</div>{% endfor %}{% endif %}
+                {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
                 <button type="submit" class="order-btn-big">Оставить заявку</button>
+                
+                <label class="policy_label">
+                    <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
+                    <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
+                </label>
+
+                <script>
+                // Самая простая проверка на стороне клиента
+                document.querySelector('form').onsubmit = function(e) {
+                    if(!document.getElementById('gdpr_check').checked) {
+                        alert('Поставь галку, иначе мебель не приедет!');
+                        return false;
+                    }
+                };
+                </script>
             </form>
         </section>
     </div>
