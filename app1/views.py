@@ -21,9 +21,11 @@ def send_telegram_notification(data, is_spam=False):
     params = {
         'chat_id': settings.TELEGRAM_CHAT_ID,
         'text': message,
-        'parse_mode': 'HTML'
+        'parse_mode': 'HTML',
+        'disable_notification': is_spam,
     }
     response = requests.post(url, data=params)
+    
 
 
 

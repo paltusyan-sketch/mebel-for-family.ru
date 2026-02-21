@@ -139,3 +139,9 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+
+if os.path.exists('C:\\Users\\'): # Если есть папка Users, значит мы на Windows
+    TELEGRAM_CHAT_ID = "-5137981668"
+else:
+    pass
