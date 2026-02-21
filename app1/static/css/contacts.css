@@ -95,6 +95,11 @@ textarea {
     background: #177c3e;
 }
 
+.form-field-3 {
+    position: absolute;
+    left: 9999px;
+}
+
 /* Медиа-запрос для телефонов */
 @media (max-width: 768px) {
     /* Переход на ОДНУ КОЛОНКУ на мобильных */

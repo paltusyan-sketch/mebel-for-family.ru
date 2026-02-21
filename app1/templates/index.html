@@ -108,24 +108,26 @@
                     {% csrf_token %}
                     
                     <!-- Рендерим поля вручную, чтобы стили работали корректно -->
-                    <div class="form-field">
+                    <div class="form-field form-field-1">
                         <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
                         {{ form.name }}
                     </div>
                     
-                    <div class="form-field">
+                    <div class="form-field form-field-2">
                         <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
                         {{ form.phone }}
                     </div>
 
-                    <div style="display:none;">
-                        <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                    <div class="form-field form-field-3">
+                        <label for="id_imeil">Ваш имеил</label>
+                        <input type="text" name="email" maxlength="100" required="" id="id_email">
                     </div>
 
-                    <div class="form-field">
+                    <div class="form-field form-field-4">
                         <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
                         {{ form.comment }}
                     </div>
+                    
                     {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
                     <button type="submit" class="order-btn-big">Оставить заявку</button>
                     
