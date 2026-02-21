@@ -33,7 +33,7 @@ def index_page(request):
     # Если данные отправлены методом POST
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        if request.POST.get('honeypot'):
+        if request.POST.get('imail') or request.POST.get('honeypot'):
             form.is_valid()
             send_telegram_notification(form.cleaned_data, True)
             messages.error(request, 'Система распосзнала, что вы бот!')
@@ -92,7 +92,7 @@ def contacts_page(request):
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        if request.POST.get('honeypot'):
+        if request.POST.get('imail') or request.POST.get('honeypot'):
             form.is_valid()
             send_telegram_notification(form.cleaned_data, True)
             messages.error(request, 'Система распосзнала, что вы бот!')

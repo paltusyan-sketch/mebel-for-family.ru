@@ -119,15 +119,19 @@
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label for="id_imeil">Ваш имеил</label>
-                        <input type="text" name="email" maxlength="100" required="" id="id_email">
+                        <label for="id_emeil">Ваш имеил</label>
+                        <input type="text" name="imail" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div style="display:none;">
+                        <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
                     </div>
 
                     <div class="form-field form-field-4">
                         <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
                         {{ form.comment }}
                     </div>
-                    
+
                     {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
                     <button type="submit" class="order-btn-big">Оставить заявку</button>
                     
