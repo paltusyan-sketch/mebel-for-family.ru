@@ -8,14 +8,14 @@ from .forms import OrderForm
 
 # Create your views here.
 
-def send_telegram_notification(data):
+def send_telegram_notification(data, is_spam=False):
     if data['comment']:
         comment = f"\nКомментарий: <b>{data['comment']}</b>"
     else:
         comment = ""
 
     raw_phone = data['phone'].replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
-    message = f"Имя: <b>{data['name']}</b>\nТелефон: <b>{raw_phone}</b>" + comment
+    message = f"{'СПАМ !!!\n\n' if is_spam else ""}Имя: <b>{data['name']}</b>\nТелефон: <b>{raw_phone}</b>" + comment
 
     url = f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
     params = {
@@ -30,10 +30,12 @@ def send_telegram_notification(data):
 def index_page(request):
     # Если данные отправлены методом POST
     if request.method == 'POST':
+        form = OrderForm(request.POST)
         if request.POST.get('honeypot'):
+            form.is_valid()
+            send_telegram_notification(form.cleaned_data, True)
             messages.error(request, 'Система распосзнала, что вы бот!')
             return redirect('main')
-        form = OrderForm(request.POST)
         if form.is_valid():
             send_telegram_notification(form.cleaned_data)
             messages.success(request, 'Ваша заявка успешно отправлена!')
@@ -87,11 +89,12 @@ def contacts_page(request):
             pass
 
     if request.method == 'POST':
+        form = OrderForm(request.POST)
         if request.POST.get('honeypot'):
+            form.is_valid()
+            send_telegram_notification(form.cleaned_data, True)
             messages.error(request, 'Система распосзнала, что вы бот!')
             return redirect('contacts')
-        
-        form = OrderForm(request.POST, initial=initial_data)
         if form.is_valid():
             send_telegram_notification(form.cleaned_data)
             messages.success(request, 'Ваша заявка успешно отправлена!')
