@@ -210,7 +210,7 @@ input[type="checkbox"]:checked::after {
 .alert-error { color: #721c24; }   /* Красный */
 .alert-warning { color: #856404; } /* Желтый */
 
-
+/* Фикс зума на мобилках */
 @media screen and (max-width: 768px) {
     input, 
     textarea, 

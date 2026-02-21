@@ -134,9 +134,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_collected')
 
 
-TELEGRAM_BOT_TOKEN = "8514993617:AAElYkx1Zzx7LhjFRNU9ZYtIWt7j7zxZqI4"
-TELEGRAM_CHAT_ID = "-1003883208669"
-
 
 try:
     from .local_settings import *

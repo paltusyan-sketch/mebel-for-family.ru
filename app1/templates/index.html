@@ -104,7 +104,7 @@
         <div class="contact-form-wrapper">
             <section class="order-form" id="order-section">
                 <h2>Заказать звонок</h2>
-                <form method="post" action="{% url 'contacts' %}">
+                <form method="post" action="{% url 'main' %}">
                     {% csrf_token %}
                     
                     <!-- Рендерим поля вручную, чтобы стили работали корректно -->
