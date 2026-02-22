@@ -78,11 +78,12 @@ def product_page(request, category_slug, product_id):
     images.append(product.image.url)
     images += [*(i.image.url for i in Product.objects.all())]
     images.remove(f"{product.image.url}")
+    images = [f"{product.image.url}"] + images
     del images[choice(range(1,12))]
     del images[choice(range(1,11))]
     del images[choice(range(1,10))]
     del images[choice(range(1,9))]
-
+    
     print(images)
 
 
