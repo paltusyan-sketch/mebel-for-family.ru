@@ -28,7 +28,7 @@ urlpatterns = [
     path('catalog/<slug:category_slug>/', views.catalog_page, name='catalog_by_category'),
     path("catalog/", views.catalog_page, name='catalog'),
     path("contacts/", views.contacts_page, name='contacts'),
-    
+    path("policy/", views.policy_page, name='policy'),
     path("projects/", views.projects_page),
 ]
 

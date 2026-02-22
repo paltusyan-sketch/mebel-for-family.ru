@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product
 from .forms import OrderForm
+from random import choice
 
 # Create your views here.
 
@@ -73,7 +74,19 @@ def product_page(request, category_slug, product_id):
         category__slug=category_slug # Дополнительная проверка для безопасности
     )
 
-    context = {'product' : product}
+    images = []
+    images.append(product.image.url)
+    images += [*(i.image.url for i in Product.objects.all())]
+    images.remove(f"{product.image.url}")
+    del images[choice(range(1,12))]
+    del images[choice(range(1,11))]
+    del images[choice(range(1,10))]
+    del images[choice(range(1,9))]
+
+    print(images)
+
+
+    context = {'product' : product, "images" : images}
     return render(request, "product.html", context)
 
 
@@ -109,6 +122,16 @@ def contacts_page(request):
     return render(request, "contacts.html", context)
 
 
+
+def policy_page(request):
+    products = Product.objects.all()
+    # images = []
+    # for i in products:
+    #     images.append()
+    context = {
+        "products" : products,
+    }
+    return render(request, "policy.html", context)
 
 
 

@@ -1,6 +1,6 @@
 /* --- Основные стили страницы продукта --- */
 .product-page {
-    margin-top: 1rem; 
+    margin-top: 0rem; 
     padding: 2rem 0;
 }
 
@@ -141,8 +141,8 @@
 
     /* Верхний отступ страницы на мобильных (меньше, чем 8rem на десктопе) */
     .product-page {
-        margin-top: 2rem;
-        padding-top: 1rem;
+        margin-top: 0rem;
+        padding-top: 0rem;
     }
     
     /* Добавляем отступы по бокам, чтобы контент не прилипал к краям экрана */
@@ -168,4 +168,16 @@
     }
 }
 
+
+.relative.w-full.max-w-2xl.mx-auto.shadow-2xl.rounded-xl.overflow-hidden.bg-white.p-4.fotos {
+    background-color: #e4e4e4;
+    margin-left: 2rem;
+}
+
+@media (max-width: 768px) {
+    .relative.w-full.max-w-2xl.mx-auto.shadow-2xl.rounded-xl.overflow-hidden.bg-white.p-4.fotos {
+        background-color: #e4e4e4;
+        margin-left: 0rem;
+    }
+}
 
