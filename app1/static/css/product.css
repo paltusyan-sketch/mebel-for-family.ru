@@ -1,7 +1,7 @@
 /* --- Основные стили страницы продукта --- */
 .product-page {
     margin-top: 0rem; 
-    padding: 2rem 0;
+    padding: 1.7rem 0;
 }
 
 .container {
@@ -178,6 +178,8 @@
     .relative.w-full.max-w-2xl.mx-auto.shadow-2xl.rounded-xl.overflow-hidden.bg-white.p-4.fotos {
         background-color: #e4e4e4;
         margin-left: 0rem;
+        padding-top: 1.5rem;
+        touch-action: pan-y;
     }
 }
 

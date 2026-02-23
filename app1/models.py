@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 
 # Create your models here.
 
@@ -23,7 +24,7 @@ class Product(models.Model):
     is_from = models.BooleanField(default=False, verbose_name="от")
     is_green = models.BooleanField(default=False, verbose_name="зеленый ценник")
     price = models.IntegerField(verbose_name="Цена")
-    image = models.ImageField(upload_to='products/', blank=True, null=True, verbose_name="Картинка")
+    main_image = models.ImageField(upload_to='products/', blank=True, null=True, verbose_name="Картинка")
     is_new = models.BooleanField(default=False, verbose_name="Новинка")
 
     material = models.CharField(max_length=255, verbose_name="Материал", default='Массив кедра, Велюр')
@@ -31,6 +32,11 @@ class Product(models.Model):
     dimensions = models.CharField(max_length=100, verbose_name="Габариты", default='19000 x 1400 x 950 мм')
     description = models.TextField(verbose_name="Описание", default='Изысканный диван ручной работы. Мы используем только экологичные материалы. Возможен выбор цвета ткани под ваш интерьер.')
 
+    def main_image_tag(self):
+        if self.main_image:
+            return mark_safe(f'<img src="{self.main_image.url}" width="100" style="border-radius: 10px;")>')
+        return "Нет главного фото"
+    main_image_tag.short_description = 'Основное фото'
 
     class Meta:
         ordering = ('name',)
@@ -40,6 +46,26 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+
+
+class ProductImage(models.Model):
+    # Связываем с продуктом. related_name='images' нужен, чтобы дергать фотки в шаблоне
+    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='products/extra/', verbose_name="Доп. фото")
+    
+    def image_tag(self):
+        if self.image:
+            # mark_safe говорит Django: "Это не опасный текст, это картинка, рисуй её!"
+            return mark_safe(f'<img src="{self.image.url}" width="100" style="border-radius: 8px;"/>')
+        return "Нет фото"
+    
+    image_tag.short_description = 'Предпросмотр'
+
+    def __str__(self):
+        # Считаем, сколько фоток у этого продукта имеют ID меньше или равный текущему
+        count = self.product.images.filter(id__lte=self.id).count()
+        return f"Фото №{count} для {self.product.name}"
+        
 
 
 class Setting(models.Model):

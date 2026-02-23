@@ -73,19 +73,10 @@ def product_page(request, category_slug, product_id):
         id=product_id,
         category__slug=category_slug # Дополнительная проверка для безопасности
     )
-
-    images = []
-    images.append(product.image.url)
-    images += [*(i.image.url for i in Product.objects.all())]
-    images.remove(f"{product.image.url}")
-    images = [f"{product.image.url}"] + images
-    del images[choice(range(1,12))]
-    del images[choice(range(1,11))]
-    del images[choice(range(1,10))]
-    del images[choice(range(1,9))]
+  
+    images = ([product.main_image.url] if product.main_image else []) + [*(i.image.url for i in product.images.all())]
+   
     
-    print(images)
-
 
     context = {'product' : product, "images" : images}
     return render(request, "product.html", context)

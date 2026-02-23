@@ -5,7 +5,8 @@
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
 {% endblock %}
 
-
+ 
+                    <!-- images: [{% for i in images %}'{{i}}',{% endfor %}], -->
 {% block content %}
     <main class="product-page">
         <div class="container">
@@ -16,8 +17,8 @@
                 </div> -->
 
                 <div x-data="{ 
-                    index: 0, 
-                    images: [{% for i in images %}'{{i}}',{% endfor %}],
+                    index: 0,
+                    images: {{ images|safe }},
                     next() { this.index = (this.index + 1) % this.images.length },
                     prev() { this.index = (this.index - 1 + this.images.length) % this.images.length }
                 }" class="relative w-full max-w-2xl mx-auto shadow-2xl rounded-xl overflow-hidden bg-white p-4 fotos">
