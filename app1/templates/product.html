@@ -5,8 +5,7 @@
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
 {% endblock %}
 
- 
-                    <!-- images: [{% for i in images %}'{{i}}',{% endfor %}], -->
+
 {% block content %}
     <main class="product-page">
         <div class="container">
@@ -83,7 +82,4 @@
     </main>
 {% endblock %}
 
-{% block extra_js %}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-{% endblock %}
+{% block extra_js %}{% endblock %}

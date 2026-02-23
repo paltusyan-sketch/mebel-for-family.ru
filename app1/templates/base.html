@@ -14,6 +14,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    {% block scripts %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {% endblock scripts %}
     
     <!-- Сюда дочерние шаблоны смогут добавить свой CSS (например, catalog_style.css) -->
     {% block extra_css %}{% endblock %}
@@ -61,11 +66,26 @@
     </main>
 
     <!-- Footer (Подвал) -->
-    <footer>
-        <p>Контакты: {{ site_settings.phone }} | {{ site_settings.address }}</p>
+    <footer class="bg-[#2c3e50] text-white text-center py-10 px-4 mt-auto">
+        <div class="max-w-3xl mx-auto space-y-4">
+            <!-- Контакты из твоих настроек -->
+            <p class="text-sm sm:text-base opacity-90">
+                Контакты: {{ site_settings.phone }} | {{ site_settings.address }}
+            </p>
+            
+            <!-- Доп. инфа и ссылка -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-6 text-xs text-gray-400 border-t border-gray-700 pt-6">
+                <p>© {% now "Y" %} Семейная мастерская. Все права защищены.</p>
+                <a href="/policy/" class="hover:text-white underline transition-colors">
+                    Политика конфиденциальности
+                </a>
+            </div>
+        </div>
     </footer>
+
 
     <!-- Если нужен общий JS, его можно подключить здесь -->
     {% block extra_js %}{% endblock %}
+
 </body>
 </html>
