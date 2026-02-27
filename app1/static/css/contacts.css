@@ -97,7 +97,8 @@ textarea {
 
 .form-field-3 {
     position: absolute;
-    left: 9999px;
+    left: -9999px;
+    opacity: 0;
 }
 
 /* Медиа-запрос для телефонов */
