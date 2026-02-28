@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
@@ -62,7 +63,7 @@
                         <a href="{% url 'catalog' %}">Каталог</a> / <a href="{% url 'catalog_by_category' 'sofas' %}">Диваны</a>
                     </nav> -->
                     <h1>{{ product.name }}</h1>
-                    <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price }}₽</p>
+                    <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</p>
                     
                     <div class="characteristics">
                         <div class="char-item"><span>Материал:</span> <span>{{ product.material }}</span></div>

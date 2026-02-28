@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load active_link_tags %}
+{% load custom_tags %}
 
 
 
@@ -38,7 +39,7 @@
                         <h3>{{ product.name }}</h3>
                         <p class="product-desc">{{ product.subtitle }}</p>
                         <div class="product-footer">
-                            <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price }}₽</span>
+                            <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</span>
                             <button class="buy-btn">Выбрать</button>
                         </div>
                     </div>
