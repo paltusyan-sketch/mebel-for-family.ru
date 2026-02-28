@@ -47,3 +47,14 @@
         {% endfor %}
     </section>
 {% endblock %}
+
+
+{% block extra_js %}
+<script>
+    tailwind.config = {
+        corePlugins: {
+        preflight: false,
+        }
+    }
+</script>
+{% endblock %}

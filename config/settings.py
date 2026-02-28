@@ -142,6 +142,6 @@ except ImportError:
 
 
 if os.path.exists('C:\\Users\\'): # Если есть папка Users, значит мы на Windows
-    TELEGRAM_CHAT_ID = "-5137981668"
+    TELEGRAM_CHAT_ID = SETTING_TELEGRAM_CHAT_ID
 else:
     pass

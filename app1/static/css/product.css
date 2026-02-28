@@ -183,3 +183,9 @@
     }
 }
 
+
+
+button {
+    outline: none !important;
+    border: none; /* на всякий случай, если это рамка */
+}

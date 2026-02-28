@@ -85,7 +85,15 @@
 
 
     <!-- Если нужен общий JS, его можно подключить здесь -->
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+    <script>
+        tailwind.config = {
+            corePlugins: {
+            preflight: false,
+            }
+        }
+    </script>
+    {% endblock %}
 
 </body>
 </html>

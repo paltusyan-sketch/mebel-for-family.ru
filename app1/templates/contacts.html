@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
 {% endblock %}
 
-{% block scripts %}{% endblock scripts %}
 
 
 {% block content %}
@@ -136,6 +135,15 @@
             }).mask(phoneInput);
         }
     });
+</script>
+
+
+<script>
+    tailwind.config = {
+        corePlugins: {
+        preflight: false,
+        }
+    }
 </script>
 
 {% endblock %}
