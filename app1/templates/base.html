@@ -87,5 +87,51 @@
     <!-- Если нужен общий JS, его можно подключить здесь -->
     {% block extra_js %}{% endblock %}
 
+    <!-- Куки-баннер: Благородный зеленый и русский язык -->
+    <div id="cookie-banner" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-10 md:max-w-[380px] z-[9999] transform translate-y-32 opacity-0 transition-all duration-700 ease-out">
+        <div class="bg-white border-l-4 border-emerald-800 shadow-[0_15px_40px_rgba(0,0,0,0.12)] rounded-r-xl p-6 md:p-8">
+            <div class="flex flex-col gap-5">
+                <div>
+                    <!-- Заголовок на русском, строгий -->
+                    <h4 class="text-[12px] font-bold uppercase tracking-[0.2em] text-emerald-900 antialiased mb-3">
+                        Использование файлов куки
+                    </h4>
+                    <p class="text-[11px] text-gray-600 uppercase tracking-wider leading-relaxed">
+                        Мы используем данные, чтобы сделать ваш опыт выбора мебели удобнее. Оставаясь на сайте, вы соглашаетесь с нашей 
+                        <a href="/privacy-policy/" class="text-emerald-800 underline underline-offset-4 hover:text-emerald-600 transition-colors font-bold">политикой</a>.
+                    </p>
+                </div>
+                
+                <!-- Кнопка: Темно-зеленая, под твой вкус -->
+                <button id="accept-cookies" class="w-full bg-emerald-900 text-white text-[11px] uppercase tracking-[0.25em] font-bold py-4 px-6 rounded-md hover:bg-emerald-800 transition-all active:scale-[0.97] shadow-lg shadow-emerald-900/20">
+                    Принять и продолжить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const banner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+
+            if (!localStorage.getItem('cookies_accepted')) {
+                setTimeout(() => {
+                    banner.classList.remove('translate-y-32', 'opacity-0');
+                    banner.classList.add('translate-y-0', 'opacity-100');
+                }, 2000);
+            }
+
+            acceptBtn.addEventListener('click', function() {
+                localStorage.setItem('cookies_accepted', 'true');
+                banner.classList.remove('translate-y-0', 'opacity-100');
+                banner.classList.add('translate-y-32', 'opacity-0');
+                setTimeout(() => banner.remove(), 700);
+            });
+        });
+    </script>
+
+
+
 </body>
 </html>
