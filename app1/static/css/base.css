@@ -162,3 +162,46 @@ footer {
     }
     
 }
+
+
+
+/* --- Стили навигации (меню) --- */
+.navigation a, 
+.mobile-nav-order .navigation ul li a {
+    display: inline-block;
+    text-transform: uppercase;   /* Заглавные буквы */
+    letter-spacing: 0.2em;       /* Красивый разлет букв */
+    font-size: 12px;             /* Размер для премиального вида */
+    font-weight: 600;            /* Плотность шрифта */
+    text-decoration: none;
+    color: #333;                 /* Основной цвет */
+    transition: color 0.3s ease; /* Плавная смена только цвета */
+}
+
+/* Эффект при наведении (только цвет, чтобы меню не дергалось) */
+.navigation a:hover, 
+.mobile-nav-order .navigation ul li a:hover {
+    color: #177c3e;              /* Оранжевый при наведении */
+}
+
+/* --- Кнопка "Заказать звонок" --- */
+.order-call {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;      /* Чуть меньше разлет для кнопок */
+    font-size: 11px;
+    font-weight: 700;
+    padding: 10px 24px;
+    background-color: #5a7650;   /* Темный фон для контраста */
+    color: white;
+    border: none;
+    border-radius: 8px;          /* Мягкое современное скругление */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.order-call:hover {
+    background-color: #177c3e;   /* Кнопка меняет цвет при наведении */
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2); /* Легкое свечение */
+}
+
+

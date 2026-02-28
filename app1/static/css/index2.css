@@ -8,14 +8,14 @@
     position: relative;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
                 url('../img/background_back.jpg') center/cover;
-    height: 74vh;
+    height: 60vh; /* Уменьшил высоту, чтобы не было "слишком большой хуйни" */
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     z-index: 1;
     border-radius: 0px 0px 30px 30px;
 }
@@ -26,16 +26,27 @@
 }
 
 .banner h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    /* Твой цвет, но сочный шрифт с разрядкой */
     color: rgb(186 186 186 / 95%);
+    font-size: 2.5rem; /* Чуть компактнее */
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em; /* Мебельный стиль */
+    font-weight: 700;
 }
 
 .banner p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+    /* Твой цвет, шрифт как в карточках */
     color: rgb(186 186 186 / 95%);
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4em; /* Большой разлет для стиля */
+    font-weight: 400;
 }
+
+
+
 
 /* --- Общие контентные блоки и галерея --- */
 .content-block {
