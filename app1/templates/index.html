@@ -22,34 +22,62 @@
     <!-- Catalog -->
     <section class="catalog">
         <a href="{% url 'catalog' %}"><h2>Наш каталог</h2></a>
-        <div class="catalog-grid">
-            <a href="{% url 'catalog_by_category' 'sofas' %}">
-                <div class="catalog-item">
-                    <img src="{% static 'img/sofa.jpg' %}" alt="Диваны">
-                    <h3>Диваны</h3>
-                </div>
-            </a>
+        <!-- Контейнер с ограничением максимальной ширины, чтобы на 4К мониках не разъехалось -->
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">                
+                <!-- Карточка: Диваны -->
+                <a href="{% url 'catalog_by_category' 'sofas' %}" class="group block text-decoration-none">
+                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
+                        <img src="{% static 'img/sofa.jpg' %}" alt="Диваны" 
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <!-- Плавный градиент снизу -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
+                            <span class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
+                                Диваны
+                            </span>
+                        </div>
+                    </div>
+                </a>
 
-            <a href="{% url 'catalog_by_category' 'beds' %}">
-                <div class="catalog-item">
-                    <img src="{% static 'img/bed.jpg' %}" alt="Кровати">
-                    <h3>Кровати</h3>
-                </div>
-            </a>
+                <!-- Карточка: Кровати -->
+                <a href="{% url 'catalog_by_category' 'beds' %}" class="group block text-decoration-none">
+                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
+                        <img src="{% static 'img/bed.jpg' %}" alt="Кровати" 
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
+                            <span class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
+                                Кровати
+                            </span>
+                        </div>
+                    </div>
+                </a>
 
-            <a href="{% url 'catalog_by_category' 'chairs' %}">
-                <div class="catalog-item">
-                    <img src="{% static 'img/chair.jpg' %}" alt="Стулья">
-                    <h3>Стулья</h3>
-                </div>
-            </a>
+                <!-- Карточка: Стулья -->
+                <a href="{% url 'catalog_by_category' 'chairs' %}" class="group block text-decoration-none">
+                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
+                        <img src="{% static 'img/chair.jpg' %}" alt="Стулья" 
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
+                            <span class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
+                                Стулья
+                            </span>
+                        </div>
+                    </div>
+                </a>
 
-            <a href="{% url 'catalog_by_category' 'panels' %}">
-                <div class="catalog-item">
-                    <img src="{% static 'img/wall_panel.jpg' %}" alt="Настенные панели">
-                    <h3>Панели</h3>
-                </div>
-            </a>
+                <!-- Карточка: Панели -->
+                <a href="{% url 'catalog_by_category' 'panels' %}" class="group block text-decoration-none">
+                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
+                        <img src="{% static 'img/wall_panel.jpg' %}" alt="Панели" 
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
+                            <span class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
+                                Панели
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>    
   
