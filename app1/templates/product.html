@@ -76,7 +76,7 @@
                         <p>{{ product.description }}</p>
                     </div>
 
-                    <a href="{% url 'contacts' %}?product_id={{ product.id }}"><button class="order-btn-big">Оставить заявку</button></a>
+                    <a href="{% url 'contacts' %}?product_slug={{ product.product_slug }}"><button class="order-btn-big">Оставить заявку</button></a>
                 </div>
             </div>
         </div>

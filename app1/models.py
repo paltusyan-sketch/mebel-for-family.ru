@@ -1,12 +1,24 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from pytils.translit import slugify
+from django.core.validators import RegexValidator
 
 # Create your models here.
 
+slug_validator = RegexValidator(
+    regex=r'^[a-z0-9-]+$',
+    message="Слаг может содержать только латиницу, цифры и дефис (никаких пробелов и подчеркиваний!)"
+)
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    category_slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, validators=[slug_validator])
+
+    def save(self, *args, **kwargs):
+        if not self.category_slug:
+            # Если слаг пустой — транслитим имя
+            self.category_slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Категория"
@@ -18,6 +30,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    product_slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, validators=[slug_validator])
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
     name = models.CharField(max_length=200, verbose_name="Название")
     subtitle = models.CharField(max_length=150, verbose_name="Подзаголовок", default='Велюр, массив кедра, индивидуальный размер.')
@@ -31,6 +44,14 @@ class Product(models.Model):
     production_time = models.CharField(max_length=100, verbose_name="Срок изготовления", default='от 22 дней')
     dimensions = models.CharField(max_length=100, verbose_name="Габариты", default='19000 x 1400 x 950 мм')
     description = models.TextField(verbose_name="Описание", default='Изысканный диван ручной работы. Мы используем только экологичные материалы. Возможен выбор цвета ткани под ваш интерьер.')
+
+
+    def save(self, *args, **kwargs):
+        if not self.product_slug:
+            # Если слаг пустой — транслитим имя
+            self.product_slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
     def main_image_tag(self):
         if self.main_image:

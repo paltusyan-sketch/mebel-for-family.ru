@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product
+from .models import Product, Category
 from .forms import OrderForm
 from random import choice
 
@@ -62,7 +62,7 @@ def index_page(request):
 def catalog_page(request, category_slug=None):
     
     if category_slug:
-        products = Product.objects.filter(category__slug=category_slug)
+        products = Product.objects.filter(category__category_slug=category_slug)
         context = {
             'products': products
         }
@@ -72,14 +72,17 @@ def catalog_page(request, category_slug=None):
             'products': all_products
         }
 
+    context['categories'] = Category.objects.all()
+    print(Category.objects.all())
+
     return render(request, "catalog.html", context)
 
 
-def product_page(request, category_slug, product_id):
+def product_page(request, category_slug, product_slug):
     product = get_object_or_404(
         Product, 
-        id=product_id,
-        category__slug=category_slug # Дополнительная проверка для безопасности
+        product_slug=product_slug,
+        category__category_slug=category_slug # Дополнительная проверка для безопасности
     )
   
     images = ([product.main_image.url] if product.main_image else []) + [*(i.image.url for i in product.images.all())]
@@ -92,14 +95,15 @@ def product_page(request, category_slug, product_id):
 
 def contacts_page(request):
     initial_data = {}
-    product_id = request.GET.get('product_id')
+    product_slug = request.GET.get('product_slug')
 
-    if product_id:
+    if product_slug:
         try:
             # Находим продукт по ID
-            product = Product.objects.get(id=product_id)
+            product = Product.objects.get(product_slug=product_slug)
+            print(product.name)
             # Формируем текст комментария
-            initial_data['comment'] = f"Здравствуйте! Заинтересовал товар: {product.name} (ID: {product.id})."
+            initial_data['comment'] = f"Здравствуйте! Заинтересовал товар: {product.name}."
         except Product.DoesNotExist:
             pass
 
@@ -119,6 +123,7 @@ def contacts_page(request):
     else:
         # Если метод GET, создаем пустую форму
         form = OrderForm()
+        form = OrderForm(initial=initial_data)
 
     context = {'form': form}
     return render(request, "contacts.html", context)

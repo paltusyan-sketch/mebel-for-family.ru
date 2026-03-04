@@ -19,9 +19,9 @@ class SettingAdmin(admin.ModelAdmin):
     
 class CategoryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
 
 
@@ -29,17 +29,8 @@ admin.site.register(Category, CategoryAdmin)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    # # Добавляем вкладыш с фотками в карточку товара
-    # inlines = [ProductImageInline]
-    # # Если хочешь видеть в списке товаров еще и категорию:
-    # list_display = ('name', 'category')
-    # # Выводим тег картинки в список полей, которые нельзя редактировать руками
-    # readonly_fields = ('main_image_tag',)
-    # # Определяем порядок полей, чтобы картинка была в самом верху
-    # fields = ('main_image_tag', 'main_image', 'name', 'category', 'price')
-
-    # 1. Список всех товаров (в таблице)
-    list_display = ('main_image_tag', 'name', 'category', 'price', 'is_from', 'is_green', 'is_new')
+    # 1. Список всех товаров (в таблце)
+    list_display = ('main_image_tag', 'name', 'product_slug', 'category', 'price', 'is_from', 'is_green', 'is_new')
     list_filter = ('category', 'is_new', 'is_green') # Фильтры справа
     list_editable = ('price', 'is_from', 'is_green', 'is_new') # Можно менять прямо в списке!
     
@@ -47,6 +38,9 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('main_image_tag',)
     
     fieldsets = (
+        ('SEO', {
+            'fields': ('product_slug',)
+        }),
         ('Визуал', {
             'fields': ('main_image_tag', 'main_image')
         }),

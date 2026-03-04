@@ -17,13 +17,11 @@
         <h1 class="text-center text-2xl md:text-4xl font-bold uppercase tracking-[0.3em] text-gray-900 antialiased mb-10">
             Наш ассортимент
         </h1>
-        <!-- Фильтры (просто ссылки, которые Django поймет) -->
         <div class="category-filters">
             <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>
-            <a href="{% url 'catalog_by_category' 'sofas' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='sofas' strict=True %}">Диваны</a>
-            <a href="{% url 'catalog_by_category' 'beds' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='beds' strict=True %}">Кровати</a>
-            <a href="{% url 'catalog_by_category' 'chairs' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='chairs' strict=True %}">Стулья</a>
-            <a href="{% url 'catalog_by_category' 'panels' %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug='panels' strict=True %}">Панели</a>
+            {% for cat in categories %}
+            <a href="{% url 'catalog_by_category' cat.category_slug %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug=cat.category_slug strict=True %}">{{ cat.name }}</a>
+            {% endfor %}
         </div>
     </section>
 
@@ -31,7 +29,7 @@
         <!-- Карточка товара (в Джанго тут будет цикл {-% for %}) -->
         {% for product in products %}
             
-            <a href="{% url 'product_page' product.category.slug product.id %}">
+            <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
                 <div class="product-card">
                     <div class="product-img-container">
                         <img src="{% if product.main_image %}{{ product.main_image.url }}{% endif %}" alt="Диван">
