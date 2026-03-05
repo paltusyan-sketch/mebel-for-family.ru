@@ -36,8 +36,8 @@
                         {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
                     </div>
                     <div class="product-details">
-                        <h3>{{ product.name }}</h3>
-                        <p class="product-desc">{{ product.subtitle }}</p>
+                        <h3>{{ product.name|safe }}</h3>
+                        <p class="product-desc">{{ product.subtitle|safe }}</p>
                         <div class="product-footer">
                             <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</span>
                             <button class="buy-btn">Выбрать</button>
