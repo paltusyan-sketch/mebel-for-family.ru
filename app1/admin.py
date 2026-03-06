@@ -17,15 +17,21 @@ class SettingAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
     
+
+
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return True
     def has_delete_permission(self, request, obj=None):
         return True
+    
+    readonly_fields = ('category_image_tag',)
+    
+    fields = (
+        'category_image_tag', 'category_image', 'category_slug', 'name', ('show_on_main', 'show_on_catalog')
+    )
 
-
-
-admin.site.register(Category, CategoryAdmin)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):

@@ -56,6 +56,7 @@ def index_page(request):
         form = OrderForm()
 
     context = {'form': form}
+    context['categories'] = Category.objects.all()
     return render(request, "index.html", context)
 
 

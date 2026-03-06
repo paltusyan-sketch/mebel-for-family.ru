@@ -12,6 +12,9 @@ slug_validator = RegexValidator(
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    category_image = models.ImageField(upload_to='categories/', blank=True, null=True, verbose_name="Картинка")
+    show_on_main = models.BooleanField(default=True, verbose_name="Показывать категорию на главной странице")
+    show_on_catalog = models.BooleanField(default=True, verbose_name="Показывать категорию в каталоге")
     category_slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, validators=[slug_validator])
 
     def save(self, *args, **kwargs):
@@ -19,6 +22,12 @@ class Category(models.Model):
             # Если слаг пустой — транслитим имя
             self.category_slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def category_image_tag(self):
+        if self.category_image:
+            return mark_safe(f'<img src="{self.category_image.url}" width="100" style="border-radius: 10px;")>')
+        return "Нет фото категории"
+    category_image_tag.short_description = 'Фото категории'
 
     class Meta:
         verbose_name = "Категория"

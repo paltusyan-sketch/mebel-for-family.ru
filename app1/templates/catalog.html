@@ -20,7 +20,9 @@
         <div class="category-filters">
             <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>
             {% for cat in categories %}
+            {% if cat.show_on_catalog %}
             <a href="{% url 'catalog_by_category' cat.category_slug %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug=cat.category_slug strict=True %}">{{ cat.name }}</a>
+            {% endif %}
             {% endfor %}
         </div>
     </section>
