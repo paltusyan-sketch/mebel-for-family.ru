@@ -11,11 +11,7 @@
     <main class="product-page">
         <div class="container">
             <div class="product-container">
-                <!-- Лево: Фото -->
-                <!-- <div class="product-gallery">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
-                </div> -->
-
+                
                 <div x-data="{ 
                     index: 0,
                     images: {{ images|safe }},
@@ -44,8 +40,8 @@
                     <!-- Миниатюры (точки-превью) -->
                     <div class="flex justify-center gap-3 mt-6">
                         <template x-for="(img, i) in images" :key="i">
-                            <div @click="index = i" 
-                                :class="index === i ? 'ring-2 ring-blue-500 scale-110' : 'opacity-50 hover:opacity-100'"
+                            <div @mouseenter="index = i" @click="index = i" 
+                                :class="index === i ? 'ring-2 ring-grey-500 scale-110' : 'opacity-50 hover:opacity-100'"
                                 class="w-16 h-12 cursor-pointer transition-all duration-200">
                                 <img :src="img" class="w-full h-full object-cover rounded shadow">
                             </div>
@@ -86,11 +82,11 @@
 
 
 {% block extra_js %}
-<script>
+<!-- <script>
     tailwind.config = {
         corePlugins: {
         preflight: false,
         }
     }
-</script>
+</script> -->
 {% endblock %}

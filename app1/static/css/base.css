@@ -43,6 +43,7 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 
@@ -116,51 +117,37 @@ footer {
     padding: 2rem;
 }
 
+.gamburger {
+    display: none;
+}
+
 /* h2 {
     color: #ffffff;
 } */
 
 /* Responsive (Базовые стили для мобилок) */
-@media (max-width: 768px) {
-
-    /* body {
-        padding-top: calc(5rem + env(safe-area-inset-top));
-    } */
-    
-
-    header {
-        flex-direction: column;
-        height: calc(5rem + env(safe-area-inset-top));
-        justify-content: flex-end;
-        align-items: center;
-        padding: 0;
-    }
-
-    .logo-nav-order {
-        justify-content: center;
-        align-items: center;
-    }
-
-    .logo {
-    margin-right: 0rem;
-    }
-    
-    nav {
-        margin: 1rem 0;
-    }
-    
-    .navigation {
-    display: none;
-    }
-
-    .order-call {
-        display: none;
-    }
-    
+@media (max-width: 1180px) {
     .nav-order {
         display: none ;
+    } 
+    .gamburger {
+        display: inline;
+        margin-right: 0.5rem;
     }
-    
+    header {
+        padding: 0rem 0.5rem;
+    }
+    .logo {
+        min-width: 4rem;
+        font-size: 2.7rem;
+    }
+}
+
+@media (max-width: 378px) {
+    .logo {
+        min-width: 4rem;
+        font-size: 2rem;
+    }
 }
 
 
