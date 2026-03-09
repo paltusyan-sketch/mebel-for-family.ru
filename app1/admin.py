@@ -24,7 +24,11 @@ class CategoryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return True
     def has_delete_permission(self, request, obj=None):
-        return True
+        if obj is None:
+            return True
+        if not obj.show_on_main and not obj.show_on_catalog:
+            return True
+        return False
     
     readonly_fields = ('category_image_tag',)
     
