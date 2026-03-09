@@ -16,6 +16,7 @@ class Category(models.Model):
     show_on_main = models.BooleanField(default=True, verbose_name="Показывать категорию на главной странице")
     show_on_catalog = models.BooleanField(default=True, verbose_name="Показывать категорию в каталоге")
     category_slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, validators=[slug_validator])
+    category_slug = models.SlugField(max_length=255, null=True, blank=True, validators=[slug_validator])
 
     def save(self, *args, **kwargs):
         if not self.category_slug:
@@ -39,7 +40,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    product_slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, validators=[slug_validator])
+    product_slug = models.SlugField(max_length=255, null=True, blank=True, validators=[slug_validator])
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
     name = models.CharField(max_length=200, verbose_name="Название")
     subtitle = models.CharField(max_length=150, verbose_name="Подзаголовок", default='Велюр, массив кедра, индивидуальный размер.')
