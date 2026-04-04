@@ -139,8 +139,10 @@
     scroll-margin-top: 6rem;
 }
 
-.contact-form-wrapper {
-    margin: 2rem 0;
+@media (min-width: 768px) {
+    .contact-form-wrapper {
+        margin: 2rem;
+    }
 }
 
 .contact-info {
@@ -193,7 +195,7 @@ textarea {
 .order-form input {
     width: 100%;
     padding: 0.8rem;
-    margin: 0.5rem 0;
+    margin-bottom: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
@@ -224,6 +226,15 @@ textarea {
     opacity: 0;
 }
 
+.form-input {
+    padding: 4px 7px; /* 10px сверху/снизу, 15px слева/справа */
+    box-sizing: border-box; /* Чтобы отступы не раздували ширину поля */
+    border: 1px solid #ccc; /* Чтобы рамка была видна (если пропала) */
+    border-radius: 5px; /* Немного скруглим углы для красоты */
+    font-size: 16px; /* Чтобы текст не был слишком мелким */
+    width: 100%; /* Чтобы поле было на всю ширину контейнера */
+}
+
 
 /* Медиа-запрос для телефонов */
 @media (max-width: 768px) {
@@ -231,6 +242,7 @@ textarea {
         flex-direction: column;
         margin-top: 1rem;
         padding: 0 1rem;
+        align-items: anchor-center;
     }
 
     .contact-form-wrapper {

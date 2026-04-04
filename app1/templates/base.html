@@ -27,6 +27,8 @@
     <!-- Header (Шапка) -->
     <header>
         <div class="logo-nav-order">
+            <a href="{% url 'main' %}"><div class="logo">Семейная&nbsp;мастерская</div></a>
+            
             <div x-data="{ open: false }" class="gamburger relative">
 
                 <!-- КНОПКА (с твоим кастомным цветом) -->
@@ -65,13 +67,13 @@
                     class="fixed inset-0 bg-black/20 backdrop-blur-sm z-30"></div>
 
             </div>
-            <a href="{% url 'main' %}"><div class="logo">Семейная&nbsp;мастерская</div></a>
+            
             
             <!-- <input type="checkbox" id="menu-toggle" class="menu-toggle"> -->
 
-            <label for="menu-toggle" class="menu-icon">
+            <!-- <label for="menu-toggle" class="menu-icon">
                 <span class="navicon"></span>
-            </label>
+            </label> -->
             
             <div class="nav-order">
                 <nav class="navigation">
