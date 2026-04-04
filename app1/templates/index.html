@@ -184,14 +184,14 @@
             
         <!-- Левая колонка: Контакты и адрес -->
         <div class="contact-info">
-            <h1>Наши контакты</h1>
+            <h1 class="font-sans text-3xl font-semibold">Наши контакты</h1>
             <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
             
             
-            <p><strong>Телефон:</strong> {{ site_settings.phone }}</p>
-            <p><strong>Email:</strong> {{ site_settings.email }}</p>
-            <p><strong>Адрес:</strong> {{ site_settings.address }}</p>
-            <p><strong>Режим работы:</strong> {{ site_settings.working_hours }}</p>
+            <p><strong>Телефон:</strong> {{ site_settings.phone|safe }}</p>
+            <p><strong>Email:</strong> {{ site_settings.email|safe }}</p>
+            <p><strong>Адрес:</strong> {{ site_settings.address|safe }}</p>
+            <p><strong>Режим работы:</strong> {{ site_settings.working_hours|safe }}</p>
         
             
             <!-- Можно добавить карту здесь -->
