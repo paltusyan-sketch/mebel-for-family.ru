@@ -57,6 +57,8 @@ def index_page(request):
 
     context = {'form': form}
     context['categories'] = Category.objects.all()
+    print(type(Category.objects.all()))
+    print(Category.objects.all())
     return render(request, "index.html", context)
 
 

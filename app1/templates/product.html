@@ -58,7 +58,7 @@
                     <!-- <nav class="breadcrumb">
                         <a href="{% url 'catalog' %}">Каталог</a> / <a href="{% url 'catalog_by_category' 'sofas' %}">Диваны</a>
                     </nav> -->
-                    <h1>{{ product.name|safe }}</h1>
+                    <h1 class="font-normal text-5xl mt-5 text-slate-100">{{ product.name|safe }}</h1>
                     <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</p>
                     
                     <div class="characteristics">
