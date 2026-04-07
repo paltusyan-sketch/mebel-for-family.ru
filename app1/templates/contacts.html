@@ -2,88 +2,81 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contacts_pro.css' %}">
 {% endblock %}
 
 
 
 {% block content %}
-<div class="contacts-page-container">
+    <div class="contacts-page-container" id="contacts">
+        <div class="contact-form-wrapper">
+            <section class="order-form" id="order-section">
+                <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
+                <form method="post" action="{% url 'main' %}">
+                    {% csrf_token %}
+                    
+                    <!-- Рендерим поля вручную, чтобы стили работали корректно -->
+                    <div class="form-field form-field-1">
+                        <label for="{{ form.name.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div>
+                    
+                    <div class="form-field form-field-2">
+                        <label for="{{ form.phone.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                    </div>
 
-    <!-- Правая колонка: Форма -->
-    <div class="contact-form-wrapper">
-        <section class="order-form" id="order-section">
-            <h2>Заказать звонок</h2>
-            <form method="post" action="{% url 'contacts' %}">
-                {% csrf_token %}
-                
-                <!-- Рендерим поля вручную, чтобы стили работали корректно -->
-                <div class="form-field">
-                    <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-                    {{ form.name }}
-                </div>
-                
-                <div class="form-field">
-                    <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-                    {{ form.phone }}
-                </div>
+                    <div class="form-field form-field-3">
+                        <label for="id_emeil" class="font-sans text-1xl font-semibold ">Ваш имеил</label>
+                        <input type="text" name="imail" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
+                    </div>
 
-                <div class="form-field form-field-3">
-                    <label for="id_emeil">Ваш имеил</label>
-                    <input type="text" name="imail" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
-                </div>
+                    <div style="display:none;">
+                        <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                    </div>
 
-                <div style="display:none;">
-                    <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
-                </div>
+                    <div class="form-field form-field-4">
+                        <label for="{{ form.comment.id_for_label }}" class="font-sans text-1xl font-semibold">{{ form.comment.label }}</label>
+                        {{ form.comment }}
+                    </div>
 
-                <div class="form-field">
-                    <label for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
-                    {{ form.comment }}
-                </div>
-                {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
-                <button type="submit" class="order-btn-big">Оставить заявку</button>
-                
-                <label class="policy_label">
-                    <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
-                    <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
-                </label>
+                    {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }} mt-1">{{ message }}</div>{% endfor %}{% endif %}
+                    <button type="submit" class="order-btn-big">Оставить заявку</button>
+                    
+                    <label class="policy_label">
+                        <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
+                        <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
+                    </label>
 
-                <script>
-                // Самая простая проверка на стороне клиента
-                document.querySelector('form').onsubmit = function(e) {
-                    if(!document.getElementById('gdpr_check').checked) {
-                        alert('Поставь галку, иначе мебель не приедет!');
-                        return false;
-                    }
-                };
-                </script>
-            </form>
-        </section>
+                    <script>
+                    // Самая простая проверка на стороне клиента
+                    document.querySelector('form').onsubmit = function(e) {
+                        if(!document.getElementById('gdpr_check').checked) {
+                            alert('Поставь галку, иначе мебель не приедет!');
+                            return false;
+                        }
+                    };
+                    </script>
+                </form>
+            </section>
+        </div>
+            
+        <div class="contact-info">
+            <h1 class="font-sans text-3xl font-semibold">Наши контакты</h1>
+            <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
+            
+            
+            <p><strong>Телефон:</strong> {{ site_settings.phone|safe }}</p>
+            <p><strong>Email:</strong> {{ site_settings.email|safe }}</p>
+            <p><strong>Адрес:</strong> {{ site_settings.address|safe }}</p>
+            <p><strong>Режим работы:</strong> {{ site_settings.working_hours|safe }}</p>
+        
+            
+            <!-- Можно добавить карту здесь -->
+        </div>
+
     </div>
-
-        
-    <!-- Левая колонка: Контакты и адрес -->
-    <div class="contact-info">
-        <h1>Наши контакты</h1>
-        <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
-        
-        
-        <p><strong>Телефон:</strong> {{ site_settings.phone }}</p>
-        <p><strong>Email:</strong> {{ site_settings.email }}</p>
-        <p><strong>Адрес:</strong> {{ site_settings.address }}</p>
-        <p><strong>Режим работы:</strong> {{ site_settings.working_hours }}</p>
-    
-        
-        <!-- Можно добавить карту здесь -->
-    </div>
-
-</div>
 {% endblock content %}
-
-
-
-
 
 {% block extra_js %}
 <script>
@@ -107,43 +100,4 @@
         });
     });
 </script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/inputmask.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber/9.0.15/phonenumberutil.min.js"></script>
-
-<!-- <script>
-    // Предположим, что у вашего поля ID 'id_phone'
-    var phoneInput = document.getElementById('id_phone');
-
-    if (phoneInput) {
-        Inputmask({"mask": "+7 (999) 999-99-99", "clearIncomplete": true}).mask(phoneInput);
-    }
-</script> -->
-
-<script>
-    // Ждем полной загрузки страницы перед поиском поля
-    document.addEventListener('DOMContentLoaded', (event) => {
-        var phoneInput = document.getElementById('id_phone');
-
-        if (phoneInput) {
-            Inputmask({
-                "mask": "+7 (999) 999-99-99",
-                "clearIncomplete": true,
-                "showMaskOnFocus": true, // Показать маску, когда поле в фокусе (уже работает)
-                "showMaskOnHover": true  // Показать маску, когда вы просто наводите курсор (это должно решить вашу проблему)
-            }).mask(phoneInput);
-        }
-    });
-</script>
-
-
-<!-- <script>
-    tailwind.config = {
-        corePlugins: {
-        preflight: false,
-        }
-    }
-</script> -->
-
 {% endblock %}
