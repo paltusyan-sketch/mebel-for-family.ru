@@ -29,7 +29,11 @@ else:
     DEBUG = False
 
 
-ALLOWED_HOSTS = ['93.189.231.10', 'mebel-for-family.ru', '127.0.0.1', 'localhost',]
+if os.path.exists('C:\\Users\\'): # Если есть папка Users, значит мы на Windows
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = ['93.189.231.10', 'mebel-for-family.ru', '127.0.0.1', 'localhost',]
+
 
 
 # Application definition
