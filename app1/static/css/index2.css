@@ -1,5 +1,9 @@
 
 
+body {
+    overflow-x: hidden;
+    position: relative;
+}
 
 /* --- index.css: Стили главной страницы и общие компоненты --- */
 
@@ -507,5 +511,75 @@ input[type="checkbox"]:checked::after {
     textarea, 
     select {
         font-size: 16px !important;
+    }
+}
+
+
+
+
+.nash-catalog {
+    position: relative;
+    z-index: 3;
+}
+
+
+
+.decor-bg-chair {
+    left: -4%;
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    top: 54%;
+    right: 1171px;
+    width: 468px;
+    opacity: 0.55;
+    transform: rotate(-10deg);
+    filter: contrast(0.8);
+}
+
+.decor-bg-sofa {
+    left: 74%;
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    top: 51%;
+    right: -162px;
+    width: 577px;
+    opacity: 0.52;
+    transform: rotate(16deg);
+    filter: contrast(0.8);
+}
+
+/* max-width: 1180px */
+@media (max-width: 1180px) {
+    .decor-bg-chair {
+        left: -16%;
+    }
+}
+
+/* max-width: 961px */
+@media (max-width: 961px) {
+    .decor-bg-chair {
+        left: -2%;
+        top: 60%;
+        width: 225px;
+    }
+}
+
+@media (max-width: 961px) {
+    .decor-bg-sofa {
+        left: 78%;
+        top: 57%;
+        width: 320px;
+        transform: rotate(11deg);
+    }
+}
+
+/* max-width: 500px */
+@media (max-width: 500px) {
+    .decor-bg-chair {
+        left: -5%;
+        top: 123%;
+        width: 325px;
     }
 }

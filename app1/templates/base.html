@@ -66,14 +66,7 @@
                 <div x-show="open" @click="open = false" 
                     class="fixed inset-0 bg-black/20 backdrop-blur-sm z-30"></div>
 
-            </div>
-            
-            
-            <!-- <input type="checkbox" id="menu-toggle" class="menu-toggle"> -->
-
-            <!-- <label for="menu-toggle" class="menu-icon">
-                <span class="navicon"></span>
-            </label> -->
+            </div>                        
             
             <div class="nav-order">
                 <nav class="navigation">
@@ -88,8 +81,7 @@
     </header>
 
     <main>
-        <!-- ОСНОВНОЕ МЕСТО ДЛЯ КОНТЕНТА -->
-        <!-- Все, что ты будешь писать в других файлах внутри {-% block content %}, появится тут -->
+        
         {% block content %}{% endblock %}
     </main>
 
@@ -98,7 +90,7 @@
         <div class="max-w-3xl mx-auto space-y-4">
             <!-- Контакты из твоих настроек -->
             <p class="text-sm sm:text-base opacity-90">
-                Контакты: {{ site_settings.phone }} | {{ site_settings.address }}
+                Контакты: {{ site_settings.phone }} | {{ site_settings.address|safe }}
             </p>
             
             <!-- Доп. инфа и ссылка -->

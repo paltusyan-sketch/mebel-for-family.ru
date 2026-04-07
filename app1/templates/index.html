@@ -21,13 +21,15 @@
 
     <!-- Catalog -->
     <section class="catalog">
+        <img src="{% static 'img/deco_chair.png' %}" class="decor-bg-chair">
+
         <a href="{% url 'catalog' %}" class="block text-center mb-7 no-underline group">
-            <h2 class="text-2xl md:text-3xl font-bold uppercase tracking-[0.3em] text-gray-800 antialiased transition-all duration-300 group-hover:text-orange-600 group-hover:tracking-[0.35em]">
+            <h2 class="nash-catalog text-2xl md:text-3xl font-bold uppercase tracking-[0.3em] text-gray-800 antialiased transition-all duration-300 group-hover:text-orange-600 group-hover:tracking-[0.35em]">
                 Наш каталог
             </h2>
-            <!-- Необязательно: тонкая линия под заголовком для пущего стиля
-            <div class="h-[1px] w-12 bg-gray-300 mx-auto mt-4 transition-all duration-300 group-hover:w-24 group-hover:bg-orange-500"></div> -->
         </a>
+
+        <img src="{% static 'img/deco_sofa_1.png' %}" class="decor-bg-sofa">
 
         <!-- Контейнер с ограничением максимальной ширины, чтобы на 4К мониках не разъехалось -->
         <div class="max-w-6xl mx-auto px-4 py-5">
@@ -40,7 +42,7 @@
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
                             <span class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
-                                {{ cat.name }}
+                                {{ cat.name|safe }}
                             </span>
                         </div>
                     </div>

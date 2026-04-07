@@ -7,16 +7,19 @@
 
 html, body {
     height: 100%;
+    width: 100%;
     margin: 0;
+    overflow-x: hidden; /* Запрет скролла по горизонтали на корню */
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     color: #333;
-    padding-top: 4.5rem; /* Отступ для фиксированной шапки */
+    padding-top: 4.5rem; 
     display: flex;
     flex-direction: column;
+    position: relative; /* Обязательно для работы top/right у дивана */
 }
 
 main {
