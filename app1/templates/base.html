@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base_pro.css' %}">
 
     {% block scripts %}
         <script src="https://cdn.tailwindcss.com"></script>
@@ -66,14 +66,7 @@
                 <div x-show="open" @click="open = false" 
                     class="fixed inset-0 bg-black/20 backdrop-blur-sm z-30"></div>
 
-            </div>
-            
-            
-            <!-- <input type="checkbox" id="menu-toggle" class="menu-toggle"> -->
-
-            <!-- <label for="menu-toggle" class="menu-icon">
-                <span class="navicon"></span>
-            </label> -->
+            </div>                        
             
             <div class="nav-order">
                 <nav class="navigation">
@@ -88,8 +81,6 @@
     </header>
 
     <main>
-        <!-- ОСНОВНОЕ МЕСТО ДЛЯ КОНТЕНТА -->
-        <!-- Все, что ты будешь писать в других файлах внутри {-% block content %}, появится тут -->
         {% block content %}{% endblock %}
     </main>
 
@@ -98,7 +89,7 @@
         <div class="max-w-3xl mx-auto space-y-4">
             <!-- Контакты из твоих настроек -->
             <p class="text-sm sm:text-base opacity-90">
-                Контакты: {{ site_settings.phone }} | {{ site_settings.address }}
+                Контакты: {{ site_settings.phone }} | {{ site_settings.address|safe }}
             </p>
             
             <!-- Доп. инфа и ссылка -->
@@ -111,12 +102,11 @@
         </div>
     </footer>
 
-
     <!-- Если нужен общий JS, его можно подключить здесь -->
     {% block extra_js %}{% endblock %}
-
     <!-- Куки-баннер: Благородный зеленый и русский язык -->
-    <div id="cookie-banner" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-10 md:max-w-[380px] z-[9999] transform translate-y-32 opacity-0 transition-all duration-700 ease-out">
+
+    <div id="cookie-banner" class="pointer-events-none fixed bottom-6 left-6 right-6 md:left-auto md:right-10 md:max-w-[380px] z-[9999] transform translate-y-32 opacity-0 transition-all duration-700 ease-out">
         <div class="bg-white border-l-4 border-emerald-800 shadow-[0_15px_40px_rgba(0,0,0,0.12)] rounded-r-xl p-6 md:p-8">
             <div class="flex flex-col gap-5">
                 <div>
@@ -137,7 +127,6 @@
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const banner = document.getElementById('cookie-banner');
@@ -145,7 +134,7 @@
 
             if (!localStorage.getItem('cookies_accepted')) {
                 setTimeout(() => {
-                    banner.classList.remove('translate-y-32', 'opacity-0');
+                    banner.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
                     banner.classList.add('translate-y-0', 'opacity-100');
                 }, 2000);
             }
@@ -154,12 +143,10 @@
                 localStorage.setItem('cookies_accepted', 'true');
                 banner.classList.remove('translate-y-0', 'opacity-100');
                 banner.classList.add('translate-y-32', 'opacity-0');
+                banner.style.pointerEvents = 'none';
                 setTimeout(() => banner.remove(), 700);
             });
         });
     </script>
-
-
-
 </body>
 </html>
