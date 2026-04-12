@@ -52,12 +52,16 @@
 
                 <!-- Право: Инфо -->
                 <div class="product-info-side">
-                    <a href="javascript:history.back()" class="back-link">
-                            ← Вернуться в каталог
-                    </a>
-                    <!-- <nav class="breadcrumb">
-                        <a href="{% url 'catalog' %}">Каталог</a> / <a href="{% url 'catalog_by_category' 'sofas' %}">Диваны</a>
-                    </nav> -->
+                    <div style="display: flex; justify-content: space-between;">
+                        <a href="javascript:history.back()" class="delay-link back-link transition-all duration-300 hover:text-red-600">
+                            ← Вернуться
+                        </a>
+                        <nav class="breadcrumb">
+                            <a href="{% url 'catalog' %}" class="delay-link back-link transition-all duration-300 hover:text-red-600">Каталог</a> /
+                            <a href="{% url 'catalog' %}{{ product.category.category_slug }}"
+                                class="delay-link back-link transition-all duration-300 hover:text-red-600">{{ product.category }}</a>
+                        </nav>
+                    </div>
                     <h1 class="font-normal text-5xl mt-5 text-slate-100">{{ product.name|safe }}</h1>
                     <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</p>
                     

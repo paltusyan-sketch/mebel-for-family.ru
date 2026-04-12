@@ -117,7 +117,7 @@ button { outline: none !important; border: none; }
     }
 
     .product-page {
-        padding-top: 6rem;
+        padding-top: 0rem;
     }
 
     .product-gallery, .product-info-side {

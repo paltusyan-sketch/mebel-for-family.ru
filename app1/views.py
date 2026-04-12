@@ -45,12 +45,12 @@ def index_page(request):
             form.cleaned_data['imail'] = request.POST.get('imail')
             form.cleaned_data['honeypot'] = request.POST.get('honeypot')
             send_telegram_notification(form.cleaned_data, True, chat_id=settings.SETTING_TELEGRAM_CHAT_ID)
-            messages.error(request, 'Система распосзнала, что вы бот!')
-            return redirect('main')
+            messages.error(request, 'Система распознала, что вы бот!')
+            return redirect(request.path)
         if form.is_valid():
             send_telegram_notification(form.cleaned_data, False, chat_id=settings.TELEGRAM_CHAT_ID)
             messages.success(request, 'Ваша заявка успешно отправлена!')
-            return redirect('main') # Перенаправляем на ту же страницу
+            return redirect("main") # Перенаправляем на ту же страницу
     else:
         # Если метод GET, создаем пустую форму
         form = OrderForm()
@@ -118,17 +118,18 @@ def contacts_page(request):
             form.cleaned_data['honeypot'] = request.POST.get('honeypot')
             send_telegram_notification(form.cleaned_data, True, chat_id=settings.SETTING_TELEGRAM_CHAT_ID)
             messages.error(request, 'Система распосзнала, что вы бот!')
-            return redirect('contacts')
+            return redirect(request.path)
         if form.is_valid():
             send_telegram_notification(form.cleaned_data, False, chat_id=settings.TELEGRAM_CHAT_ID)
             messages.success(request, 'Ваша заявка успешно отправлена!')
-            return redirect('contacts') # Перенаправляем на ту же страницу
+            return redirect(request.path) # Перенаправляем на ту же страницу
     else:
         # Если метод GET, создаем пустую форму
         form = OrderForm()
         form = OrderForm(initial=initial_data)
 
     context = {'form': form}
+    context['product'] = product
     return render(request, "contacts.html", context)
 
 

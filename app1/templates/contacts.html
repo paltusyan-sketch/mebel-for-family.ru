@@ -12,7 +12,7 @@
         <div class="contact-form-wrapper">
             <section class="order-form" id="order-section">
                 <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
-                <form method="post" action="{% url 'main' %}">
+                <form method="post" action="">
                     {% csrf_token %}
                     
                     <!-- Рендерим поля вручную, чтобы стили работали корректно -->
@@ -79,25 +79,70 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const formSection = document.getElementById('order-section');
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Находим поле по ID (у тебя это 'id_phone')
+        const phoneInput = document.getElementById('id_phone');
         
-        // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
-        const savedScrollPos = localStorage.getItem('formScrollPos');
-        
-        if (savedScrollPos) {
-            // 2. Если есть, прокручиваем страницу к этой позиции
-            window.scrollTo(0, parseInt(savedScrollPos, 10));
-            // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
-            localStorage.removeItem('formScrollPos');
-        }
+        if (phoneInput) {
+            // Чистим старую маску, если она была привязана библиотекой
+            // (лучше вообще удали тот старый скрипт с Inputmask)
 
-        // 3. Перехватываем событие отправки формы
-        formSection.querySelector('form').addEventListener('submit', () => {
-            // 4. Перед отправкой сохраняем текущую позицию прокрутки
-            localStorage.setItem('formScrollPos', window.scrollY);
-        });
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, ''); // Только цифры
+                
+                if (!value) { e.target.value = ''; return; }
+
+                // ВОТ ТА САМАЯ МАГИЯ: замена 8 на 7
+                if (value[0] === '8') {
+                    value = '7' + value.slice(1);
+                }
+                // Если начинают с 9 (без кода страны), подставляем 7
+                if (value[0] !== '7') {
+                    value = '7' + value;
+                }
+
+                if (value.length > 11) value = value.slice(0, 11);
+
+                // Форматируем строку
+                let formattedValue = '+7';
+                if (value.length > 1) formattedValue += ' (' + value.slice(1, 4);
+                if (value.length >= 5) formattedValue += ') ' + value.slice(4, 7);
+                if (value.length >= 8) formattedValue += '-' + value.slice(7, 9);
+                if (value.length >= 10) formattedValue += '-' + value.slice(9, 11);
+
+                e.target.value = formattedValue;
+            });
+
+            // Чтобы не стиралось по одной цифре скобки и тире
+            phoneInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value.replace(/\D/g, '').length <= 1) {
+                    e.target.value = '';
+                }
+            });
+        }
     });
-</script>
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const formSection = document.getElementById('order-section');
+            
+            // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
+            const savedScrollPos = localStorage.getItem('formScrollPos');
+            
+            if (savedScrollPos) {
+                // 2. Если есть, прокручиваем страницу к этой позиции
+                window.scrollTo(0, parseInt(savedScrollPos, 10));
+                // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
+                localStorage.removeItem('formScrollPos');
+            }
+
+            // 3. Перехватываем событие отправки формы
+            formSection.querySelector('form').addEventListener('submit', () => {
+                // 4. Перед отправкой сохраняем текущую позицию прокрутки
+                localStorage.setItem('formScrollPos', window.scrollY);
+            });
+        });
+    </script>
 {% endblock %}

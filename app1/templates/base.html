@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Семейная мастерская{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/icons/favicon-32x32.png' %}">
     
     <!-- Подключение всех шрифтов и основного CSS (STYLES.CSS) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -147,6 +148,25 @@
                 setTimeout(() => banner.remove(), 700);
             });
         });
+    </script>
+
+    <script>
+    document.addEventListener('click', function(e) {
+        // Ищем, есть ли у кликнутого элемента (или его родителя) класс 'delay-link'
+        const link = e.target.closest('.delay-link');
+        
+        if (link && link.href && !link.target) {
+            e.preventDefault(); // Тормозим мгновенный переход
+            
+            // Можешь добавить здесь эффект (например, чуть притушить страницу)
+            document.body.style.opacity = '1';
+            document.body.style.transition = 'opacity 0.1s';
+
+            setTimeout(() => {
+                window.location.href = link.href;
+            }, 300); // Задержка 300мс — как раз под твой конфиг Tailwind
+        }
+    });
     </script>
 </body>
 </html>

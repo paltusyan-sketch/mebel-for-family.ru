@@ -82,6 +82,7 @@ body {
 }
 
 .catalog {
+    position: relative;
     padding: 4rem 2rem;
     background-color: #f9f9f9;
     z-index: 0;
@@ -381,15 +382,15 @@ input[type="checkbox"]:checked::after {
 }
 
 .decor-bg-chair {
-    left: -4%;
+    left: -2%;
     position: absolute;
     z-index: 0;
     pointer-events: none;
-    top: 54%;
+    top: -19%;
     right: 1171px;
-    width: 468px;
+    width: 429px;
     opacity: 0.55;
-    transform: rotate(-10deg);
+    transform: rotate(-8deg);
     filter: contrast(0.8);
 }
 
@@ -398,11 +399,11 @@ input[type="checkbox"]:checked::after {
     position: absolute;
     z-index: 0;
     pointer-events: none;
-    top: 51%;
+    top: -23%;
     right: -162px;
-    width: 577px;
+    width: 546px;
     opacity: 0.52;
-    transform: rotate(16deg);
+    transform: rotate(11deg);
     filter: contrast(0.8);
 }
 
@@ -442,10 +443,10 @@ input[type="checkbox"]:checked::after {
     }
 
     .decor-bg-sofa {
-        left: 78%;
-        top: 57%;
-        width: 320px;
-        transform: rotate(11deg);
+        left: 75%;
+        top: -10%;
+        width: 254px;
+        transform: rotate(10deg);
     }
 }
 
@@ -574,8 +575,12 @@ input[type="checkbox"]:checked::after {
 /* --- Малые смартфоны (500px) --- */
 @media (max-width: 500px) {
     .decor-bg-chair {
-        left: -5%;
-        top: 123%;
-        width: 325px;
+        left: 40%;
+        top: 70%;
+        width: 308px;
+        transform: scaleX(-1) rotate(-9deg);
     }
 }
+
+
+

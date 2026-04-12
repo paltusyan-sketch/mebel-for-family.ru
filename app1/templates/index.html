@@ -26,7 +26,7 @@
             </h2>
         </a>
 
-        <img src="{% static 'img/deco_sofa_1.png' %}" class="decor-bg-sofa">
+        <img src="{% static 'img/deco_sofa_3.png' %}" class="decor-bg-sofa">
 
         <!-- Контейнер с ограничением максимальной ширины, чтобы на 4К мониках не разъехалось -->
         <div class="max-w-6xl mx-auto px-4 py-5">
@@ -52,12 +52,12 @@
   
     <!-- О нас -->
     <!-- Секция 2: Ценности -->
-    <section class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8" id="about-us">
+    <section class="bg-gray-50 py-10 px-4 sm:px-6 lg:px-8" id="about-us">
         <div class="max-w-6xl mx-auto">
             
 
             <!-- Блок: Философия (на всю ширину) -->
-            <div class="bg-slate-900 text-white p-10 rounded-3xl relative overflow-hidden">
+            <div class="bg-slate-900 text-white p-10 rounded-3xl relative overflow-hidden mb-8">
                 <div class="relative z-10 max-w-2xl">
                     <h3 class="text-2xl font-bold mb-4">Наша философия</h3>
                     <p class="text-slate-300 text-lg mb-6 italic">«Хорошая мебель — та, которую не хочется менять. Она становится молчаливым свидетелем ваших семейных историй...»</p>
@@ -125,7 +125,7 @@
         <div class="contact-form-wrapper">
             <section class="order-form" id="order-section">
                 <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
-                <form method="post" action="{% url 'main' %}">
+                <form method="post" action="">
                     {% csrf_token %}
                     
                     <!-- Рендерим поля вручную, чтобы стили работали корректно -->
@@ -207,27 +207,6 @@
 
 
 {% block extra_js %}
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const formSection = document.getElementById('order-section');
-            
-            // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
-            const savedScrollPos = localStorage.getItem('formScrollPos');
-            
-            if (savedScrollPos) {
-                // 2. Если есть, прокручиваем страницу к этой позиции
-                window.scrollTo(0, parseInt(savedScrollPos, 10));
-                // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
-                localStorage.removeItem('formScrollPos');
-            }
-
-            // 3. Перехватываем событие отправки формы
-            formSection.querySelector('form').addEventListener('submit', () => {
-                // 4. Перед отправкой сохраняем текущую позицию прокрутки
-                localStorage.setItem('formScrollPos', window.scrollY);
-            });
-        });
-    </script>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
