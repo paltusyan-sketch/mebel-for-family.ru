@@ -12,32 +12,32 @@
         <div class="container">
             <div class="product-container">
                 
-                <div x-data="{ 
+                <!-- <div x-data="{ 
                     index: 0,
                     images: {{ images|safe }},
                     next() { this.index = (this.index + 1) % this.images.length },
                     prev() { this.index = (this.index - 1 + this.images.length) % this.images.length }
                 }" class="relative w-full max-w-2xl mx-auto shadow-2xl rounded-xl overflow-hidden bg-white p-4 fotos">
 
-                    <!-- Счётчик (по желанию) -->
+                   
                     <div class="absolute top-6 left-6 z-10 bg-black/50 text-white px-2 py-1 rounded text-sm" x-text="(index + 1) + ' / ' + images.length"></div>
 
-                    <!-- Главное окно -->
+                   
                     <div class="relative h-96 bg-gray-200 rounded-lg overflow-hidden product-gallery">
                         <img :src="images[index]" class="w-full h-full object-contain transition-all duration-500 ease-in-out">
                         
-                        <!-- Стрелка влево -->
+                        
                         <button @click="prev()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white p-3 rounded-full shadow-lg transition-transform active:scale-90">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         </button>
 
-                        <!-- Стрелка вправо -->
+                        
                         <button @click="next()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white p-3 rounded-full shadow-lg transition-transform active:scale-90">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </button>
                     </div>
 
-                    <!-- Миниатюры (точки-превью) -->
+                    
                     <div class="flex justify-center gap-3 mt-6">
                         <template x-for="(img, i) in images" :key="i">
                             <div @mouseenter="index = i" @click="index = i" 
@@ -47,7 +47,43 @@
                             </div>
                         </template>
                     </div>
+                </div> -->
+
+                <div class="relative w-full max-w-2xl mx-auto shadow-2xl rounded-xl overflow-hidden bg-white p-4">
+                    
+                    <!-- Главный слайдер -->
+                    <div class="swiper mainSwiper h-96 bg-gray-200 rounded-lg overflow-hidden">
+                        <div class="swiper-wrapper">
+                            {% for img in images %}
+                            <div class="swiper-slide">
+                                <!-- Оборачиваем в Fancybox для открытия во весь экран, если хочешь -->
+                                <a href="{{ img }}" data-fancybox="gallery">
+                                    <img src="{{ img }}" class="w-full h-full object-contain">
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Те самые стрелочки (теперь они стандартные Swiper, но можно стилизовать) -->
+                        <!-- <div class="swiper-button-next !text-gray-800 !bg-white/50 hover:!bg-white !p-6 !rounded-full !scale-75 transition-all"></div>
+                        <div class="swiper-button-prev !text-gray-800 !bg-white/50 hover:!bg-white !p-6 !rounded-full !scale-75 transition-all"></div> -->
+                        
+                        <!-- Счётчик (Swiper сам его обновляет) -->
+                        <div class="swiper-pagination !top-4 !left-4 !bottom-auto !text-left !w-auto !text-white bg-black/50 px-2 py-1 rounded text-sm"></div>
+                    </div>
+
+                    <!-- Миниатюры внизу -->
+                    <div class="swiper thumbSwiper mt-6 overflow-hidden">
+                        <div class="swiper-wrapper flex justify-center">
+                            {% for img in images %}
+                            <div class="swiper-slide !w-16 !h-12 cursor-pointer opacity-50 transition-all duration-200">
+                                <img src="{{ img }}" class="w-full h-full object-cover rounded shadow">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
+
 
 
                 <!-- Право: Инфо -->
@@ -86,5 +122,55 @@
 
 
 {% block extra_js %}
+<script>
+    // Сначала инитим миниатюры
+    var thumbs = new Swiper(".thumbSwiper", {
+        spaceBetween: 12,
+        slidesPerView: "auto",
+        freeMode: true,
+        watchSlidesProgress: true,
+    });
 
+    // Потом основной слайдер и связываем его с миниатюрами
+    var main = new Swiper(".mainSwiper", {
+        spaceBetween: 10,
+        // Листалка
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        // Счётчик (1 / 5)
+        pagination: {
+            el: ".swiper-pagination",
+            type: "fraction",
+        },
+        // Связь с миниатюрами
+        thumbs: {
+            swiper: thumbs,
+        },
+        // ВКЛЮЧАЕМ СВАЙП ПАЛЬЦЕМ
+        grabCursor: true,
+        keyboard: true,
+    });
+
+    // Добавляем эффект выделения активной миниатюры (как твой ring-2)
+    main.on('slideChange', function () {
+        const slides = document.querySelectorAll('.thumbSwiper .swiper-slide');
+        slides.forEach((s, i) => {
+            s.style.opacity = i === main.activeIndex ? '1' : '0.5';
+            s.style.transform = i === main.activeIndex ? 'scale(1.1)' : 'scale(1)';
+            s.classList.toggle('ring-2', i === main.activeIndex);
+            s.classList.toggle('ring-gray-500', i === main.activeIndex);
+        });
+    });
+</script>
+
+<script>
+  // Эта штука находит все элементы с атрибутом data-fancybox и вешает на них логику окна
+  Fancybox.bind("[data-fancybox]", {
+      // Здесь можно добавить настройки. Например:
+      infinite: true, // чтобы листалось по кругу
+      transitionEffect: "fade", // плавное появление
+  });
+</script>
 {% endblock %}
