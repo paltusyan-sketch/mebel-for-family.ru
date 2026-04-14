@@ -44,7 +44,7 @@
             <div x-data="{ open: false }" class="gamburger relative">
 
                 <!-- КНОПКА (с твоим кастомным цветом) -->
-                <button @click="open = !open" 
+                <button aria-label="Открыть меню" @click="open = !open" 
                         class="flex flex-col justify-center items-center w-12 h-12 gap-1.5 z-50 relative focus:outline-none">
                     <!-- Поменял bg-black на кастомный HEX [ #ваш_цвет ] -->
                     <div :class="open ? 'rotate-45 translate-y-2.5' : ''" 
@@ -105,7 +105,7 @@
             </p>
             
             <!-- Доп. инфа и ссылка -->
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-6 text-xs text-gray-400 border-t border-gray-700 pt-6">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-6 text-xs text-gray-100 border-t border-gray-700 pt-6">
                 <p>© {% now "Y" %} Семейная мастерская. Все права защищены.</p>
                 <a href="{% url 'policy' %}" class="hover:text-white underline transition-colors">
                     Политика конфиденциальности
@@ -123,9 +123,9 @@
             <div class="flex flex-col gap-5">
                 <div>
                     <!-- Заголовок на русском, строгий -->
-                    <h4 class="text-[12px] font-bold uppercase tracking-[0.2em] text-emerald-900 antialiased mb-3">
+                    <span class="text-[12px] font-bold uppercase tracking-[0.2em] text-emerald-900 antialiased mb-3">
                         Использование файлов куки
-                    </h4>
+                    </span>
                     <p class="text-[11px] text-gray-600 uppercase tracking-wider leading-relaxed">
                         Мы используем данные, чтобы сделать ваш опыт выбора мебели удобнее. Оставаясь на сайте, вы соглашаетесь с нашей 
                         <a href="/policy/" class="text-emerald-800 underline underline-offset-4 hover:text-emerald-600 transition-colors font-bold">политикой</a>.

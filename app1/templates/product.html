@@ -21,7 +21,7 @@
                             <div class="swiper-slide">
                                 <!-- Оборачиваем в Fancybox для открытия во весь экран, если хочешь -->
                                 <a href="{{ img }}" data-fancybox="gallery">
-                                    <img src="{{ img }}" class="w-full h-full object-contain">
+                                    <img src="{{ img }}" alt="Фото Добрая панель - 1" class="w-full h-full object-contain">
                                 </a>
                             </div>
                             {% endfor %}
@@ -40,7 +40,7 @@
                         <div class="swiper-wrapper flex justify-center">
                             {% for img in images %}
                             <div class="swiper-slide !w-16 !h-12 cursor-pointer opacity-50 transition-all duration-200">
-                                <img src="{{ img }}" class="w-full h-full object-cover rounded shadow">
+                                <img src="{{ img }}" alt="Миниатюра: {{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-cover rounded shadow">
                             </div>
                             {% endfor %}
                         </div>

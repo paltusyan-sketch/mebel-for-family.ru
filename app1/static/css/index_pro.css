@@ -37,7 +37,7 @@ body {
 }
 
 .banner h1 {
-    color: rgb(186 186 186 / 95%);
+    color: rgb(241 241 241 / 95%);
     font-size: 1.1rem;
     margin-bottom: 2.5rem;
     text-transform: uppercase;
@@ -169,7 +169,7 @@ body {
     width: 100%;
     margin: 0;
     padding: 2rem;
-    background: #c1cbc3;
+    background: #c9cec9;
     border-radius: 23px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
