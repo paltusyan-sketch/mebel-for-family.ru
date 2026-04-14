@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load phone_tags %}
 
 {% block extra_css %}
+    <!-- <title>{!% block title %}Изготовление мебели на заказ{!% endblock %} | СМ Мебель Екб</title> -->
+    <title>{% block title %}Изготовление мебели на заказ{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/index_pro.css' %}">
 {% endblock %}
 
@@ -9,8 +12,8 @@
     <!-- Banner -->
     <section class="banner">
         <div class="banner-content">
-            <h1>Мебель с&nbsp;душой</h1>
-            <p>Создаём уют для вашего дома</p>
+            <p>Мебель с&nbsp;душой</p>
+            <h1>Изготовление мебели на&nbsp;заказ в&nbsp;<span style="color: brown;">Екатеринбурге</span> по&nbsp;индивидуальным размерам</h1>
             <!-- <p>Екатеринбург</p> -->
             <a href="{% url 'contacts' %}"><button class="order-call">Заказать&nbsp;звонок</button></a>
         </div>
@@ -38,9 +41,9 @@
                         <img src="{% if cat.category_image %}{{ cat.category_image.url }}{% endif %}" alt="Фото категории {{ cat.name }}" 
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
-                            <span class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
+                            <h3 class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
                                 {{ cat.name|safe }}
-                            </span>
+                            </h3>
                         </div>
                     </div>
                 </a>
@@ -59,7 +62,7 @@
             <!-- Блок: Философия (на всю ширину) -->
             <div class="bg-slate-900 text-white p-10 rounded-3xl relative overflow-hidden mb-8">
                 <div class="relative z-10 max-w-2xl">
-                    <h3 class="text-2xl font-bold mb-4">Наша философия</h3>
+                    <h2 class="text-2xl font-bold mb-4">Наша философия</h2>
                     <p class="text-slate-300 text-lg mb-6 italic">«Хорошая мебель — та, которую не хочется менять. Она становится молчаливым свидетелем ваших семейных историй...»</p>
                     <p class="text-amber-400 font-medium">С уважением, основатели и команда «Семейной Мастерской».</p>
                 </div>
@@ -177,11 +180,11 @@
             
         <!-- Левая колонка: Контакты и адрес -->
         <div class="contact-info">
-            <h1 class="font-sans text-3xl font-semibold">Наши контакты</h1>
+            <h2 class="our_contacts_text font-sans text-3xl font-semibold">Наши контакты</h2>
             <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
             
             
-            <p><strong>Телефон:</strong> {{ site_settings.phone|safe }}</p>
+            <p><strong>Телефон:</strong> <a href="tel:{{ site_settings.phone|clean_phone }}" style="color: blue;">{{ site_settings.phone|safe }}</a></p>
             <p><strong>Email:</strong> {{ site_settings.email|safe }}</p>
             <p><strong>Адрес:</strong> {{ site_settings.address|safe }}</p>
             <p><strong>Режим работы:</strong> {{ site_settings.working_hours|safe }}</p>

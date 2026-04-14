@@ -1,10 +1,13 @@
 {% load static %}
+{% load phone_tags %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Семейная мастерская{% endblock %}</title>
+    <meta name="format-detection" content="telephone=no">
+    <title>СМ Мебель Екб | {% block title %}Семейная мастерская{% endblock %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/icons/favicon-32x32.png' %}">
     
     <!-- Подключение всех шрифтов и основного CSS (STYLES.CSS) -->
@@ -98,7 +101,7 @@
         <div class="max-w-3xl mx-auto space-y-4">
             <!-- Контакты из твоих настроек -->
             <p class="text-sm sm:text-base opacity-90">
-                Контакты: {{ site_settings.phone }} | {{ site_settings.address|safe }}
+                Контакты: <a href="tel:{{ site_settings.phone|clean_phone }}">{{ site_settings.phone|safe }}</a> | {{ site_settings.address|safe }}
             </p>
             
             <!-- Доп. инфа и ссылка -->
