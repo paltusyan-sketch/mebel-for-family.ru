@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load phone_tags %}
 
-{% block extra_css %}
+{% block title %}Контакты{% endblock %}
+{% block description %}Контакты СМ Мебель в Екатеринбурге. Мы находимся по адресу: {{ site_settings.address|safe }}. Телефон: {{ site_settings.phone|safe }}. Звоните!{% endblock %}
+
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/contacts_pro.css' %}">
 {% endblock %}
 
@@ -27,8 +31,8 @@
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label for="id_emeil" class="font-sans text-1xl font-semibold ">Ваш имеил</label>
-                        <input type="text" name="imail" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
+                        <label for="id_emeil" class="font-sans text-1xl font-semibold">Ваш имеил</label>
+                        <input type="text" name="imail" aria-label="Не заполняйте это поле" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
                     </div>
 
                     <div style="display:none;">
@@ -63,13 +67,30 @@
             
         <div class="contact-info">
             <h1 class="font-sans text-3xl font-semibold">Наши контакты</h1>
-            <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
-            
-            
-            <p><strong>Телефон:</strong> {{ site_settings.phone|safe }}</p>
-            <p><strong>Email:</strong> {{ site_settings.email|safe }}</p>
-            <p><strong>Адрес:</strong> {{ site_settings.address|safe }}</p>
-            <p><strong>Режим работы:</strong> {{ site_settings.working_hours|safe }}</p>
+            <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-8 gap-y-0.5">
+                
+                <!-- Телефон -->
+                <div class="font-bold">Телефон:</div>
+                <div>
+                    <a href="tel:{{ site_settings.phone|clean_phone }}" class="text-blue-600 hover:underline">
+                        {{ site_settings.phone|safe }}
+                    </a>
+                </div>
+
+                <!-- Email -->
+                <div class="font-bold">Email:</div>
+                <div class="text-amber-900">{{ site_settings.email|safe }}</div>
+
+                <!-- Адрес -->
+                <div class="font-bold">Адрес:</div>
+                <div>{{ site_settings.address|safe }}</div>
+
+                <!-- Режим работы -->
+                <div class="font-bold">Режим работы:</div>
+                <div class="self-end">{{ site_settings.working_hours|safe }}</div>
+                
+            </div>
+            <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p>
         
             
             <!-- Можно добавить карту здесь -->

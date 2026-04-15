@@ -2,11 +2,10 @@
 {% load static %}
 {% load phone_tags %}
 
-{% block extra_css %}
-    <!-- <title>{!% block title %}Изготовление мебели на заказ{!% endblock %} | СМ Мебель Екб</title> -->
-    <title>{% block title %}Изготовление мебели на заказ{% endblock %}</title>
-    <meta name="description" content="Закажите качественную мебель по индивидуальным размерам в Екатеринбурге. Собственное производство: диваны, кровати, шкафы и стеновые панели. Гарантия и замер!">
-    
+{% block title %}Изготовление мебели на заказ{% endblock %}
+
+{% block extra_head %}    
+    <meta name="description" content="Закажите качественную мебель по индивидуальным размерам в Екатеринбурге. Собственное производство: диваны, кровати, шкафы и стеновые панели. Гарантия и замер!">    
     <link rel="stylesheet" href="{% static 'css/index_pro.css' %}">
 {% endblock %}
 
@@ -145,7 +144,7 @@
                     </div>
 
                     <div class="form-field form-field-3">
-                        <label for="id_emeil" class="font-sans text-1xl font-semibold ">Ваш имеил</label>
+                        <label for="id_emeil" class="font-sans text-1xl font-semibold">Ваш имеил</label>
                         <input type="text" name="imail" aria-label="Не заполняйте это поле" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
                     </div>
 
@@ -182,14 +181,33 @@
             
         <!-- Левая колонка: Контакты и адрес -->
         <div class="contact-info">
-            <h2 class="our_contacts_text font-sans text-3xl font-semibold mb-3">Наши контакты</h2>
+            <h2 class="our_contacts_text font-sans text-3xl font-semibold">Наши контакты</h2>
             
             
-            <p><strong>Телефон:</strong> <a href="tel:{{ site_settings.phone|clean_phone }}" style="color: blue;">{{ site_settings.phone|safe }}</a></p>
-            <p><strong>Email:</strong> <span style="color: brown;">{{ site_settings.email|safe }}</span></p>
-            <p><strong>Адрес:</strong> {{ site_settings.address|safe }}</p>
-            <p><strong>Режим работы:</strong> {{ site_settings.working_hours|safe }}</p>
-            <p>Мы всегда рады ответить на ваши вопросы и принять заказ.</p>
+            <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-8 gap-y-0.5">
+                
+                <!-- Телефон -->
+                <div class="font-bold">Телефон:</div>
+                <div>
+                    <a href="tel:{{ site_settings.phone|clean_phone }}" class="text-blue-600 hover:underline">
+                        {{ site_settings.phone|safe }}
+                    </a>
+                </div>
+
+                <!-- Email -->
+                <div class="font-bold">Email:</div>
+                <div class="text-amber-900">{{ site_settings.email|safe }}</div>
+
+                <!-- Адрес -->
+                <div class="font-bold">Адрес:</div>
+                <div>{{ site_settings.address|safe }}</div>
+
+                <!-- Режим работы -->
+                <div class="font-bold">Режим работы:</div>
+                <div class="self-end">{{ site_settings.working_hours|safe }}</div>
+                
+            </div>
+            <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p>
         
             
             <!-- Можно добавить карту здесь -->
@@ -201,10 +219,10 @@
     <section class="content-block">
         <h2 class="text-2xl font-bold mb-4">Наши проекты</h2>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <a href="{% static 'img/flat1.jpg' %}" data-fancybox="gallery"><img src="{% static 'img/flat1.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 1"></a>
-            <a href="{% static 'img/flat2.jpg' %}" data-fancybox="gallery"><img src="{% static 'img/flat2.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 2"></a>
-            <a href="{% static 'img/flat3.jpg' %}" data-fancybox="gallery"><img src="{% static 'img/flat3.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 3"></a>
-            <a href="{% static 'img/flat4.jpg' %}" data-fancybox="gallery"><img src="{% static 'img/flat4.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 4"></a>
+            <a href="{% static 'img/flat1.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat1.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 1"></a>
+            <a href="{% static 'img/flat2.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat2.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 2"></a>
+            <a href="{% static 'img/flat3.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat3.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 3"></a>
+            <a href="{% static 'img/flat4.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat4.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 4"></a>
         </div>
     </section>
 
@@ -256,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 <script>
 // Эта штука находит все элементы с атрибутом data-fancybox и вешает на них логику окна
 Fancybox.bind("[data-fancybox]", {
@@ -263,6 +282,28 @@ Fancybox.bind("[data-fancybox]", {
     infinite: true, // чтобы листалось по кругу
     transitionEffect: "fade", // плавное появление
 });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const formSection = document.getElementById('order-section');
+        
+        // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
+        const savedScrollPos = localStorage.getItem('formScrollPos');
+        
+        if (savedScrollPos) {
+            // 2. Если есть, прокручиваем страницу к этой позиции
+            window.scrollTo(0, parseInt(savedScrollPos, 10));
+            // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
+            localStorage.removeItem('formScrollPos');
+        }
+
+        // 3. Перехватываем событие отправки формы
+        formSection.querySelector('form').addEventListener('submit', () => {
+            // 4. Перед отправкой сохраняем текущую позицию прокрутки
+            localStorage.setItem('formScrollPos', window.scrollY);
+        });
+    });
 </script>
 {% endblock %}
 

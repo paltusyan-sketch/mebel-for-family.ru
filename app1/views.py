@@ -129,7 +129,7 @@ def contacts_page(request):
         form = OrderForm(initial=initial_data)
 
     context = {'form': form}
-    context['product'] = product
+    # context['product'] = product
     return render(request, "contacts.html", context)
 
 

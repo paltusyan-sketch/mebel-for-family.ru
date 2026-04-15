@@ -13,11 +13,32 @@
 }
 
 .contact-info {
-    margin-top: 3rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    height: 38vh;
+    justify-content: flex-start;
+    height: min-content;
+    width: max-content;
+    padding: 2rem;
+    background: white;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border: solid;
+    border-color: lightgray;
+}
+
+.contacts-contents {
+    margin-top: 1.5rem;
+    margin-bottom: 0.7rem;
+}
+
+p.happy {
+    margin-bottom: -1rem;
+}
+
+h1 {
+    text-align: center;
 }
 
 /* ==========================================================================
@@ -28,10 +49,12 @@
     width: 100%;
     margin: 0;
     padding: 2rem;
-    background: #c1cbc3;
+    background: white;
     border-radius: 23px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+    border: solid;
+    border-color: teal;
 }
 
 .order-form h2 {
@@ -60,6 +83,7 @@ textarea {
     border-radius: 5px;
     font-size: 1rem;
     box-sizing: border-box;
+    background-color: #f4f4f4;
 }
 
 .form-input {
@@ -69,6 +93,7 @@ textarea {
     border-radius: 5px;
     font-size: 16px;
     width: 100%;
+    background-color: #f4f4f4;
 }
 
 .order-form button {
@@ -121,7 +146,7 @@ input[type="checkbox"] {
     width: 20px;
     height: 20px;
     border: 2px solid #ccc;
-    background-color: #e4e4e4;
+    background-color: #f4f4f4;
     cursor: pointer;
     position: relative;
     display: inline-block;
@@ -129,15 +154,15 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-    background-color: #e4e4e4; 
+    background-color: #f4f4f4; 
     border-color: #e4e4e4;
 }
 
 input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 9px;
-    top: 2px;
+    left: 11px;
+    top: 4px;
     width: 6px;
     height: 13px;
     border: solid #006412;
@@ -169,8 +194,13 @@ input[type="checkbox"]:checked::after {
 
     .contact-info{
         margin-top: 1rem;
-        margin-bottom: 0rem;
+        margin-bottom: 1rem;
         height: auto; /* На мобилке фиксированная высота не нужна */
+        /* max-width: -webkit-fill-available; */
+        width: -webkit-fill-available; /* Для Safari/Chrome */
+        width: -moz-available;         /* Для Firefox */
+        width: fill-available;         /* Стандарт будущего */
+
     }
 
     .policy_label {

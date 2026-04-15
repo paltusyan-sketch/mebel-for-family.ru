@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <title>СМ Мебель Екб | {% block title %}Семейная мастерская{% endblock %}</title>
+    <meta name="description" content="{% block description %}Мебель на заказ в Екатеринбурге от мастерской СМ Мебель. Изготовление диванов, кроватей и корпусной мебели по индивидуальным размерам с гарантией качества.{% endblock %}">
     <link rel="icon" type="image/png" href="{% static 'img/icons/favicon-32x32.png' %}">
     
     <!-- Подключение всех шрифтов и основного CSS (STYLES.CSS) -->
@@ -27,13 +28,11 @@
 
     <link rel="stylesheet" href="{% static 'css/base_pro.css' %}">
 
-    {% block scripts %}
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    {% endblock scripts %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <!-- Сюда дочерние шаблоны смогут добавить свой CSS (например, catalog_style.css) -->
-    {% block extra_css %}{% endblock %}
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <!-- Header (Шапка) -->
@@ -69,7 +68,7 @@
                         <a @click="open = false" href="{% url 'main' %}" class="hover:text-[#3b82f6]">Главная</a>
                         <a @click="open = false" href="{% url 'catalog' %}" class="hover:text-[#3b82f6]">Каталог</a>
                         <a @click="open = false" href="{% url 'main' %}#about-us" class="hover:text-[#3b82f6]">О&nbsp;нас</a>
-                        <a @click="open = false" href="{% url 'contacts' %}" class="hover:text-[#3b82f6]">Контакты</a>
+                        <a @click="open = false" href="{% url 'main' %}#contacts" class="hover:text-[#3b82f6]">Контакты</a>
                         <a @click="open = false" href="{% url 'contacts' %}"><button class="order-call">Заказать&nbsp;звонок</button></a>
                     </nav>
                 </div>

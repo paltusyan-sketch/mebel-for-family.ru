@@ -149,11 +149,28 @@ body {
 }
 
 .contact-info {
-    margin-top: 3rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 38vh;
+    height: min-content;
+    width: max-content;
+    padding: 2rem;
+    background: white;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border: solid;
+    border-color: lightgray;
+}
+
+.contacts-contents {
+    margin-top: 1.5rem;
+    margin-bottom: 0.7rem;
+}
+
+p.happy {
+    margin-bottom: -1rem;
 }
 
 .form-section-standalone {
@@ -173,7 +190,8 @@ body {
     border-radius: 23px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    border: double;
+    border: solid;
+    border-color: teal;
 }
 
 input,
@@ -203,6 +221,7 @@ textarea {
     border-radius: 5px;
     font-size: 1rem;
     box-sizing: border-box;
+    background-color: #f4f4f4;
 }
 
 .order-form button {
@@ -236,6 +255,7 @@ textarea {
     border-radius: 5px;
     font-size: 16px;
     width: 100%;
+    background-color: #f4f4f4;
 }
 
 .our_contacts_text {
@@ -245,9 +265,8 @@ textarea {
 /* ==========================================================================
    4. СТРАНИЦА "О НАС"
    ========================================================================== */
-.about-us-section {
-    background-color: #ffffff;
-    scroll-margin-top: 4.5rem;
+#about-us {
+    scroll-margin-top: 6rem;
 }
 
 .about-us-container {
@@ -337,7 +356,7 @@ input[type="checkbox"] {
     width: 20px;
     height: 20px;
     border: 2px solid #ccc;
-    background-color: #e4e4e4;
+    background-color: #f4f4f4;
     cursor: pointer;
     position: relative;
     display: inline-block;
@@ -345,15 +364,15 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-    background-color: #e4e4e4;
+    background-color: #f4f4f4;
     border-color: #e4e4e4;
 }
 
 input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 9px;
-    top: 2px;
+    left: 11px;
+    top: 4px;
     width: 6px;
     height: 13px;
     border: solid #006412;
@@ -541,6 +560,8 @@ input[type="checkbox"]:checked::after {
     .contact-info {
         margin-top: 2rem;
         margin-bottom: 1rem;
+        height: auto; /* На мобилке фиксированная высота не нужна */
+        max-width: -webkit-fill-available;
     }
 
     /* Политика и чекбоксы */
@@ -548,6 +569,7 @@ input[type="checkbox"]:checked::after {
         display: flex;
         align-items: self-start;
         margin: 0.7rem 0rem;
+        margin-bottom: 0rem;
         justify-content: space-evenly;
     }
 
