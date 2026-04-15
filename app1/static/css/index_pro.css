@@ -194,6 +194,13 @@ p.happy {
     border-color: teal;
 }
 
+
+@media (max-width: 360px) {
+    .order-form {
+        padding: 2rem 1rem;
+    }
+}
+
 input,
 textarea {
     background-color: #e4e4e4;
@@ -348,6 +355,13 @@ input.policy_checkbox {
 .policy_link {
     color: #5d5e99;
     text-decoration: underline;
+}
+
+
+@media (max-width: 410px) {
+    .policy_text {
+        margin-left: 10px;
+    }
 }
 
 input[type="checkbox"] {
