@@ -33,7 +33,7 @@ if os.path.exists('C:\\Users\\'): # Если есть папка Users, знач
     ALLOWED_HOSTS = ['*']
     CSRF_TRUSTED_ORIGINS = ['https://cognoscitive-kristeen-hypoxic.ngrok-free.dev']
 else:
-    ALLOWED_HOSTS = ['93.189.231.10', 'mebel-for-family.ru', '127.0.0.1', 'localhost',]
+    ALLOWED_HOSTS = ['uralmeb.ru', 'www.uralmeb.ru', '85.198.102.120', '127.0.0.1', 'localhost',]
 
 
 
