@@ -3,7 +3,8 @@
 {% load active_link_tags %}
 {% load custom_tags %}
 
-
+{% block title %}Каталог{% endblock %}
+{% block description %}{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/catalog_pro.css' %}">
@@ -33,7 +34,7 @@
             <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
                 <div class="product-card">
                     <div class="product-img-container">
-                        <img src="{% if product.main_image %}{{ product.main_image.url }}{% endif %}" alt="Диван">
+                        <img src="{% if product.main_image %}{{ product.main_image.url }}{% endif %}" alt="{{ product.name }}">
                         {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
                     </div>
                     <div class="product-details">

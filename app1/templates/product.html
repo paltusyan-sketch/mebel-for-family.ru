@@ -2,6 +2,9 @@
 {% load static %}
 {% load custom_tags %}
 
+{% block title %}{{ product.name }} - купить{% endblock %}
+{% block description %}{% endblock %}
+
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/product_pro.css' %}">
 {% endblock %}
@@ -21,7 +24,7 @@
                             <div class="swiper-slide">
                                 <!-- Оборачиваем в Fancybox для открытия во весь экран, если хочешь -->
                                 <a href="{{ img }}" data-fancybox="gallery">
-                                    <img src="{{ img }}" alt="Фото Добрая панель - 1" class="w-full h-full object-contain">
+                                    <img src="{{ img }}" alt="{{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-contain">
                                 </a>
                             </div>
                             {% endfor %}
