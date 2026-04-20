@@ -2,7 +2,14 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from pytils.translit import slugify
 from django.core.validators import RegexValidator
+from django.utils.deconstruct import deconstructible
+from io import BytesIO
+from django.core.files.base import ContentFile
+from PIL import Image, ImageOps
+import os
+from pillow_heif import register_heif_opener
 
+register_heif_opener()
 # Create your models here.
 
 slug_validator = RegexValidator(
@@ -10,16 +17,22 @@ slug_validator = RegexValidator(
     message="Слаг может содержать только латиницу, цифры и дефис (никаких пробелов и подчеркиваний!)"
 )
 
-def get_product_upload_path(instance, filename):
-    # Если это доп. фото, забираем слаг у связанного продукта
-    if hasattr(instance, 'product'):
-        slug = instance.product.product_slug
-    else:
-        # Если это главное фото, берем слаг прямо из модели товара
-        slug = instance.product_slug
-    
-    # Возвращаем чистый путь без лишнего мусора
-    return f'products/{slug}/{filename}'
+
+@deconstructible
+class GenerateUploadPath:
+    def __init__(self, subfolder=""):
+        # subfolder будет либо пустой "", либо "webp/"
+        self.subfolder = subfolder
+
+    def __call__(self, instance, filename):
+        if hasattr(instance, 'product'):
+            slug = instance.product.product_slug
+        else:
+            slug = instance.product_slug
+        
+        # Строим путь: products/slug/подпапка/файл
+        return f'products/{slug}/{self.subfolder}{filename}'
+
 
 
 class Category(models.Model):
@@ -58,7 +71,8 @@ class Product(models.Model):
     is_from = models.BooleanField(default=False, verbose_name="от")
     is_green = models.BooleanField(default=False, verbose_name="зеленый ценник")
     price = models.IntegerField(verbose_name="Цена")
-    main_image = models.ImageField(upload_to=get_product_upload_path, blank=True, null=True, verbose_name="Картинка")
+    main_image = models.ImageField(upload_to=GenerateUploadPath(), blank=True, null=True, verbose_name="Картинка")
+    main_image_webp =  models.ImageField(upload_to=GenerateUploadPath(subfolder="webp/"), blank=True, null=True, verbose_name="Webp картинка")
     is_new = models.BooleanField(default=False, verbose_name="Новинка")
 
     material = models.CharField(max_length=255, verbose_name="Материал", default='Массив кедра, Велюр')
@@ -72,6 +86,26 @@ class Product(models.Model):
             # Если слаг пустой — транслитим имя
             self.product_slug = slugify(self.name)
         super().save(*args, **kwargs)
+        if self.main_image and not self.main_image_webp:
+            with Image.open(self.main_image.path) as img:
+                # Исправляем ориентацию (айфоны и т.д.)
+                img = ImageOps.exif_transpose(img)
+                
+                # Конвертируем в WebP в памяти
+                output = BytesIO()
+                img.save(output, format='WEBP', quality=75)
+                output.seek(0)
+                
+                # Формируем имя файла (заменяем расширение на .webp)
+                name = os.path.basename(self.main_image.name)
+                webp_name = f"{os.path.splitext(name)[0]}.webp"
+                
+                # Сохраняем результат ПРЯМО в поле модели
+                # save=False нужен, чтобы не вызвать бесконечный цикл save()
+                self.main_image_webp.save(webp_name, ContentFile(output.read()), save=False)
+                
+                # Сохраняем модель еще раз, чтобы записать путь к webp в базу
+                super().save(update_fields=['main_image_webp'])
 
 
     def main_image_tag(self):
@@ -93,7 +127,8 @@ class Product(models.Model):
 class ProductImage(models.Model):
     # Связываем с продуктом. related_name='images' нужен, чтобы дергать фотки в шаблоне
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=get_product_upload_path, verbose_name="Доп. фото")
+    image = models.ImageField(upload_to=GenerateUploadPath(), verbose_name="Доп. фото")
+    image_webp = models.ImageField(upload_to=GenerateUploadPath(subfolder="webp/"), blank=True, null=True, verbose_name="Доп. фото Webp")
     
     def image_tag(self):
         if self.image:
@@ -103,10 +138,33 @@ class ProductImage(models.Model):
     
     image_tag.short_description = 'Предпросмотр'
 
-    def __str__(self):
-        # Считаем, сколько фоток у этого продукта имеют ID меньше или равный текущему
-        count = self.product.images.filter(id__lte=self.id).count()
-        return f"Фото №{count} для {self.product.name}"
+    # def __str__(self):
+    #     # Считаем, сколько фоток у этого продукта имеют ID меньше или равный текущему
+    #     count = self.product.images.filter(id__lte=self.id).count()
+    #     return f"Фото №{count} для {self.product.name}"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        # 2. Если оригинал загружен, а WebP-версии еще нет
+        if self.image and not self.image_webp:
+            with Image.open(self.image.path) as img:
+                img = ImageOps.exif_transpose(img)
+                
+                output = BytesIO()
+                img.save(output, format='WEBP', quality=75)
+                output.seek(0)
+                
+                # Формируем имя файла
+                name = os.path.basename(self.image.name)
+                webp_name = f"{os.path.splitext(name)[0]}.webp"
+                
+                # Сохраняем в поле image_webp
+                # Декоратор GenerateUploadPath(subfolder="webp/") сам закинет это в products/slug/webp/
+                self.image_webp.save(webp_name, ContentFile(output.read()), save=False)
+                
+                # Обновляем только поле с webp
+                super().save(update_fields=['image_webp'])
         
 
 
