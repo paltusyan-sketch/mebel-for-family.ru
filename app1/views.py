@@ -125,11 +125,9 @@ def contacts_page(request):
             return redirect(request.path) # Перенаправляем на ту же страницу
     else:
         # Если метод GET, создаем пустую форму
-        form = OrderForm()
         form = OrderForm(initial=initial_data)
 
     context = {'form': form}
-    # context['product'] = product
     return render(request, "contacts.html", context)
 
 

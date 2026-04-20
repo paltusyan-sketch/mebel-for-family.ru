@@ -231,3 +231,9 @@ input[type="checkbox"]:checked::after {
         margin: 2rem;
     }
 }
+
+@media (max-width: 410px) {
+    .policy_text {
+        margin-left: 10px;
+    }
+}
