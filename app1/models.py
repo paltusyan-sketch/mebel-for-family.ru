@@ -10,13 +10,24 @@ slug_validator = RegexValidator(
     message="Слаг может содержать только латиницу, цифры и дефис (никаких пробелов и подчеркиваний!)"
 )
 
+def get_product_upload_path(instance, filename):
+    # Если это доп. фото, забираем слаг у связанного продукта
+    if hasattr(instance, 'product'):
+        slug = instance.product.product_slug
+    else:
+        # Если это главное фото, берем слаг прямо из модели товара
+        slug = instance.product_slug
+    
+    # Возвращаем чистый путь без лишнего мусора
+    return f'products/{slug}/{filename}'
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    category_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])
     category_image = models.ImageField(upload_to='categories/', blank=True, null=True, verbose_name="Картинка")
     show_on_main = models.BooleanField(default=True, verbose_name="Показывать категорию на главной странице")
     show_on_catalog = models.BooleanField(default=True, verbose_name="Показывать категорию в каталоге")
-    category_slug = models.SlugField(max_length=255, unique=True, null=True, blank=True, validators=[slug_validator])
-    category_slug = models.SlugField(max_length=255, null=True, blank=True, validators=[slug_validator])
 
     def save(self, *args, **kwargs):
         if not self.category_slug:
@@ -40,14 +51,14 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    product_slug = models.SlugField(max_length=255, null=True, blank=True, validators=[slug_validator])
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
     name = models.CharField(max_length=200, verbose_name="Название")
+    product_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
     subtitle = models.CharField(max_length=150, verbose_name="Подзаголовок", default='Велюр, массив кедра, индивидуальный размер.')
     is_from = models.BooleanField(default=False, verbose_name="от")
     is_green = models.BooleanField(default=False, verbose_name="зеленый ценник")
     price = models.IntegerField(verbose_name="Цена")
-    main_image = models.ImageField(upload_to='products/', blank=True, null=True, verbose_name="Картинка")
+    main_image = models.ImageField(upload_to=get_product_upload_path, blank=True, null=True, verbose_name="Картинка")
     is_new = models.BooleanField(default=False, verbose_name="Новинка")
 
     material = models.CharField(max_length=255, verbose_name="Материал", default='Массив кедра, Велюр')
@@ -82,7 +93,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     # Связываем с продуктом. related_name='images' нужен, чтобы дергать фотки в шаблоне
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='products/extra/', verbose_name="Доп. фото")
+    image = models.ImageField(upload_to=get_product_upload_path, verbose_name="Доп. фото")
     
     def image_tag(self):
         if self.image:
