@@ -85,6 +85,17 @@ class Product(models.Model):
         if not self.product_slug:
             # Если слаг пустой — транслитим имя
             self.product_slug = slugify(self.name)
+            
+        if self.pk:
+            try:
+                old_obj = Product.objects.get(pk=self.pk)
+                # Если загрузили НОВУЮ картинку
+                if old_obj.main_image != self.main_image:
+                    # Стираем путь к старому WebP в базе
+                    # django-cleanup увидит это и УДАЛИТ файл с диска сама!
+                    self.main_image_webp = None
+            except Product.DoesNotExist:
+                pass
         super().save(*args, **kwargs)
         if self.main_image and not self.main_image_webp:
             with Image.open(self.main_image.path) as img:
@@ -144,6 +155,16 @@ class ProductImage(models.Model):
     #     return f"Фото №{count} для {self.product.name}"
     
     def save(self, *args, **kwargs):
+        if self.pk:
+            try:
+                old_obj = ProductImage.objects.get(pk=self.pk)
+                # Если загрузили НОВУЮ картинку
+                if old_obj.image != self.image:
+                    # Стираем путь к старому WebP в базе
+                    # django-cleanup увидит это и УДАЛИТ файл с диска сама!
+                    self.image_webp = None
+            except ProductImage.DoesNotExist:
+                pass
         super().save(*args, **kwargs)
 
         # 2. Если оригинал загружен, а WebP-версии еще нет
@@ -180,3 +201,23 @@ class Setting(models.Model):
     
     def __str__(self):
         return "Настройки сайта"
+
+
+
+
+import shutil # Библиотека для удаления папок
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+from django.conf import settings
+
+# Декоратор говорит: "Слушай сигнал удаления модели Product"
+@receiver(post_delete, sender=Product)
+def delete_product_folder(sender, instance, **kwargs):
+    # Строим путь именно к папке этого товара
+    # media/products/slug-tovara
+    folder_path = os.path.join(settings.MEDIA_ROOT, 'products', instance.product_slug)
+    
+    # Проверяем, что это папка, а не просто файл, и что она существует
+    if os.path.exists(folder_path) and os.path.isdir(folder_path):
+        # rmtree сносит папку со всем вложенным добром под ноль
+        shutil.rmtree(folder_path)

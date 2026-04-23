@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'app1',
     'active_link',
     'django_extensions',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

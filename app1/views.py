@@ -90,9 +90,10 @@ def product_page(request, category_slug, product_slug):
   
     images = ([product.main_image.url] if product.main_image else []) + [*(i.image.url for i in product.images.all())]
     images_webp = ([product.main_image_webp.url] if product.main_image_webp else []) + [*(i.image_webp.url for i in product.images.all())]
-    
+    combined_images = list(zip(images, images_webp))
+    # print(combined_images)
 
-    context = {'product' : product, "images" : images, "images_webp" : images_webp}
+    context = {'product' : product, 'combined_images' : combined_images}
     return render(request, "product.html", context)
 
 
