@@ -9,7 +9,7 @@ body {
 .banner {
     position: relative;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url('../img/foto_back.jpg') center/cover;
+        url('../img/background_back.webp') center/cover;
     height: 60vh;
     width: 100%;
     display: flex;

@@ -83,16 +83,17 @@ def catalog_page(request, category_slug=None):
 
 def product_page(request, category_slug, product_slug):
     product = get_object_or_404(
-        Product, 
+        Product,
         product_slug=product_slug,
         category__category_slug=category_slug # Дополнительная проверка для безопасности
     )
   
     images = ([product.main_image.url] if product.main_image else []) + [*(i.image.url for i in product.images.all())]
-   
-    
+    images_webp = ([product.main_image_webp.url] if product.main_image_webp else []) + [*(i.image_webp.url for i in product.images.all())]
+    combined_images = list(zip(images, images_webp))
+    # print(product.images.all())
 
-    context = {'product' : product, "images" : images}
+    context = {'product' : product, 'combined_images' : combined_images}
     return render(request, "product.html", context)
 
 
@@ -125,11 +126,9 @@ def contacts_page(request):
             return redirect(request.path) # Перенаправляем на ту же страницу
     else:
         # Если метод GET, создаем пустую форму
-        form = OrderForm()
         form = OrderForm(initial=initial_data)
 
     context = {'form': form}
-    # context['product'] = product
     return render(request, "contacts.html", context)
 
 
