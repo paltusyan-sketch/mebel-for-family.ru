@@ -20,25 +20,29 @@ slug_validator = RegexValidator(
 
 @deconstructible
 class GenerateUploadPath:
-    def __init__(self, subfolder=""):
+    def __init__(self, where, subfolder=""):
         # subfolder будет либо пустой "", либо "webp/"
+        self.where = where
         self.subfolder = subfolder
 
     def __call__(self, instance, filename):
         if hasattr(instance, 'product'):
             slug = instance.product.product_slug
+        elif hasattr(instance, 'category_slug'):
+            slug = instance.category_slug
         else:
             slug = instance.product_slug
-        
+        cleanfilename = filename.replace("/", "")
         # Строим путь: products/slug/подпапка/файл
-        return f'products/{slug}/{self.subfolder}{filename}'
+        return f'{self.where}/{slug}/{self.subfolder}{cleanfilename}'
 
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     category_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])
-    category_image = models.ImageField(upload_to='categories/', blank=True, null=True, verbose_name="Картинка")
+    category_image = models.ImageField(upload_to=GenerateUploadPath(where="categories"), blank=True, null=True, verbose_name="Картинка")
+    category_image_webp = models.ImageField(upload_to=GenerateUploadPath(where="categories", subfolder="webp/"), blank=True, null=True, verbose_name="Webp картинка")
     show_on_main = models.BooleanField(default=True, verbose_name="Показывать категорию на главной странице")
     show_on_catalog = models.BooleanField(default=True, verbose_name="Показывать категорию в каталоге")
 
@@ -46,7 +50,38 @@ class Category(models.Model):
         if not self.category_slug:
             # Если слаг пустой — транслитим имя
             self.category_slug = slugify(self.name)
+
+        if self.pk:
+            try:
+                old_obj = Category.objects.get(pk=self.pk)
+                # Если загрузили НОВУЮ картинку
+                if old_obj.category_image != self.category_image:
+                    # Стираем путь к старому WebP в базе
+                    # django-cleanup увидит это и УДАЛИТ файл с диска сама!
+                    self.category_image_webp = None
+            except Category.DoesNotExist:
+                pass
         super().save(*args, **kwargs)
+        if self.category_image and not self.category_image_webp:
+            with Image.open(self.category_image.path) as img:
+                # Исправляем ориентацию (айфоны и т.д.)
+                img = ImageOps.exif_transpose(img)
+                
+                # Конвертируем в WebP в памяти
+                output = BytesIO()
+                img.save(output, format='WEBP', quality=75)
+                output.seek(0)
+                
+                # Формируем имя файла (заменяем расширение на .webp)
+                name = os.path.basename(self.category_image.name)
+                webp_name = f"{os.path.splitext(name)[0]}.webp"
+                
+                # Сохраняем результат ПРЯМО в поле модели
+                # save=False нужен, чтобы не вызвать бесконечный цикл save()
+                self.category_image_webp.save(webp_name, ContentFile(output.read()), save=False)
+                
+                # Сохраняем модель еще раз, чтобы записать путь к webp в базу
+                super().save(update_fields=['category_image_webp'])
 
     def category_image_tag(self):
         if self.category_image:
@@ -71,8 +106,8 @@ class Product(models.Model):
     is_from = models.BooleanField(default=False, verbose_name="от")
     is_green = models.BooleanField(default=False, verbose_name="зеленый ценник")
     price = models.IntegerField(verbose_name="Цена")
-    main_image = models.ImageField(upload_to=GenerateUploadPath(), blank=True, null=True, verbose_name="Картинка")
-    main_image_webp =  models.ImageField(upload_to=GenerateUploadPath(subfolder="webp/"), blank=True, null=True, verbose_name="Webp картинка")
+    main_image = models.ImageField(upload_to=GenerateUploadPath(where="products"), blank=True, null=True, verbose_name="Картинка")
+    main_image_webp =  models.ImageField(upload_to=GenerateUploadPath(where="products", subfolder="webp/"), blank=True, null=True, verbose_name="Webp картинка")
     is_new = models.BooleanField(default=False, verbose_name="Новинка")
 
     material = models.CharField(max_length=255, verbose_name="Материал", default='Массив кедра, Велюр')
@@ -138,8 +173,8 @@ class Product(models.Model):
 class ProductImage(models.Model):
     # Связываем с продуктом. related_name='images' нужен, чтобы дергать фотки в шаблоне
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=GenerateUploadPath(), verbose_name="Доп. фото")
-    image_webp = models.ImageField(upload_to=GenerateUploadPath(subfolder="webp/"), blank=True, null=True, verbose_name="Доп. фото Webp")
+    image = models.ImageField(upload_to=GenerateUploadPath(where="products"), verbose_name="Доп. фото")
+    image_webp = models.ImageField(upload_to=GenerateUploadPath(where="products", subfolder="webp/"), blank=True, null=True, verbose_name="Доп. фото Webp")
     
     def image_tag(self):
         if self.image:
@@ -212,10 +247,17 @@ from django.conf import settings
 
 # Декоратор говорит: "Слушай сигнал удаления модели Product"
 @receiver(post_delete, sender=Product)
+@receiver(post_delete, sender=Category)
 def delete_product_folder(sender, instance, **kwargs):
-    # Строим путь именно к папке этого товара
-    # media/products/slug-tovara
-    folder_path = os.path.join(settings.MEDIA_ROOT, 'products', instance.product_slug)
+    # Определяем, в какой папке копаться, в зависимости от модели
+    if sender == Product:
+        folder_name = 'products'
+        slug = instance.product_slug
+    else:
+        folder_name = 'categories'
+        slug = instance.category_slug
+
+    folder_path = os.path.join(settings.MEDIA_ROOT, folder_name, slug)
     
     # Проверяем, что это папка, а не просто файл, и что она существует
     if os.path.exists(folder_path) and os.path.isdir(folder_path):

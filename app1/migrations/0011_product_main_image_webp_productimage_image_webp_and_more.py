@@ -14,16 +14,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='main_image_webp',
-            field=models.ImageField(blank=True, null=True, upload_to=app1.models.GenerateUploadPath(subfolder='webp/'), verbose_name='Webp картинка'),
+            field=models.ImageField(blank=True, null=True, upload_to=app1.models.GenerateUploadPath(where='products', subfolder='webp/'), verbose_name='Webp картинка'),
         ),
         migrations.AddField(
             model_name='productimage',
             name='image_webp',
-            field=models.ImageField(blank=True, null=True, upload_to=app1.models.GenerateUploadPath(subfolder='webp/'), verbose_name='Доп. фото Webp'),
+            field=models.ImageField(blank=True, null=True, upload_to=app1.models.GenerateUploadPath(where='products', subfolder='webp/'), verbose_name='Доп. фото Webp'),
         ),
         migrations.AlterField(
             model_name='productimage',
             name='image',
-            field=models.ImageField(upload_to=app1.models.GenerateUploadPath(), verbose_name='Доп. фото'),
+            field=models.ImageField(upload_to=app1.models.GenerateUploadPath(where='products'), verbose_name='Доп. фото'),
         ),
     ]

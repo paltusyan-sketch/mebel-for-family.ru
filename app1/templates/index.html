@@ -22,7 +22,7 @@
 
     <!-- Catalog -->
     <section class="catalog">
-        <img src="{% static 'img/deco_chair.png' %}" alt="Элемент декора — стул" class="decor-bg-chair">
+        <img src="{% static 'img/deco_chair.webp' %}" alt="Элемент декора — стул" class="decor-bg-chair">
 
         <a href="{% url 'catalog' %}" class="block text-center mb-7 no-underline group">
             <h2 class="nash-catalog text-2xl md:text-3xl font-bold uppercase tracking-[0.3em] text-gray-800 antialiased transition-all duration-300 group-hover:text-orange-600 group-hover:tracking-[0.35em]">
@@ -30,7 +30,7 @@
             </h2>
         </a>
 
-        <img src="{% static 'img/deco_sofa_3.png' %}" alt="Элемент декора — диван" class="decor-bg-sofa">
+        <img src="{% static 'img/deco_sofa_3.webp' %}" alt="Элемент декора — диван" class="decor-bg-sofa">
 
         <!-- Контейнер с ограничением максимальной ширины, чтобы на 4К мониках не разъехалось -->
         <div class="max-w-6xl mx-auto px-4 py-5">
@@ -39,7 +39,7 @@
                 {% if cat.show_on_main %}
                 <a href="{% url 'catalog_by_category' cat.category_slug %}" class="group block text-decoration-none">
                     <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
-                        <img src="{% if cat.category_image %}{{ cat.category_image.url }}{% endif %}" alt="Фото категории {{ cat.name }}" 
+                        <img src="{% if cat.category_image_webp %}{{ cat.category_image_webp.url }}{% endif %}" alt="Фото категории {{ cat.name }}" 
                             class="opacity-90 absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
                             <h3 class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
@@ -184,7 +184,7 @@
             <h2 class="our_contacts_text font-sans text-3xl font-semibold">Наши контакты</h2>
             
             
-            <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-8 gap-y-0.5">
+            <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5">
                 
                 <!-- Телефон -->
                 <div class="font-bold">Телефон:</div>
@@ -219,10 +219,10 @@
     <section class="content-block">
         <h2 class="text-2xl font-bold mb-4">Наши проекты</h2>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <a href="{% static 'img/flat1.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat1.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 1"></a>
-            <a href="{% static 'img/flat2.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat2.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 2"></a>
-            <a href="{% static 'img/flat3.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat3.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 3"></a>
-            <a href="{% static 'img/flat4.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat4.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 4"></a>
+            <a href="{% static 'img/flat1.webp' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat1.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 1"></a>
+            <a href="{% static 'img/flat2.webp' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat2.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 2"></a>
+            <a href="{% static 'img/flat3.webp' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat3.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 3"></a>
+            <a href="{% static 'img/flat4.webp' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat4.jpg' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 4"></a>
         </div>
     </section>
 

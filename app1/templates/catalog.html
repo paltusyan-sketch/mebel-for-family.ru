@@ -34,7 +34,7 @@
             <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
                 <div class="product-card">
                     <div class="product-img-container">
-                        <img src="{% if product.main_image %}{{ product.main_image.url }}{% endif %}" alt="{{ product.name }}">
+                        <img src="{% if product.main_image_webp %}{{ product.main_image_webp.url }}{% endif %}" alt="{{ product.name }}">
                         {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
                     </div>
                     <div class="product-details">
