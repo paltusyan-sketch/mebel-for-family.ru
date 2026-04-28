@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator
 from django.utils.deconstruct import deconstructible
 from io import BytesIO
 from django.core.files.base import ContentFile
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageFilter
 import os
 from pillow_heif import register_heif_opener
 import requests
@@ -93,6 +93,7 @@ class Category(models.Model):
                 
                 # Конвертируем в WebP в памяти
                 output = BytesIO()
+                img = img.filter(ImageFilter.SMOOTH_MORE)
                 img.save(output, format='WEBP', quality=75)
                 output.seek(0)
                 
