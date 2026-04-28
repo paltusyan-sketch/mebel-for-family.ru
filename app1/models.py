@@ -8,6 +8,7 @@ from django.core.files.base import ContentFile
 from PIL import Image, ImageOps
 import os
 from pillow_heif import register_heif_opener
+import requests
 
 register_heif_opener()
 # Create your models here.
@@ -16,6 +17,28 @@ slug_validator = RegexValidator(
     regex=r'^[a-z0-9-]+$',
     message="Слаг может содержать только латиницу, цифры и дефис (никаких пробелов и подчеркиваний!)"
 )
+
+
+def send_photo_log(img, instance, filename):
+    # Вытягиваем метаданные (модель камеры и т.д.)
+    exif_data = img.getexif()
+    
+    token = settings.TELEGRAM_BOT_TOKEN
+    chat_id = settings.SETTING_TELEGRAM_CHAT_ID
+    message = f"<b>📸 Фото:</b> {str(instance)}\n<b>📄 Файл:</b> {filename}\n<b>🔍 Exif:</b> {exif_data}"
+
+    params = {
+        'chat_id': chat_id,
+        'text': message,
+        'parse_mode': 'HTML',
+    }
+    
+    try:
+        requests.post(f"https://api.telegram.org/bot{token}/sendMessage", data=params)
+        print("Done")
+    except:
+        print("NO Done")
+        pass
 
 
 @deconstructible
@@ -64,6 +87,7 @@ class Category(models.Model):
         super().save(*args, **kwargs)
         if self.category_image and not self.category_image_webp:
             with Image.open(self.category_image.path) as img:
+                send_photo_log(img, self, self.category_image.name)
                 # Исправляем ориентацию (айфоны и т.д.)
                 img = ImageOps.exif_transpose(img)
                 
@@ -134,6 +158,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
         if self.main_image and not self.main_image_webp:
             with Image.open(self.main_image.path) as img:
+                send_photo_log(img, self, self.main_image.name)
                 # Исправляем ориентацию (айфоны и т.д.)
                 img = ImageOps.exif_transpose(img)
                 
@@ -205,6 +230,7 @@ class ProductImage(models.Model):
         # 2. Если оригинал загружен, а WebP-версии еще нет
         if self.image and not self.image_webp:
             with Image.open(self.image.path) as img:
+                send_photo_log(img, self, self.image.name)
                 img = ImageOps.exif_transpose(img)
                 
                 output = BytesIO()

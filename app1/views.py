@@ -76,7 +76,6 @@ def catalog_page(request, category_slug=None):
         }
 
     context['categories'] = Category.objects.all()
-    print(Category.objects.all())
 
     return render(request, "catalog.html", context)
 
