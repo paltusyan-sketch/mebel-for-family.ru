@@ -41,15 +41,9 @@
                     <!-- Миниатюры внизу -->
                     <div class="swiper thumbSwiper mt-6 overflow-hidden">
                         <div class="swiper-wrapper flex justify-center">
-<<<<<<< Updated upstream
                             {% for img, webp in combined_images %}
                             <div class="swiper-slide !w-16 !h-12 cursor-pointer opacity-50 transition-all duration-200">
                                 <img src="{{ webp }}" alt="Миниатюра: {{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-cover rounded shadow">
-=======
-                            {% for img in images %}
-                            <div class="swiper-slide !w-16 !h-12 cursor-pointer transition-all duration-200">
-                                <img src="{{ img }}" class="w-full h-full object-cover rounded shadow">
->>>>>>> Stashed changes
                             </div>
                             {% endfor %}
                         </div>
@@ -68,10 +62,6 @@
                 }
                 </style>
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 
                 <!-- Право: Инфо -->
@@ -141,10 +131,6 @@
         keyboard: true,
     });
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     // Находим все мелкие фотки
     const thumbSlides = document.querySelectorAll('.thumbSwiper .swiper-slide');
 
