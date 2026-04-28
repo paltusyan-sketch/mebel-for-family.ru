@@ -165,6 +165,7 @@ class Product(models.Model):
                 
                 # Конвертируем в WebP в памяти
                 output = BytesIO()
+                img = img.filter(ImageFilter.SMOOTH_MORE)
                 img.save(output, format='WEBP', quality=75)
                 output.seek(0)
                 
@@ -235,6 +236,7 @@ class ProductImage(models.Model):
                 img = ImageOps.exif_transpose(img)
                 
                 output = BytesIO()
+                img = img.filter(ImageFilter.SMOOTH_MORE)
                 img.save(output, format='WEBP', quality=75)
                 output.seek(0)
                 
