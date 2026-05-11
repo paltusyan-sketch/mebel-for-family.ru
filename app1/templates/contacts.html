@@ -2,8 +2,14 @@
 {% load static %}
 {% load phone_tags %}
 
-{% block title %}Контакты{% endblock %}
-{% block description %}Контакты СМ Мебель в Екатеринбурге. Мы находимся по адресу: {{ site_settings.address|safe }}. Телефон: {{ site_settings.phone|safe }}. Звоните!{% endblock %}
+{% block title %}{{ seo.contacts_title }}{% endblock %}
+{% block description %}{% spaceless %}
+    {% if seo.contacts_description %}
+        {{ seo.contacts_description }}
+    {% else %}
+        Контакты СМ Мебель в Екатеринбурге. Мы находимся по адресу: {{ seo_adress }}. Телефон: {{ site_settings.phone|safe }}. Звоните!
+    {% endif %}
+{% endspaceless %}{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/contacts_pro.css' %}">

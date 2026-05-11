@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category
+from .models import Product, Category, Setting
 from .forms import OrderForm
 from random import choice
 
@@ -128,6 +128,7 @@ def contacts_page(request):
         form = OrderForm(initial=initial_data)
 
     context = {'form': form}
+    context['seo_adress'] = Setting.objects.first().address.replace('&nbsp;', ' ').replace('<br>', ' ') # временно
     return render(request, "contacts.html", context)
 
 

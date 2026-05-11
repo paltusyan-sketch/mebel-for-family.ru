@@ -2,11 +2,17 @@
 {% load static %}
 {% load custom_tags %}
 
-{% block title %}{{ product.name }} - купить{% endblock %}
-{% block description %}{% endblock %}
+{% block title %}{{ product.seo_title }}{% endblock %}
+{% block description %}{{ product.seo_description }}{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/product_pro.css' %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uralmeb.ru{{ request.path }}">
+    <meta property="og:title" content="{{ product.og_title }}">
+    <meta property="og:description" content="{{ product.og_description }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ product.get_og_image_url }}">
+
 {% endblock %}
 
 

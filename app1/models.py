@@ -126,6 +126,11 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название")
     product_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])
+    seo_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title")
+    seo_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description")
+    og_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="og:title")
+    og_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="og:description")
+    og_image = models.ImageField(upload_to=GenerateUploadPath(where="products", subfolder="og_image/"), blank=True, null=True, verbose_name="Картинка")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
     subtitle = models.CharField(max_length=150, verbose_name="Подзаголовок", default='Велюр, массив кедра, индивидуальный размер.')
     is_from = models.BooleanField(default=False, verbose_name="от")
@@ -187,6 +192,12 @@ class Product(models.Model):
         return "Нет главного фото"
     main_image_tag.short_description = 'Основное фото'
 
+    def og_image_tag(self):
+        if self.og_image:
+            return mark_safe(f'<img src="{self.og_image.url}" width="100" style="border-radius: 10px;")>')
+        return "Нет OG фото"
+    og_image_tag.short_description = 'OG фото'
+
     class Meta:
         ordering = ('name',)
         verbose_name = "Товар"
@@ -194,6 +205,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def get_og_image_url(self):
+        if self.og_image:
+            return self.og_image.url
+        if self.main_image_webp:
+            return self.main_image_webp.url
+        if self.category and self.category.category_image_webp:
+            return self.category.category_image_webp.url
+        return "/static/img/default.jpg"
+
     
 
 
@@ -265,6 +287,27 @@ class Setting(models.Model):
     
     def __str__(self):
         return "Настройки сайта"
+    
+
+
+class SEO(models.Model):
+    main_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /main/")
+    main_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /main/")
+    catalog_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /catalog/")
+    catalog_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /catalog/")
+    contacts_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /contacts/")
+    contacts_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /contacts/")
+    projects_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /projects/")
+    projects_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /projects/")
+    policy_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /policy/")
+    policy_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /policy/")
+
+    class Meta:
+        verbose_name = "SEO настройки страниц"
+        verbose_name_plural = "SEO настройки страниц"
+
+    def __str__(self):
+        return "Глобальные SEO настройки"
 
 
 

@@ -17,3 +17,17 @@ def site_settings(request):
         settings = Setting.objects.first()
 
     return {'site_settings': settings}
+
+
+def seo_settings(request):
+    from .models import SEO
+
+    try:
+        seo = SEO.objects.get()
+    except SEO.DoesNotExist:
+        seo = None
+    except SEO.MultipleObjectsReturned:
+        # Если вдруг их несколько, берем первый (наш save() метод это предотвращает)
+        seo = SEO.objects.first()
+
+    return {'seo': seo}

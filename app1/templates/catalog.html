@@ -3,8 +3,8 @@
 {% load active_link_tags %}
 {% load custom_tags %}
 
-{% block title %}Каталог{% endblock %}
-{% block description %}{% endblock %}
+{% block title %}{{ seo.catalog_title }}{% endblock %}
+{% block description %}{{ seo.catalog_description }}{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/catalog_pro.css' %}">

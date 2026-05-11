@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Setting, ProductImage
+from .models import Category, Product, Setting, ProductImage, SEO
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage  # Та самая модель, которую ты добавишь в models.py
@@ -10,7 +10,7 @@ class ProductImageInline(admin.TabularInline):
     fields = ('image_tag', 'image')
 
 
-
+@admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return not Setting.objects.exists()
@@ -18,6 +18,32 @@ class SettingAdmin(admin.ModelAdmin):
         return False
     
 
+@admin.register(SEO)
+class SEOAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not SEO.objects.exists()
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+    fieldsets = (
+        ('/main/', {
+            'fields': ('main_title', 'main_description')
+        }),
+        ('/catalog/', {
+            'fields': ('catalog_title', 'catalog_description')
+        }),
+        ('/contacts/', {
+            'fields': ('contacts_title', 'contacts_description')
+        }),
+        ('/projects/', {
+            'fields': ('projects_title', 'projects_description')
+        }),
+        ('/policy/', {
+            'fields': ('policy_title', 'policy_description')
+        }),
+    )
+    
+    
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -45,11 +71,11 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('price', 'is_from', 'is_green', 'is_new') # Можно менять прямо в списке!
     
     # 2. Карточка самого товара (внутри)
-    readonly_fields = ('main_image_tag',)
+    readonly_fields = ('main_image_tag', 'og_image_tag')
     
     fieldsets = (
         ('SEO', {
-            'fields': ('product_slug',)
+            'fields': ('product_slug', 'seo_title', 'seo_description')
         }),
         ('Визуал', {
             'fields': ('main_image_tag', 'main_image')
@@ -66,9 +92,11 @@ class ProductAdmin(admin.ModelAdmin):
         ('Описание', {
             'fields': ('description',),
         }),
+        ('OG', {
+            'fields': ('og_title', 'og_description', 'og_image_tag', 'og_image')
+        }),
     )
 
     inlines = [ProductImageInline]
 
 
-admin.site.register(Setting, SettingAdmin)
