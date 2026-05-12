@@ -133,56 +133,49 @@ body {
 /* ==========================================================================
    3. КОНТАКТЫ И ФОРМА
    ========================================================================== */
-.contacts-page-container {
-    width: 100%;
-    max-width: 1200px; /* Добавь ограничение как в каталоге */
-    margin: 0 auto;    /* Центровка */
-    display: flex;
-    justify-content: space-evenly;
-    scroll-margin-top: 6rem;
-}
-
-@media (min-width: 768px) {
-    .contact-form-wrapper {
-        margin: 2rem;
-    }
-}
-
-.contact-info {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: min-content;
-    width: max-content;
-    padding: 2rem;
-    background: white;
-    border-radius: 23px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    border: solid;
-    border-color: lightgray;
-}
-
-.contacts-contents {
-    margin-top: 1.5rem;
-    margin-bottom: 0.7rem;
-}
-
-p.happy {
-    margin-bottom: -1rem;
-}
-
-.form-section-standalone {
+.contacts-body {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 70vh;
-    padding: 2rem 1rem;
+}
+
+.big-grid {
+    height: 100%;
+    width: 80rem;
+    margin: 3rem 6rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 40% 60%;
+    row-gap: 1rem;
+    column-gap: 3rem;
+    margin-left: 3rem; /*из-за gap*/
+}
+
+.box1 {
+    grid-column: 1;
+    grid-row: 1/3;
+    height: 100%;
+    width: 100%;
+    /* background-color: rgb(146, 141, 141); */
+}
+
+.box2 {
+    grid-column: 2;
+    grid-row: 1/2;
+    height: 100%;
+    width: 100%;
+    /* background-color: rgb(16, 177, 198); */
+}
+
+.box3 {
+    grid-column: 2;
+    grid-row: 2/3;
+    /* height: 100%; */
+    width: 100%;
+    /* background-color: rgb(242, 161, 161); */
 }
 
 .order-form {
-    max-width: 550px;
+    height: 100%;
     width: 100%;
     margin: 0;
     padding: 2rem;
@@ -194,27 +187,8 @@ p.happy {
     border-color: teal;
 }
 
-
-@media (max-width: 360px) {
-    .order-form {
-        padding: 2rem 1rem;
-    }
-}
-
-input,
-textarea {
-    background-color: #e4e4e4;
-    border-radius: 5px;
-    resize: none;
-}
-
-textarea {
-    width: 100%;
-    height: 6rem;
-    margin-bottom: 1rem;
-}
-
-.order-form h2 {
+.order-form h2
+ {
     text-align: center;
     color: #2c3e50;
     margin-bottom: 1.5rem;
@@ -231,6 +205,22 @@ textarea {
     background-color: #f4f4f4;
 }
 
+.form-input {
+    padding: 4px 7px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    background-color: #f4f4f4;
+}
+
+.form-field-3 {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
 .order-form button {
     width: 100%;
     background: #5a7650;
@@ -245,28 +235,112 @@ textarea {
     box-sizing: border-box;
 }
 
-.order-form button:hover {
-    background: #177c3e;
+.policy_label {
+    display: flex;
+    margin: 0.4rem 0rem;
+    margin-bottom: 0rem;
+    align-items: center;
 }
 
-.form-field-3 {
-    position: absolute;
-    left: -9999px;
-    opacity: 0;
+.policy_link {
+    color: #5d5e99;
+    text-decoration: underline;
 }
 
-.form-input {
-    padding: 4px 7px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
     background-color: #f4f4f4;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0.3rem;
 }
 
-.our_contacts_text {
+input[type="checkbox"]:checked {
+    background-color: #f4f4f4;
+    border-color: #e4e4e4;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 4px;
+    width: 6px;
+    height: 13px;
+    border: solid #006412;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.alert-success {
+    color: #155724;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.alert-error {
+    color: #721c24;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+
+
+/* контакты */
+.contact-info {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 2rem;
+    background: white;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border: solid;
+    border-color: lightgray;
+}
+
+h2.font-sans.text-3xl.font-semibold {
     text-align: center;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.map {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: white;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border: solid;
+    border-color: rgb(147 169 255);
+}
+
+@media (max-width: 1000px) {
+    .big-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1.5rem 1rem;
+        max-width: 620px;
+    }
+    
+    .box3 {
+        height: 20rem;
+    }
 }
 
 /* ==========================================================================
@@ -560,51 +634,6 @@ input[type="checkbox"]:checked::after {
     }
 
     /* Контакты и Форма: выстраивание в стек */
-    .contacts-page-container {
-        flex-direction: column;
-        margin-top: 1rem;
-        padding: 0 1rem;
-        align-items: anchor-center;
-    }
-
-    .contact-form-wrapper {
-        margin-top: 1.5rem;
-    }
-
-    .contact-info {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        height: auto; /* На мобилке фиксированная высота не нужна */
-        max-width: -webkit-fill-available;
-    }
-
-    /* Политика и чекбоксы */
-    .policy_label {
-        display: flex;
-        align-items: self-start;
-        margin: 0.7rem 0rem;
-        margin-bottom: 0rem;
-        justify-content: space-evenly;
-    }
-
-    input.policy_checkbox {
-        margin: 0.3rem 0;
-        width: 1.9rem;
-    }
-
-    textarea.policy_checkbox {
-        background-color: #fd0000;
-    }
-
-    .policy_text {
-        width: 16rem;
-    }
-
-    .policy_link {
-        color: #5d5e99;
-        text-decoration: underline;
-    }
-
     /* Запрет зума инпутов на iOS */
     input,
     textarea,

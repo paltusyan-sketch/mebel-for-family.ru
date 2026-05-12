@@ -1,6 +1,6 @@
 
 
-.body {
+.contacts-body {
     display: flex;
     justify-content: center;
 }
@@ -196,13 +196,6 @@ h1.font-sans.text-3xl.font-semibold {
     border-color: rgb(147 169 255);
 }
 
-/* .map iframe {
-    height: 100% !important;
-    width: 100% !important;
-    border: none !important;
-} */
-
-
 
 @media (max-width: 1000px) {
     .big-grid {
@@ -215,5 +208,11 @@ h1.font-sans.text-3xl.font-semibold {
     
     .box3 {
         height: 20rem;
+    }
+
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
     }
 }

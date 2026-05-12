@@ -56,7 +56,7 @@
   
     <!-- О нас -->
     <!-- Секция 2: Ценности -->
-    <section class="bg-gray-50 py-10 px-4 sm:px-6 lg:px-8" id="about-us">
+    <section class="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8" id="about-us">
         <div class="max-w-6xl mx-auto">
             
 
@@ -123,97 +123,96 @@
     </section>
 
     <!-- Order Form -->
-    <div class="contacts-page-container" id="contacts">
+    <div class="contacts-body" id="contacts">
+        <div class="big-grid">
+            <div class="box1">
+                <section class="order-form" id="order-section">
+                    <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        
+                        <!-- Рендерим поля вручную, чтобы стили работали корректно -->
+                        <div class="form-field form-field-1">
+                            <label for="{{ form.name.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.name.label }}</label>
+                            {{ form.name }}
+                        </div>
+                        
+                        <div class="form-field form-field-2">
+                            <label for="{{ form.phone.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.phone.label }}</label>
+                            {{ form.phone }}
+                        </div>
 
-        <!-- Правая колонка: Форма -->
-        <div class="contact-form-wrapper">
-            <section class="order-form" id="order-section">
-                <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
-                <form method="post" action="">
-                    {% csrf_token %}
-                    
-                    <!-- Рендерим поля вручную, чтобы стили работали корректно -->
-                    <div class="form-field form-field-1">
-                        <label for="{{ form.name.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.name.label }}</label>
-                        {{ form.name }}
-                    </div>
-                    
-                    <div class="form-field form-field-2">
-                        <label for="{{ form.phone.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.phone.label }}</label>
-                        {{ form.phone }}
-                    </div>
+                        <div class="form-field form-field-3">
+                            <label for="id_emeil" class="font-sans text-1xl font-semibold">Ваш имеил</label>
+                            <input type="text" name="imail" aria-label="Не заполняйте это поле" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
+                        </div>
 
-                    <div class="form-field form-field-3">
-                        <label for="id_emeil" class="font-sans text-1xl font-semibold">Ваш имеил</label>
-                        <input type="text" name="imail" aria-label="Не заполняйте это поле" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
-                    </div>
+                        <div style="display:none;">
+                            <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                        </div>
 
-                    <div style="display:none;">
-                        <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
-                    </div>
+                        <div class="form-field form-field-4">
+                            <label for="{{ form.comment.id_for_label }}" class="font-sans text-1xl font-semibold">{{ form.comment.label }}</label>
+                            {{ form.comment }}
+                        </div>
 
-                    <div class="form-field form-field-4">
-                        <label for="{{ form.comment.id_for_label }}" class="font-sans text-1xl font-semibold">{{ form.comment.label }}</label>
-                        {{ form.comment }}
-                    </div>
+                        {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }} mt-1">{{ message }}</div>{% endfor %}{% endif %}
+                        <button type="submit" class="order-btn-big">Оставить заявку</button>
+                        
+                        <label class="policy_label">
+                            <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
+                            <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
+                        </label>
 
-                    {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }} mt-1">{{ message }}</div>{% endfor %}{% endif %}
-                    <button type="submit" class="order-btn-big">Оставить заявку</button>
-                    
-                    <label class="policy_label">
-                        <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
-                        <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
-                    </label>
-
-                    <script>
-                    // Самая простая проверка на стороне клиента
-                    document.querySelector('form').onsubmit = function(e) {
-                        if(!document.getElementById('gdpr_check').checked) {
-                            alert('Поставь галку, иначе мебель не приедет!');
-                            return false;
-                        }
-                    };
-                    </script>
-                </form>
-            </section>
-        </div>
-
-            
-        <!-- Левая колонка: Контакты и адрес -->
-        <div class="contact-info">
-            <h2 class="our_contacts_text font-sans text-3xl font-semibold">Наши контакты</h2>
-            
-            
-            <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5">
-                
-                <!-- Телефон -->
-                <div class="font-bold">Телефон:</div>
-                <div>
-                    <a href="tel:{{ site_settings.phone|clean_phone }}" class="text-blue-600 hover:underline">
-                        {{ site_settings.phone|safe }}
-                    </a>
-                </div>
-
-                <!-- Email -->
-                <div class="font-bold">Email:</div>
-                <div class="text-amber-900">{{ site_settings.email|safe }}</div>
-
-                <!-- Адрес -->
-                <div class="font-bold">Адрес:</div>
-                <div>{{ site_settings.address|safe }}</div>
-
-                <!-- Режим работы -->
-                <div class="font-bold">Режим работы:</div>
-                <div class="self-end">{{ site_settings.working_hours|safe }}</div>
-                
+                        <script>
+                        // Самая простая проверка на стороне клиента
+                        document.querySelector('form').onsubmit = function(e) {
+                            if(!document.getElementById('gdpr_check').checked) {
+                                alert('Поставь галку, иначе мебель не приедет!');
+                                return false;
+                            }
+                        };
+                        </script>
+                    </form>
+                </section>
             </div>
-            <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p>
-        
-            
-            <!-- Можно добавить карту здесь -->
-        </div>
+            <div class="box2">
+                <div class="contact-info">
+                    <h2 class="font-sans text-3xl font-semibold">Наши контакты</h2>
+                    <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5">
+                        
+                        <!-- Телефон -->
+                        <div class="font-bold">Телефон:</div>
+                        <div>
+                            <a href="tel:{{ site_settings.phone|clean_phone }}" class="text-blue-600 hover:underline">
+                                {{ site_settings.phone|safe }}
+                            </a>
+                        </div>
 
+                        <!-- Email -->
+                        <div class="font-bold">Email:</div>
+                        <div class="text-amber-900">{{ site_settings.email|safe }}</div>
+
+                        <!-- Адрес -->
+                        <div class="font-bold">Адрес:</div>
+                        <div>{{ site_settings.address|safe }}</div>
+
+                        <!-- Режим работы -->
+                        <div class="font-bold">Режим работы:</div>
+                        <div class="self-end">{{ site_settings.working_hours|safe }}</div>
+                        
+                    </div>
+                    <!-- <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p> -->
+                </div>
+            </div>
+            <div class="box3">
+                <div class="map">
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A97b766d0717eb119303e0425a0cbad4432a7a4c2f516cfa0531c26ba497a9f14&amp;width=100%25&amp;height=100%25&amp;lang=ru_RU&amp;scroll=true"></script>
+                </div>
+            </div>
+        </div>
     </div>
+    
 
     <!-- Content Blocks -->
     <section class="content-block">
