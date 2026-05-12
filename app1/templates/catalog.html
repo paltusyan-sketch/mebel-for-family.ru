@@ -16,7 +16,7 @@
 {% block content %}
     <section class="catalog-header">
         <h1 class="text-center text-2xl md:text-4xl font-bold uppercase tracking-[0.1em] text-gray-900 antialiased mb-10">
-            Наш ассортимент
+            {{ seo.catalog_h1 }}
         </h1>
         <div class="category-filters">
             <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>

@@ -27,19 +27,19 @@ class SEOAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('/main/', {
-            'fields': ('main_title', 'main_description')
+            'fields': ('main_title', 'main_description', 'main_h1')
         }),
         ('/catalog/', {
-            'fields': ('catalog_title', 'catalog_description')
+            'fields': ('catalog_title', 'catalog_description', 'catalog_h1')
         }),
         ('/contacts/', {
-            'fields': ('contacts_title', 'contacts_description')
+            'fields': ('contacts_title', 'contacts_description', 'contacts_h1')
         }),
         ('/projects/', {
-            'fields': ('projects_title', 'projects_description')
+            'fields': ('projects_title', 'projects_description', 'projects_h1')
         }),
         ('/policy/', {
-            'fields': ('policy_title', 'policy_description')
+            'fields': ('policy_title', 'policy_description', 'policy_h1')
         }),
     )
     

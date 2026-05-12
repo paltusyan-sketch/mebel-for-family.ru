@@ -62,7 +62,7 @@ class GenerateUploadPath:
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Название категории")
     category_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])
     category_image = models.ImageField(upload_to=GenerateUploadPath(where="categories"), blank=True, null=True, verbose_name="Картинка")
     category_image_webp = models.ImageField(upload_to=GenerateUploadPath(where="categories", subfolder="webp/"), blank=True, null=True, verbose_name="Webp картинка")
@@ -293,14 +293,23 @@ class Setting(models.Model):
 class SEO(models.Model):
     main_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /main/")
     main_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /main/")
+    main_h1 = models.TextField(max_length=500, null=True, blank=True, verbose_name="h1 /main/")
+
     catalog_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /catalog/")
     catalog_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /catalog/")
+    catalog_h1 = models.TextField(max_length=500, null=True, blank=True, verbose_name="h1 /catalog/")
+
     contacts_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /contacts/")
     contacts_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /contacts/")
+    contacts_h1 = models.TextField(max_length=500, null=True, blank=True, verbose_name="h1 /contacts/")
+
     projects_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /projects/")
     projects_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /projects/")
+    projects_h1 = models.TextField(max_length=500, null=True, blank=True, verbose_name="h1 /projects/")
+
     policy_title = models.CharField(max_length=150, null=True, blank=True, verbose_name="title /policy/")
     policy_description = models.TextField(max_length=220, null=True, blank=True, verbose_name="meta description /policy/")
+    policy_h1 = models.TextField(max_length=500, null=True, blank=True, verbose_name="h1 /policy/")
 
     class Meta:
         verbose_name = "SEO настройки страниц"
