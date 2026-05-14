@@ -37,8 +37,11 @@
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">                
                 {% for cat in categories %}
                 {% if cat.show_on_main %}
-                <a href="{% url 'catalog_by_category' cat.category_slug %}" class="group block text-decoration-none">
-                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1">
+                <!-- Класс anim-card запускает вылет, а форлуп вешает задержку delay-1, delay-2 и т.д. -->
+                <a href="{% url 'catalog_by_category' cat.category_slug %}" 
+                class="anim-card delay-{{ forloop.counter }} group block text-decoration-none transition-all duration-500 ease-out transform hover:-translate-y-2">
+                    
+                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-2xl">
                         <img src="{% if cat.category_image_webp %}{{ cat.category_image_webp.url }}{% endif %}" alt="Фото категории {{ cat.name }}" 
                             class="opacity-90 absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
@@ -52,6 +55,7 @@
                 {% endfor %}
             </div>
         </div>
+
     </section>    
   
     <!-- О нас -->
@@ -207,7 +211,7 @@
             </div>
             <div class="box3">
                 <div class="map">
-                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A97b766d0717eb119303e0425a0cbad4432a7a4c2f516cfa0531c26ba497a9f14&amp;width=100%25&amp;height=100%25&amp;lang=ru_RU&amp;scroll=true"></script>
+                    {{ site_settings.map_script|safe }}
                 </div>
             </div>
         </div>

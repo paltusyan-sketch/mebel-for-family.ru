@@ -654,3 +654,28 @@ input[type="checkbox"]:checked::after {
 
 
 
+
+
+/* Описываем саму анимацию взлета и масштаба */
+@keyframes zoomInUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.anim-card {
+    /* Юзаем кубическое сглаживание, чтобы анимация была плавной и "дорогой" */
+    animation: zoomInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0; /* Изначально скрыты, пока не начнется анимация */
+}
+
+/* Делаем задержку для каждой карточки, чтобы они шли каскадом */
+.delay-1 { animation-delay: 100ms; }
+.delay-2 { animation-delay: 250ms; }
+.delay-3 { animation-delay: 400ms; }
+.delay-4 { animation-delay: 550ms; }

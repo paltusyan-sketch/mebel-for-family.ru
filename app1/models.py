@@ -280,6 +280,7 @@ class Setting(models.Model):
     email = models.EmailField(verbose_name="Email адрес", default='')
     working_hours = models.CharField(max_length=255, verbose_name="Режим работы", default='')
     address = models.CharField(max_length=255, verbose_name="Адрес", default='')
+    map_script = models.TextField(verbose_name="Скрипт карты", help_text="height=100%25&amp;", unique=True, blank=True)
 
     class Meta:
         verbose_name = "Настройка сайта"
