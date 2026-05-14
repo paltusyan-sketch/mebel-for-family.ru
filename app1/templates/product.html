@@ -86,13 +86,13 @@
                     <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</p>
                     
                     <div class="characteristics">
-                        <div class="char-item"><span style="padding-right: 0.8rem;">Материал:</span> <span class="material-text">{{ product.material|safe }}</span></div>
-                        <div class="char-item"><span>Срок изготовления:</span> <span>{{ product.production_time|safe }}</span></div>
-                        <div class="char-item"><span>Габариты:</span> <span>{{ product.dimensions|safe }}</span></div>
+                        <div class="char-item"><span style="padding-right: 0.8rem;" class="font-semibold">Материал:</span> <span class="material-text">{{ product.material|safe }}</span></div>
+                        <div class="char-item"><span class="font-semibold">Срок изготовления:</span> <span>{{ product.production_time|safe }}</span></div>
+                        <div class="char-item"><span class="font-semibold">Габариты:</span> <span>{{ product.dimensions|safe }}</span></div>
                     </div>
 
                     <div class="description">
-                        <h3>Описание</h3>
+                        <h3 class="font-extrabold">Описание:</h3>
                         <p>{{ product.description|safe }}</p>
                     </div>
 
