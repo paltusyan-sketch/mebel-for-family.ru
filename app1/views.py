@@ -147,3 +147,8 @@ def policy_page(request):
 
 def projects_page(request):
     return render(request, "projects.html")
+
+
+
+def restoration_page(request):
+    return render(request, "restoration.html")

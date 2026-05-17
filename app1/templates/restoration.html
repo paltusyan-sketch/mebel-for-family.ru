@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load phone_tags %}
+
+
+
+{% block content %}
+
+    <!-- ХЕДЕР-БАННЕР (HERO SECTION) -->
+    <section class="relative bg-amber-950 text-stone-100 overflow-hidden py-20 lg:py-32">
+    <div class="absolute inset-0 opacity-20 mix-blend-overlay bg-cover bg-center" style="background-image: url('https://unsplash.com');"></div>
+    <div class="max-w-6xl mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+        <span class="text-amber-400 font-medium tracking-widest text-xs uppercase bg-amber-950/60 px-3 py-1.5 rounded-full border border-amber-800/60 inline-block">Вторая жизнь антиквариата</span>
+        <h1 class="text-4xl lg:text-6xl font-serif font-bold tracking-tight leading-none text-stone-50">Реставрация и ремонт мебели</h1>
+        <p class="text-stone-300 text-lg max-w-lg font-light leading-relaxed">Возвращаем первозданный вид, прочность и благородство старинным и современным изделиям из дерева. Работаем вручную с 2015 года.</p>
+        <div class="pt-4 flex flex-wrap gap-4">
+            <a href="#quote" class="px-6 py-3.5 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg shadow-lg shadow-amber-900/40 transition-all transform hover:-translate-y-0.5 text-center block w-full sm:w-auto">Оценить стоимость по фото</a>
+            <a href="#portfolio" class="px-6 py-3.5 bg-stone-800/80 hover:bg-stone-800 text-stone-200 font-medium rounded-lg border border-stone-700 transition-all text-center block w-full sm:w-auto">Наши работы</a>
+        </div>
+        </div>
+        <div class="relative hidden md:block">
+        <div class="absolute -inset-1 bg-gradient-to-r flex rounded-2xl from-amber-600 to-amber-900 blur opacity-30"></div>
+        <img src="https://unsplash.com" alt="Процесс реставрации" class="relative rounded-2xl shadow-2xl border border-stone-800 w-full object-cover h-[450px]">
+        </div>
+    </div>
+    </section>
+
+    <!-- ПРЕИМУЩЕСТВА (FEATURES) -->
+    <section class="bg-stone-50 py-16 lg:py-24 text-stone-800">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <h2 class="text-3xl font-serif font-bold md:text-4xl text-stone-900">Почему нам доверяют ценные вещи</h2>
+        <p class="text-stone-600 font-light">Бережный подход, традиционные технологии и внимание к мельчайшим деталям.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Карта 1 -->
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200/60 hover:shadow-md transition-shadow">
+            <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-700 mb-6 text-xl">🪵</div>
+            <h3 class="text-xl font-bold font-serif mb-3 text-stone-900">Натуральные материалы</h3>
+            <p class="text-stone-600 text-sm font-light leading-relaxed">Используем оригинальные старинные рецепты лаков, шеллак, пчелиный воск и ценные породы древесины для докомпоновки.</p>
+        </div>
+        <!-- Карта 2 -->
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200/60 hover:shadow-md transition-shadow">
+            <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-700 mb-6 text-xl">📐</div>
+            <h3 class="text-xl font-bold font-serif mb-3 text-stone-900">Точность до миллиметра</h3>
+            <p class="text-stone-600 text-sm font-light leading-relaxed">Воссоздаем утраченную резьбу, исправляем геометрию каркаса, устраняем сколы, трещины и глубокие прожоги без следа.</p>
+        </div>
+        <!-- Карта 3 -->
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200/60 hover:shadow-md transition-shadow">
+            <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-700 mb-6 text-xl">🚚</div>
+            <h3 class="text-xl font-bold font-serif mb-3 text-stone-900">Бережная доставка</h3>
+            <p class="text-stone-600 text-sm font-light leading-relaxed">Сами аккуратно упакуем, вынесем, погрузим и привезем мебель обратно в нашу мастерскую и обратно к вам.</p>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- ПОРТФОЛИО ДО/ПОСЛЕ (PORTFOLIO) -->
+    <section id="portfolio" class="bg-stone-100 py-16 lg:py-24 text-stone-800 border-t border-b border-stone-200">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div class="space-y-3">
+            <h2 class="text-3xl font-serif font-bold md:text-4xl text-stone-900">Примеры наших работ</h2>
+            <p class="text-stone-600 font-light">Посмотрите, как преображаются вещи после профессиональной реставрации.</p>
+        </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+        <!-- Работа 1 -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200">
+            <div class="grid grid-cols-2 gap-0.5 bg-stone-200 relative">
+            <div class="relative">
+                <img src="https://unsplash.com" alt="До" class="w-full h-64 object-cover filter grayscale brightness-75">
+                <span class="absolute bottom-3 left-3 bg-black/70 text-stone-200 text-xs uppercase tracking-wider px-2 py-1 rounded font-medium">До</span>
+            </div>
+            <div class="relative">
+                <img src="https://unsplash.com" alt="После" class="w-full h-64 object-cover">
+                <span class="absolute bottom-3 right-3 bg-amber-600 text-white text-xs uppercase tracking-wider px-2 py-1 rounded font-medium">После</span>
+            </div>
+            </div>
+            <div class="p-6">
+            <h3 class="text-lg font-bold font-serif text-stone-900 mb-2">Дубовый комод XIX века</h3>
+            <p class="text-stone-600 text-sm font-light">Удален старый потрескавшийся лак, восстановлена утраченная фурнитура, укреплены ящики, финишное покрытие шеллаком.</p>
+            </div>
+        </div>
+
+        <!-- Работа 2 -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200">
+            <div class="grid grid-cols-2 gap-0.5 bg-stone-200 relative">
+            <div class="relative">
+                <img src="https://unsplash.com" alt="До" class="w-full h-64 object-cover filter sepia brightness-50">
+                <span class="absolute bottom-3 left-3 bg-black/70 text-stone-200 text-xs uppercase tracking-wider px-2 py-1 rounded font-medium">До</span>
+            </div>
+            <div class="relative">
+                <img src="https://unsplash.com" alt="После" class="w-full h-64 object-cover">
+                <span class="absolute bottom-3 right-3 bg-amber-600 text-white text-xs uppercase tracking-wider px-2 py-1 rounded font-medium">После</span>
+            </div>
+            </div>
+            <div class="p-6">
+            <h3 class="text-lg font-bold font-serif text-stone-900 mb-2">Винтажное кресло (СССР, 1960-е)</h3>
+            <p class="text-stone-600 text-sm font-light">Полная замена старого поролона и ремней. Перетяжка премиальной рогожкой. Шлифовка и покрытие подлокотников матовым маслом.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- ФОРМА ЗАЯВКИ / СТОИМОСТЬ (CTA FORM) -->
+    <section id="quote" class="bg-white py-16 lg:py-24 text-stone-800">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-stone-950 text-stone-100 rounded-3xl overflow-hidden shadow-2xl border border-stone-800 grid md:grid-cols-5">
+        <div class="p-8 md:p-12 md:col-span-3 space-y-6">
+            <h2 class="text-2xl md:text-3xl font-serif font-bold text-stone-50">Узнайте стоимость реставрации</h2>
+            <p class="text-stone-400 font-light text-sm leading-relaxed">Заполните форму, прикрепите фотографии мебели со всех ракурсов, и наш мастер свяжется с вами для детального расчета стоимости ремонта.</p>
+            
+            <form class="space-y-4 pt-2">
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">Ваше имя</label>
+                <input type="text" placeholder="Иван" class="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors">
+            </div>
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">Телефон или Telegram</label>
+                <input type="text" placeholder="+7 (999) 000-00-00" class="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors">
+            </div>
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-stone-400 mb-1.5 font-medium">Описание проблемы</label>
+                <textarea rows="3" placeholder="Что нужно сделать? (Например: убрать царапины, перетянуть ткань)" class="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3.5 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-all shadow-lg shadow-amber-900/20">Отправить на оценку</button>
+            </form>
+        </div>
+        
+        <div class="bg-stone-900 p-8 md:p-12 md:col-span-2 flex flex-col justify-between border-t md:border-t-0 md:border-l border-stone-800/80">
+            <div class="space-y-6">
+            <h3 class="text-amber-400 font-serif font-medium text-lg">Контакты мастерской</h3>
+            <div class="space-y-4 text-sm font-light text-stone-300">
+                <div>
+                <span class="block text-xs uppercase text-stone-500 mb-0.5">Адрес</span>
+                <p>г. Москва, ул. Мастерская, д. 12, стр. 2</p>
+                </div>
+                <div>
+                <span class="block text-xs uppercase text-stone-500 mb-0.5">Режим работы</span>
+                <p>Пн — Сб: с 10:00 до 20:00</p>
+                </div>
+                <div>
+                <span class="block text-xs uppercase text-stone-500 mb-0.5">Прямая связь</span>
+                <p class="text-stone-100 font-medium mt-0.5">+7 (495) 123-45-67</p>
+                <p class="text-stone-400 text-xs">info@mebel-restore.ru</p>
+                </div>
+            </div>
+            </div>
+            <div class="pt-8 border-t border-stone-800/60 text-xs text-stone-500 font-light">
+            * Оценка по фото является предварительной. Точная стоимость утверждается после осмотра мастером.
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+
+{% endblock %}
