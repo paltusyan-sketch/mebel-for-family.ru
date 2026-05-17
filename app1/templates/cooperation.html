@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}   
+    <link rel="stylesheet" href="{% static 'css/cooperation.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ВКЛАДКА 2: СОТРУДНИЧЕСТВО И B2B УСЛОВИЯ -->
+<section id="b2b-section" class="restoration-b2b-dark section-padding">
+    <div class="hero-overlay-dark"></div>
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        
+        <div class="md:col-span-7">
+            <span class="b2b-tag">Для бизнеса</span>
+            <h2 class="b2b-heading">Сотрудничество с дизайнерами и шоурумами</h2>
+            <p class="b2b-description-text">
+                Ищете надежного подрядчика в Екатеринбурге для предпродажной подготовки мебели или реализации авторских интерьерных проектов? Мы предлагаем гибкие условия, гарантированные дедлайны по договору и полный пакет закрывающих документов.
+            </p>
+            
+            <!-- Таблица условий сотрудничества (КП в виде таблицы) -->
+            <div class="table-responsive-wrapper mt-6">
+                <table class="styled-b2b-table">
+                    <thead>
+                        <tr>
+                            <th>Партнер</th>
+                            <th>Наши возможности и условия</th>
+                            <th>Ваша выгода</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Дизайнеры / Архитекторы</strong></td>
+                            <td>Подбор ЛКМ под проект, тонировка дерева в нужный выкрас, отчеты</td>
+                            <td>Агентский % / Скидка</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Мебельные шоурумы</strong></td>
+                            <td>Устранение дефектов логистики, реставрация витринных образцов</td>
+                            <td>Приоритетные сроки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Отели / Рестораны (HoReCa)</strong></td>
+                            <td>Оптовое восстановление партий стульев, столов, барных стоек</td>
+                            <td>Работа по безналу с НДС/без</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Информационный блок с документами от маркетолога -->
+        <div class="md:col-span-5 b2b-downloads-card">
+            <h3>Коммерческий пакет</h3>
+            <p class="downloads-subtext">Скачайте официальные документы для согласования и отправки по email.</p>
+            
+            <div class="downloads-buttons-stack">
+                <a href="#" download class="download-link-item">
+                    <span class="dl-title">📄 Коммерческое предложение.pdf</span>
+                    <span class="dl-subtitle">Презентация для дизайн-студий</span>
+                </a>
+                <a href="#" download class="download-link-item">
+                    <span class="dl-title">📊 Оптовый прайс-лист 2026.pdf</span>
+                    <span class="dl-subtitle">Цены для юридических лиц</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- СЕКЦИЯ: FAQ (ВОПРОСЫ И ОТВЕТЫ) -->
+<section id="faq-section" class="catalog section-padding bg-gray-50">
+    <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-gray-800">FAQ: Вопросы и ответы</h2>
+    </div>
+    
+    <div class="max-w-6xl 2xl:max-w-7xl mx-auto px-4 space-y-4">
+        
+        <!-- Вопрос 1 -->
+        <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+            <!-- Шапка вопроса -->
+            <button class="faq-trigger w-full p-5 flex justify-between items-center text-left font-bold text-gray-800 uppercase tracking-wide text-sm focus:outline-none">
+                Как узнать точную стоимость реставрации?
+                <span class="faq-arrow-icon text-orange-600 transition-transform duration-300">▼</span>
+            </button>
+            <!-- Контент ответа с плавной высотой (по умолчанию открыт — max-h-[500px]) -->
+            <div class="faq-content transition-all duration-500 ease-in-out max-h-0 overflow-hidden">
+                <p class="p-5 pt-0 text-gray-600 text-sm font-light leading-relaxed">
+                    Предварительную стоимость мы рассчитываем по фотографиям. Точная смета утверждается мастером после визуального осмотра мебели вживую — он оценивает состояние скрытых элементов каркаса и точный объем работ.
+                </p>
+            </div>
+        </div>
+
+        <!-- Вопрос 2 -->
+        <div class="faq-item bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+            <button class="faq-trigger w-full p-5 flex justify-between items-center text-left font-bold text-gray-800 uppercase tracking-wide text-sm focus:outline-none">
+                Сколько времени занимает ремонт мебели?
+                <span class="faq-arrow-icon text-orange-600 transition-transform duration-300">▼</span>
+            </button>
+            <div class="faq-content transition-all duration-500 ease-in-out max-h-0 overflow-hidden">
+                <p class="p-5 pt-0 text-gray-600 text-sm font-light leading-relaxed">
+                    В среднем работа занимает от 7 до 21 рабочего дня. Сроки зависят от сложности: простая перетяжка стула делается быстрее, а комплексная реставрация старинного шкафа со снятием лака требует больше времени.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Наша простая стильная кнопка из Tailwind -->
+    <div class="text-center mt-8">
+        <button id="close-all-faq-btn" 
+                class="px-5 py-2.5 bg-white text-gray-800 border border-gray-300 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-gray-50 transition-colors duration-200 shadow-sm focus:outline-none">
+            Свернуть все вопросы
+        </button>
+    </div>
+</section>
+
+
+
+{% endblock %}

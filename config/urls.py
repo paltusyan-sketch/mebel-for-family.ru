@@ -31,6 +31,8 @@ urlpatterns = [
     path("policy/", views.policy_page, name='policy'),
     path("projects/", views.projects_page),
     path("restoration/", views.restoration_page),
+    path("cooperation/", views.cooperation_page),
+    
 ]
 
 

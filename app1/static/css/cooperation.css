@@ -1,0 +1,122 @@
+/* Базовые утилиты секций */
+.section-padding {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+/* Обертка для защиты адаптивности таблиц */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Секция B2B (Сотрудничество) */
+.restoration-b2b-dark {
+    background-color: #12100e;
+    /* background-image: url('../img/rest-baner.png'); */
+    color: #f5f5f4;
+}
+.b2b-tag {
+    color: #ea580c;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.b2b-heading {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.b2b-description-text {
+    color: #d6d3d1;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+/* Темная B2B-таблица условий коммерческого предложения */
+.styled-b2b-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1a1613;
+    text-align: left;
+    font-size: 0.9rem;
+}
+.styled-b2b-table th {
+    background-color: #26201b;
+    color: #ea580c;
+    font-weight: 700;
+    padding: 14px 18px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #2d241e;
+}
+.styled-b2b-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #26201b;
+    color: #d6d3d1;
+}
+.styled-b2b-table tr:last-child td {
+    border-bottom: none;
+}
+.styled-b2b-table tr:hover td {
+    background-color: #1f1b17;
+}
+
+/* Блок скачивания документов (КП / Прайс) */
+.b2b-downloads-card {
+    background-color: #1a1613;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #2d241e;
+}
+.b2b-downloads-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+.downloads-subtext {
+    color: #a8a29e;
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+.downloads-buttons-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.download-link-item {
+    display: block;
+    padding: 16px;
+    background-color: #26201b;
+    border-radius: 10px;
+    text-decoration: none !important;
+    transition: background-color 0.2s;
+    border: 1px solid transparent;
+}
+.download-link-item:hover {
+    background-color: #332a24;
+    border-color: #ea580c;
+}
+.dl-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+.dl-subtitle {
+    display: block;
+    font-size: 0.75rem;
+    color: #a8a29e;
+    margin-top: 4px;
+}

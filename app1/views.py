@@ -152,3 +152,8 @@ def projects_page(request):
 
 def restoration_page(request):
     return render(request, "restoration.html")
+
+
+
+def cooperation_page(request):
+    return render(request, "cooperation.html")

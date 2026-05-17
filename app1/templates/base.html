@@ -201,5 +201,60 @@
         }
     });
     </script>
+    <script>
+        // --- 1. КЛИК ПО ОТДЕЛЬНЫМ ВОПРОСАМ (Плавное открытие/закрытие) ---
+        document.querySelectorAll('.faq-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const content = trigger.nextElementSibling;
+                const arrow = trigger.querySelector('.faq-arrow-icon');
+                
+                // Если блок закрыт (высота 0), делаем его большим, иначе — обнуляем высоту
+                if (content.style.maxHeight === '0px' || !content.style.maxHeight) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.maxHeight = '0px';
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // Находим блоки для первого вопроса, чтобы они корректно считывали дефолтное открытое состояние
+        const firstContent = document.querySelector('.faq-content');
+        if (firstContent && firstContent.classList.contains('max-h-[500px]')) {
+            firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+            document.querySelector('.faq-arrow-icon').style.transform = 'rotate(180deg)';
+        }
+
+        // --- 2. КЛИК НА КНОПКУ «СВЕРНУТЬ ВСЕ» (Монолитное плавное движение) ---
+        const closeBtn = document.getElementById('close-all-faq-btn');
+        
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Плавно закрываем контент у ВСЕХ вопросов
+            document.querySelectorAll('.faq-content').forEach(content => {
+                content.style.maxHeight = '0px';
+            });
+
+            // Возвращаем все стрелочки в исходное положение
+            document.querySelectorAll('.faq-arrow-icon').forEach(arrow => {
+                arrow.style.transform = 'rotate(0deg)';
+            });
+
+            // Запускаем плавный скролл к началу секции. 
+            // Время анимации CSS (500ms) и скролла совпадут, и кнопка поедет наверх идеально монолитно!
+            document.getElementById('faq-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    </script>
+
+
+
+
+
+
 </body>
 </html>

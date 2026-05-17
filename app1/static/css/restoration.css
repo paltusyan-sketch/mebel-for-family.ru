@@ -1,0 +1,303 @@
+/* ==========================================================================
+   ОБНОВЛЕННАЯ СТРАНИЦА РЕСТАВРАЦИИ С ТАБЛИЦАМИ И ШИРОКИМ БАННЕРОМ
+   ========================================================================== */
+
+/* Паддинги для секций */
+.section-padding {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+.section-subtitle-text {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    font-weight: 300;
+}
+
+/* Мощный высокий баннер с твоей сгенерированной картинкой */
+.restoration-hero-wide {
+    position: relative;
+    background-image: url('../img/rest-baner.png'); /* Путь к сохраненной картинке */
+    background-size: cover;
+    background-position: center;
+    padding-top: 100px;  /* Большая высота */
+    padding-bottom: 100px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+@media (min-width: 768px) {
+    .restoration-hero-wide {
+        padding-top: 150px;
+        padding-bottom: 150px;
+    }
+}
+
+/* Слой затемнения, чтобы текст не терялся */
+.hero-overlay-dark {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.85));
+    z-index: 1;
+}
+
+.hero-title-big {
+    font-size: 2.5rem !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #ffffff !important;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+    .hero-title-big {
+        font-size: 3.75rem !important;
+    }
+}
+.hero-subtitle {
+    font-size: 1rem;
+    color: #f59e0b; /* Янтарный акцент */
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+}
+.hero-description-wide {
+    color: #e7e5e4;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    max-w: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px;
+    font-weight: 300;
+}
+.hero-buttons-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.btn-secondary {
+    background: transparent !important;
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+}
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* СТИЛИЗАЦИЯ ТАБЛИЦ (Красивые, адаптивные, аккуратные) */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Защита от разъезжания на мобилках */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Светлая таблица розницы */
+.styled-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    text-align: left;
+    font-size: 0.95rem;
+}
+.styled-price-table th {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    font-weight: 700;
+    padding: 16px 20px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #e5e7eb;
+}
+.styled-price-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+}
+.styled-price-table tr:last-child td {
+    border-bottom: none;
+}
+.styled-price-table tr:hover td {
+    background-color: #f9fafb;
+}
+
+/* Темная таблица для B2B секции */
+.restoration-b2b-dark {
+    background-color: #12100e;
+    color: #f5f5f4;
+}
+.b2b-tag {
+    color: #ea580c;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.b2b-heading {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.b2b-description-text {
+    color: #d6d3d1;
+    font-weight: 300;
+    line-height: 1.6;
+}
+.styled-b2b-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1a1613;
+    text-align: left;
+    font-size: 0.9rem;
+}
+.styled-b2b-table th {
+    background-color: #26201b;
+    color: #ea580c;
+    font-weight: 700;
+    padding: 14px 18px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #2d241e;
+}
+.styled-b2b-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #26201b;
+    color: #d6d3d1;
+}
+.styled-b2b-table tr:last-child td {
+    border-bottom: none;
+}
+.styled-b2b-table tr:hover td {
+    background-color: #1f1b17;
+}
+
+/* Карточка документов */
+.b2b-downloads-card {
+    background-color: #1a1613;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid #2d241e;
+}
+.b2b-downloads-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+.downloads-subtext {
+    color: #a8a29e;
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+.downloads-buttons-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.download-link-item {
+    display: block;
+    padding: 16px;
+    background-color: #26201b;
+    border-radius: 10px;
+    text-decoration: none !important;
+    transition: background-color 0.2s;
+    border: 1px solid transparent;
+}
+.download-link-item:hover {
+    background-color: #332a24;
+    border-color: #ea580c;
+}
+.dl-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+.dl-subtitle {
+    display: block;
+    font-size: 0.75rem;
+    color: #a8a29e;
+    margin-top: 4px;
+}
+
+/* FAQ блоки */
+.faq-accordion-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+}
+.faq-accordion-box summary {
+    font-weight: 700;
+    color: #1f2937;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+.faq-accordion-box summary::-webkit-details-marker { display: none; }
+.faq-arrow-icon { color: #ea580c; transition: transform 0.2s; }
+.faq-accordion-box[open] .faq-arrow-icon { transform: rotate(180deg); }
+.faq-body-text {
+    color: #4b5563;
+    font-size: 0.875rem;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Карточка формы */
+.form-container-card {
+    background-color: #12100e;
+    color: #ffffff;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+.form-container-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 6px;
+}
+.form-container-subtitle {
+    color: #a8a29e;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 300;
+}
+.custom-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: #1a1613;
+    border: 1px solid #2d241e;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    outline: none;
+}
+.custom-form-input:focus {
+    border-color: #ea580c;
+}
+
+
