@@ -4,8 +4,8 @@
 
 /* Паддинги для секций */
 .section-padding {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
 .section-subtitle-text {
     color: #6b7280;
@@ -20,8 +20,8 @@
     background-image: url('../img/rest-baner.png'); /* Путь к сохраненной картинке */
     background-size: cover;
     background-position: center;
-    padding-top: 100px;  /* Большая высота */
-    padding-bottom: 100px;
+    padding-top: 3rem;  /* Большая высота */
+    padding-bottom: 3rem;
     display: flex;
     align-items: center;
     text-align: center;

@@ -12,15 +12,15 @@
     <div class="hero-overlay-dark"></div>
     <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
         
-        <div class="md:col-span-7">
+        <!-- ЛЕВАЯ КОЛОНКА (Занимает 7 колонок) -->
+        <div class="z-10 md:col-span-7">
             <span class="b2b-tag">Для бизнеса</span>
             <h2 class="b2b-heading">Сотрудничество с дизайнерами и шоурумами</h2>
-            <p class="b2b-description-text">
-                Ищете надежного подрядчика в Екатеринбурге для предпродажной подготовки мебели или реализации авторских интерьерных проектов? Мы предлагаем гибкие условия, гарантированные дедлайны по договору и полный пакет закрывающих документов.
-            </p>
+            
+            <!-- Текст отсюда убрали, осталась сразу таблица -->
             
             <!-- Таблица условий сотрудничества (КП в виде таблицы) -->
-            <div class="table-responsive-wrapper mt-6">
+            <div class="opacity-70 table-responsive-wrapper mt-6">
                 <table class="styled-b2b-table">
                     <thead>
                         <tr>
@@ -50,8 +50,14 @@
             </div>
         </div>
         
-        <!-- Информационный блок с документами от маркетолога -->
-        <div class="md:col-span-5 b2b-downloads-card">
+        <!-- ПРАВАЯ КОЛОНКА (Занимает 5 колонок) -->
+        <div class="opacity-90 z-10 md:col-span-5 b2b-downloads-card">
+            
+            <!-- ТЕКСТ ТЕПЕРЬ ТУТ (Добавил mb-6, чтобы он не лип к заголовку ниже) -->
+            <p class="b2b-description-text mb-6">
+                Ищете надежного подрядчика в Екатеринбурге для предпродажной подготовки мебели или реализации авторских интерьерных проектов? Мы предлагаем гибкие условия, гарантированные дедлайны по договору и полный пакет закрывающих документов.
+            </p>
+
             <h3>Коммерческий пакет</h3>
             <p class="downloads-subtext">Скачайте официальные документы для согласования и отправки по email.</p>
             
@@ -69,6 +75,7 @@
 
     </div>
 </section>
+
 
 <!-- СЕКЦИЯ: FAQ (ВОПРОСЫ И ОТВЕТЫ) -->
 <section id="faq-section" class="catalog section-padding bg-gray-50">

@@ -1,7 +1,7 @@
 /* Базовые утилиты секций */
 .section-padding {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
 
 /* Обертка для защиты адаптивности таблиц */
@@ -14,9 +14,17 @@
 
 /* Секция B2B (Сотрудничество) */
 .restoration-b2b-dark {
-    background-color: #12100e;
-    /* background-image: url('../img/rest-baner.png'); */
+    position: relative;
+    /* background-color: #12100e; */
+    background-image: url('../img/coop-baner.png');
     color: #f5f5f4;
+}
+/* Слой затемнения, чтобы текст не терялся */
+.hero-overlay-dark {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(12, 10, 9, 0.75), rgba(12, 10, 9, 0.85));
+    z-index: 1;
 }
 .b2b-tag {
     color: #ea580c;
