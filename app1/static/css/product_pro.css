@@ -1,6 +1,8 @@
 /* 1. СТРУКТУРА СТРАНИЦЫ И КОНТЕЙНЕРЫ  */
 .product-page {
-    margin-top: 0rem; 
+    margin-top: 0rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     padding: 1.7rem 0;
 }
 
@@ -17,6 +19,16 @@
 }
 
 /* 2. ГАЛЕРЕЯ (СЛЕВА)  */
+/* .photo_cont {
+    margin-left: 3rem;
+}
+
+@media (max-width: 1280px) {
+    .photo_cont {
+        margin-left: 0rem;
+}
+} */
+
 .product-gallery {
     flex: 2; 
     min-width: 300px;
