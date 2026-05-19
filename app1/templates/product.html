@@ -17,90 +17,90 @@
 
 
 {% block content %}
-    <div class="product-page">
-        <div class="container">
-            <div class="product-container">
+<div class="product-page">
+    <div class="container">
+        <div class="product-container">
 
-                <div class="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden bg-white p-4">
+            <div class="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden bg-white p-4">
+                
+                <!-- Главный слайдер -->
+                <div class="swiper mainSwiper h-96 bg-gray-200 rounded-lg overflow-hidden">
+                    <div class="swiper-wrapper">
+                        {% for img, webp in combined_images %}
+                        <div class="swiper-slide">
+                            <!-- Оборачиваем в Fancybox для открытия во весь экран, если хочешь -->
+                            <a href="{{ img }}" data-fancybox="gallery">
+                                <img src="{{ webp }}" alt="{{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-contain">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Те самые стрелочки (теперь они стандартные Swiper, но можно стилизовать) -->
+                    <!-- <div class="swiper-button-next !text-gray-800 !bg-white/50 hover:!bg-white !p-6 !rounded-full !scale-75 transition-all"></div>
+                    <div class="swiper-button-prev !text-gray-800 !bg-white/50 hover:!bg-white !p-6 !rounded-full !scale-75 transition-all"></div> -->
                     
-                    <!-- Главный слайдер -->
-                    <div class="swiper mainSwiper h-96 bg-gray-200 rounded-lg overflow-hidden">
-                        <div class="swiper-wrapper">
-                            {% for img, webp in combined_images %}
-                            <div class="swiper-slide">
-                                <!-- Оборачиваем в Fancybox для открытия во весь экран, если хочешь -->
-                                <a href="{{ img }}" data-fancybox="gallery">
-                                    <img src="{{ webp }}" alt="{{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-contain">
-                                </a>
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        <!-- Те самые стрелочки (теперь они стандартные Swiper, но можно стилизовать) -->
-                        <!-- <div class="swiper-button-next !text-gray-800 !bg-white/50 hover:!bg-white !p-6 !rounded-full !scale-75 transition-all"></div>
-                        <div class="swiper-button-prev !text-gray-800 !bg-white/50 hover:!bg-white !p-6 !rounded-full !scale-75 transition-all"></div> -->
-                        
-                        <!-- Счётчик (Swiper сам его обновляет) -->
-                        <div class="swiper-pagination !top-4 !left-4 !bottom-auto !text-left !w-auto !text-white bg-black/50 px-2 py-1 rounded text-sm"></div>
-                    </div>
-
-                    <!-- Миниатюры внизу -->
-                    <div class="swiper thumbSwiper mt-6 overflow-hidden">
-                        <div class="swiper-wrapper flex justify-center">
-                            {% for img, webp in combined_images %}
-                            <div class="swiper-slide !w-16 !h-12 cursor-pointer opacity-50 transition-all duration-200">
-                                <img src="{{ webp }}" alt="Миниатюра: {{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-cover rounded shadow">
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    <!-- Счётчик (Swiper сам его обновляет) -->
+                    <div class="swiper-pagination !top-4 !left-4 !bottom-auto !text-left !w-auto !text-white bg-black/50 px-2 py-1 rounded text-sm"></div>
                 </div>
 
-                <style>
-                /* Все миниатюры по дефолту тусклые */
-                .thumbSwiper .swiper-slide {
-                    opacity: 0.5;
-                    transition: opacity 0.3s;
-                }
-                /* Активная миниатюра (которую Swiper выбрал сам) — яркая */
-                .thumbSwiper .swiper-slide-thumb-active {
-                    opacity: 1 !important;
-                }
-                </style>
-
-
-
-                <!-- Право: Инфо -->
-                <div class="product-info-side">
-                    <div style="display: flex; justify-content: space-between;">
-                        <a href="javascript:history.back()" class="delay-link back-link transition-all duration-300 hover:text-red-600">
-                            ← Вернуться
-                        </a>
-                        <nav class="breadcrumb">
-                            <a href="{% url 'catalog' %}" class="delay-link back-link transition-all duration-300 hover:text-red-600">Каталог</a> /
-                            <a href="{% url 'catalog' %}{{ product.category.category_slug }}"
-                                class="delay-link back-link transition-all duration-300 hover:text-red-600">{{ product.category }}</a>
-                        </nav>
+                <!-- Миниатюры внизу -->
+                <div class="swiper thumbSwiper mt-6 overflow-hidden">
+                    <div class="swiper-wrapper flex justify-center">
+                        {% for img, webp in combined_images %}
+                        <div class="swiper-slide !w-16 !h-12 cursor-pointer opacity-50 transition-all duration-200">
+                            <img src="{{ webp }}" alt="Миниатюра: {{ product.name }} - фото {{ forloop.counter }}" class="w-full h-full object-cover rounded shadow">
+                        </div>
+                        {% endfor %}
                     </div>
-                    <h1 class="font-normal text-5xl mt-5 text-slate-100">{{ product.name|safe }}</h1>
-                    <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</p>
-                    
-                    <div class="characteristics">
-                        <div class="char-item"><span style="padding-right: 0.8rem;" class="font-semibold">Материал:</span> <span class="material-text">{{ product.material|safe }}</span></div>
-                        <div class="char-item"><span class="font-semibold">Срок изготовления:</span> <span>{{ product.production_time|safe }}</span></div>
-                        <div class="char-item"><span class="font-semibold">Габариты:</span> <span>{{ product.dimensions|safe }}</span></div>
-                    </div>
-
-                    <div class="description">
-                        <h3 class="font-extrabold">Описание:</h3>
-                        <p>{{ product.description|safe }}</p>
-                    </div>
-
-                    <a href="{% url 'contacts' %}?product_slug={{ product.product_slug }}"><button class="order-btn-big">Оставить заявку</button></a>
                 </div>
+            </div>
+
+            <style>
+            /* Все миниатюры по дефолту тусклые */
+            .thumbSwiper .swiper-slide {
+                opacity: 0.5;
+                transition: opacity 0.3s;
+            }
+            /* Активная миниатюра (которую Swiper выбрал сам) — яркая */
+            .thumbSwiper .swiper-slide-thumb-active {
+                opacity: 1 !important;
+            }
+            </style>
+
+
+
+            <!-- Право: Инфо -->
+            <div class="product-info-side">
+                <div style="display: flex; justify-content: space-between;">
+                    <a href="javascript:history.back()" class="delay-link back-link transition-all duration-300 hover:text-red-600">
+                        ← Вернуться
+                    </a>
+                    <nav class="breadcrumb">
+                        <a href="{% url 'catalog' %}" class="delay-link back-link transition-all duration-300 hover:text-red-600">Каталог</a> /
+                        <a href="{% url 'catalog' %}{{ product.category.category_slug }}"
+                            class="delay-link back-link transition-all duration-300 hover:text-red-600">{{ product.category }}</a>
+                    </nav>
+                </div>
+                <h1 class="font-normal text-5xl mt-5 text-slate-100">{{ product.name|safe }}</h1>
+                <p class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</p>
+                
+                <div class="characteristics">
+                    <div class="char-item"><span style="padding-right: 0.8rem;" class="font-semibold">Материал:</span> <span class="material-text">{{ product.material|safe }}</span></div>
+                    <div class="char-item"><span class="font-semibold">Срок изготовления:</span> <span>{{ product.production_time|safe }}</span></div>
+                    <div class="char-item"><span class="font-semibold">Габариты:</span> <span>{{ product.dimensions|safe }}</span></div>
+                </div>
+
+                <div class="description">
+                    <h3 class="font-extrabold">Описание:</h3>
+                    <p>{{ product.description|safe }}</p>
+                </div>
+
+                <a href="{% url 'contacts' %}?product_slug={{ product.product_slug }}"><button class="order-btn-big">Оставить заявку</button></a>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 

@@ -9,6 +9,8 @@ from PIL import Image, ImageOps, ImageFilter
 import os
 from pillow_heif import register_heif_opener
 import requests
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 register_heif_opener()
 # Create your models here.
@@ -58,6 +60,43 @@ class GenerateUploadPath:
         cleanfilename = filename.replace("/", "")
         # Строим путь: products/slug/подпапка/файл
         return f'{self.where}/{slug}/{self.subfolder}{cleanfilename}'
+
+
+
+class FAQItem(models.Model):
+    # Готовый список глобальных страниц
+    PAGE_CHOICES = [
+        ('main', 'Главная страница'),
+        ('catalog', 'Каталог'),
+        ('contacts', 'Контакты'),
+        ('cooperation', 'Сотрудничество'),
+        ('restoration', 'Реставрация'),
+        ('projects', 'Проекты'),
+        ('restoration', 'Реставрация'),
+        ('cooperation', 'Сотрудничество'),
+        ('policy', 'Политика конф.'),
+    ]
+
+    question = models.CharField(max_length=255, verbose_name="Вопрос")
+    answer = models.TextField(verbose_name="Ответ")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок вывода")
+
+    # Механизм 1: Выбор готовой страницы из списка
+    page = models.CharField(max_length=20, choices=PAGE_CHOICES, null=True, blank=True, verbose_name="Для базовой страницы")
+
+    # Механизм 2: Выбор конкретного товара (Django сам нарисует выпадающий список и ПЛЮСИК рядом для создания нового)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True, blank=True, verbose_name="Или для конкретного товара")
+
+    # Механизм 3: Свободное поле для любого URL (от корня домена, например: /catalog/stul-vintazhny/)
+    url_path = models.CharField(max_length=255, null=True, blank=True, verbose_name="Или для любого точного URL-пути", help_text="Например: /catalog/stul-vintazhny/")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Вопрос-ответ"
+        verbose_name_plural = "FAQ (Вопросы и ответы)"
+
+    def __str__(self):
+        return self.question
 
 
 

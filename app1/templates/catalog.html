@@ -14,41 +14,41 @@
 
 
 {% block content %}
-    <section class="catalog-header">
-        <h1 class="text-center text-2xl md:text-4xl font-bold uppercase tracking-[0.1em] text-gray-900 antialiased mb-10">
-            {{ seo.catalog_h1 }}
-        </h1>
-        <div class="category-filters">
-            <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>
-            {% for cat in categories %}
-            {% if cat.show_on_catalog %}
-            <a href="{% url 'catalog_by_category' cat.category_slug %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug=cat.category_slug strict=True %}">{{ cat.name|safe }}</a>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </section>
+<section class="catalog-header">
+    <h1 class="text-center text-2xl md:text-4xl font-bold uppercase tracking-[0.1em] text-gray-900 antialiased mb-10">
+        {{ seo.catalog_h1 }}
+    </h1>
+    <div class="category-filters">
+        <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>
+        {% for cat in categories %}
+        {% if cat.show_on_catalog %}
+        <a href="{% url 'catalog_by_category' cat.category_slug %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug=cat.category_slug strict=True %}">{{ cat.name|safe }}</a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
 
-    <section class="products-grid">
-        <!-- Карточка товара (в Джанго тут будет цикл {-% for %}) -->
-        {% for product in products %}
-            <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="{% if product.main_image_webp %}{{ product.main_image_webp.url }}{% endif %}" alt="{{ product.name }}">
-                        {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
-                    </div>
-                    <div class="product-details">
-                        <h3 class="font-normal text-2xl tracking-tight text-slate-100">{{ product.name|safe }}</h3>
-                        <p class="product-desc">{{ product.subtitle|safe }}</p>
-                        <div class="product-footer">
-                            <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</span>
-                            <button class="buy-btn">Выбрать</button>
-                        </div>
+<section class="products-grid">
+    <!-- Карточка товара (в Джанго тут будет цикл {-% for %}) -->
+    {% for product in products %}
+        <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
+            <div class="product-card">
+                <div class="product-img-container">
+                    <img src="{% if product.main_image_webp %}{{ product.main_image_webp.url }}{% endif %}" alt="{{ product.name }}">
+                    {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
+                </div>
+                <div class="product-details">
+                    <h3 class="font-normal text-2xl tracking-tight text-slate-100">{{ product.name|safe }}</h3>
+                    <p class="product-desc">{{ product.subtitle|safe }}</p>
+                    <div class="product-footer">
+                        <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</span>
+                        <button class="buy-btn">Выбрать</button>
                     </div>
                 </div>
-            </a>
-        {% endfor %}
-    </section>
+            </div>
+        </a>
+    {% endfor %}
+</section>
 {% endblock %}
 
 

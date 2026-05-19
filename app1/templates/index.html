@@ -10,224 +10,224 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Banner -->
-    <section class="banner">
-        <div class="banner-content">
-            <p>Мебель с&nbsp;душой</p>
-            <h1>{{ seo.main_h1|safe }}</h1>
-            <!-- <p>Екатеринбург</p> -->
-            <a href="{% url 'contacts' %}"><button class="order-call">Заказать&nbsp;звонок</button></a>
-        </div>
-    </section>
+<!-- Banner -->
+<section class="banner">
+    <div class="banner-content">
+        <p>Мебель с&nbsp;душой</p>
+        <h1>{{ seo.main_h1|safe }}</h1>
+        <!-- <p>Екатеринбург</p> -->
+        <a href="{% url 'contacts' %}"><button class="order-call">Заказать&nbsp;звонок</button></a>
+    </div>
+</section>
 
-    <!-- Catalog -->
-    <section class="catalog">
-        <img src="{% static 'img/deco_chair.webp' %}" alt="Элемент декора — стул" class="decor-bg-chair">
+<!-- Catalog -->
+<section class="catalog">
+    <img src="{% static 'img/deco_chair.webp' %}" alt="Элемент декора — стул" class="decor-bg-chair">
 
-        <a href="{% url 'catalog' %}" class="block text-center mb-7 no-underline group">
-            <h2 class="nash-catalog text-2xl md:text-3xl font-bold uppercase tracking-[0.3em] text-gray-800 antialiased transition-all duration-300 group-hover:text-orange-600 group-hover:tracking-[0.35em]">
-                Наш каталог
-            </h2>
-        </a>
+    <a href="{% url 'catalog' %}" class="block text-center mb-7 no-underline group">
+        <h2 class="nash-catalog text-2xl md:text-3xl font-bold uppercase tracking-[0.3em] text-gray-800 antialiased transition-all duration-300 group-hover:text-orange-600 group-hover:tracking-[0.35em]">
+            Наш каталог
+        </h2>
+    </a>
 
-        <img src="{% static 'img/deco_sofa_3.webp' %}" alt="Элемент декора — диван" class="decor-bg-sofa">
+    <img src="{% static 'img/deco_sofa_3.webp' %}" alt="Элемент декора — диван" class="decor-bg-sofa">
 
-        <!-- Контейнер с ограничением максимальной ширины, чтобы на 4К мониках не разъехалось -->
-        <div class="max-w-6xl mx-auto px-4 py-5">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">                
-                {% for cat in categories %}
-                {% if cat.show_on_main %}
-                <!-- Класс anim-card запускает вылет, а форлуп вешает задержку delay-1, delay-2 и т.д. -->
-                <a href="{% url 'catalog_by_category' cat.category_slug %}" 
-                class="anim-card delay-{{ forloop.counter }} group block text-decoration-none transition-all duration-500 ease-out transform hover:-translate-y-2">
-                    
-                    <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-2xl">
-                        <img src="{% if cat.category_image_webp %}{{ cat.category_image_webp.url }}{% endif %}" alt="Фото категории {{ cat.name }}" 
-                            class="opacity-90 absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
-                            <h3 class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
-                                {{ cat.name|safe }}
-                            </h3>
-                        </div>
-                    </div>
-                </a>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-
-    </section>    
-  
-    <!-- О нас -->
-    <!-- Секция 2: Ценности -->
-    <section class="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8" id="about-us">
-        <div class="max-w-6xl mx-auto">
-            
-
-            <!-- Блок: Философия (на всю ширину) -->
-            <div class="bg-slate-900 text-white p-10 rounded-3xl relative overflow-hidden mb-8">
-                <div class="relative z-10 max-w-2xl">
-                    <h2 class="text-2xl font-bold mb-4">Наша философия</h2>
-                    <p class="text-slate-300 text-lg mb-6 italic">«Хорошая мебель — та, которую не хочется менять. Она становится молчаливым свидетелем ваших семейных историй...»</p>
-                    <p class="text-amber-400 font-medium">С уважением, основатели и команда «Семейной Мастерской».</p>
-                </div>
-                <!-- Декор на фоне -->
-                <div class="absolute right-[-50px] bottom-[-50px] opacity-10">
-                    <svg width="200" height="200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2z"/></svg>
-                </div>
-            </div>
-            <!-- Сетка для айтемов -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+    <!-- Контейнер с ограничением максимальной ширины, чтобы на 4К мониках не разъехалось -->
+    <div class="max-w-6xl mx-auto px-4 py-5">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">                
+            {% for cat in categories %}
+            {% if cat.show_on_main %}
+            <!-- Класс anim-card запускает вылет, а форлуп вешает задержку delay-1, delay-2 и т.д. -->
+            <a href="{% url 'catalog_by_category' cat.category_slug %}" 
+            class="anim-card delay-{{ forloop.counter }} group block text-decoration-none transition-all duration-500 ease-out transform hover:-translate-y-2">
                 
-                <!-- Карточка 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-6 text-amber-700">
-                        <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
+                <div class="relative h-32 md:h-44 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-sm border border-gray-200 transition-all duration-300 group-hover:shadow-2xl">
+                    <img src="{% if cat.category_image_webp %}{{ cat.category_image_webp.url }}{% endif %}" alt="Фото категории {{ cat.name }}" 
+                        class="opacity-90 absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-3">
+                        <h3 class="text-white text-xs md:text-sm font-bold uppercase tracking-[0.2em] antialiased">
+                            {{ cat.name|safe }}
+                        </h3>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Ручная работа и внимание к швам</h3>
-                    <p class="text-gray-900 leading-relaxed">Ведущие мастера в деле с открытия компании. Огромный опыт и набитая рука позволяют делать швы ровными, а посадку каждой подушки — идеальной</p>
                 </div>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 
-                <!-- Карточка 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-700">
-                        <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Лично отвечаем за каждый узел</h3>
-                    <p class="text-gray-900 leading-relaxed">Используем только отобранное сырье: основу из сухой древесины и плотное наполнение, которое не проседает. Такая мебель прослужит десятилетия и останется в вашей семье надолго</p>
-                </div>
+</section>    
 
-                <!-- Карточка 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 text-green-700">
-                        <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Мебель для реальной жизни</h3>
-                    <p class="text-gray-900 leading-relaxed">Наши диваны не боятся детских игр, легко раскладываются и оснащены глубокими ящиками для хранения. Мы продумали все бытовые мелочи, чтобы вы могли просто наслаждаться домашним теплом</p>
-                </div>
+<!-- О нас -->
+<!-- Секция 2: Ценности -->
+<section class="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8" id="about-us">
+    <div class="max-w-6xl mx-auto">
+        
 
-                <!-- Карточка 4 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6 text-purple-700">
-                        <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Сделаем именно так, как вам нужно</h3>
-                    <p class="text-gray-900 leading-relaxed">Делаем мебель четко под ваши замеры. Нужна особая длина, мягкость или редкий цвет обивки? Беремся за любые нестандартные заказы и реализуем ваши идеи</p>
-                </div>
+        <!-- Блок: Философия (на всю ширину) -->
+        <div class="bg-slate-900 text-white p-10 rounded-3xl relative overflow-hidden mb-8">
+            <div class="relative z-10 max-w-2xl">
+                <h2 class="text-2xl font-bold mb-4">Наша философия</h2>
+                <p class="text-slate-300 text-lg mb-6 italic">«Хорошая мебель — та, которую не хочется менять. Она становится молчаливым свидетелем ваших семейных историй...»</p>
+                <p class="text-amber-400 font-medium">С уважением, основатели и команда «Семейной Мастерской».</p>
+            </div>
+            <!-- Декор на фоне -->
+            <div class="absolute right-[-50px] bottom-[-50px] opacity-10">
+                <svg width="200" height="200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2z"/></svg>
             </div>
         </div>
-    </section>
-
-    <!-- Order Form -->
-    <div class="contacts-body" id="contacts">
-        <div class="big-grid">
-            <div class="box1">
-                <section class="order-form" id="order-section">
-                    <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        
-                        <!-- Рендерим поля вручную, чтобы стили работали корректно -->
-                        <div class="form-field form-field-1">
-                            <label for="{{ form.name.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.name.label }}</label>
-                            {{ form.name }}
-                        </div>
-                        
-                        <div class="form-field form-field-2">
-                            <label for="{{ form.phone.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.phone.label }}</label>
-                            {{ form.phone }}
-                        </div>
-
-                        <div class="form-field form-field-3">
-                            <label for="id_emeil" class="font-sans text-1xl font-semibold">Ваш имеил</label>
-                            <input type="text" name="imail" aria-label="Не заполняйте это поле" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
-                        </div>
-
-                        <div style="display:none;">
-                            <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
-                        </div>
-
-                        <div class="form-field form-field-4">
-                            <label for="{{ form.comment.id_for_label }}" class="font-sans text-1xl font-semibold">{{ form.comment.label }}</label>
-                            {{ form.comment }}
-                        </div>
-
-                        {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }} mt-1">{{ message }}</div>{% endfor %}{% endif %}
-                        <button type="submit" class="order-btn-big">Оставить заявку</button>
-                        
-                        <label class="policy_label">
-                            <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
-                            <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
-                        </label>
-
-                        <script>
-                        // Самая простая проверка на стороне клиента
-                        document.querySelector('form').onsubmit = function(e) {
-                            if(!document.getElementById('gdpr_check').checked) {
-                                alert('Поставь галку, иначе мебель не приедет!');
-                                return false;
-                            }
-                        };
-                        </script>
-                    </form>
-                </section>
-            </div>
-            <div class="box2">
-                <div class="contact-info">
-                    <h2 class="font-sans text-3xl font-semibold">Наши контакты</h2>
-                    <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5">
-                        
-                        <!-- Телефон -->
-                        <div class="font-bold">Телефон:</div>
-                        <div>
-                            <a href="tel:{{ site_settings.phone|clean_phone }}" class="text-blue-600 hover:underline">
-                                {{ site_settings.phone|safe }}
-                            </a>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="font-bold">Email:</div>
-                        <div class="text-amber-900">{{ site_settings.email|safe }}</div>
-
-                        <!-- Адрес -->
-                        <div class="font-bold">Адрес:</div>
-                        <div>{{ site_settings.address|safe }}</div>
-
-                        <!-- Режим работы -->
-                        <div class="font-bold">Режим работы:</div>
-                        <div class="self-end">{{ site_settings.working_hours|safe }}</div>
-                        
-                    </div>
-                    <!-- <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p> -->
+        <!-- Сетка для айтемов -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            
+            <!-- Карточка 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-6 text-amber-700">
+                    <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
                 </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Ручная работа и внимание к швам</h3>
+                <p class="text-gray-900 leading-relaxed">Ведущие мастера в деле с открытия компании. Огромный опыт и набитая рука позволяют делать швы ровными, а посадку каждой подушки — идеальной</p>
             </div>
-            <div class="box3">
-                <div class="map">
-                    {{ site_settings.map_script|safe }}
+
+            <!-- Карточка 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-700">
+                    <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                 </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Лично отвечаем за каждый узел</h3>
+                <p class="text-gray-900 leading-relaxed">Используем только отобранное сырье: основу из сухой древесины и плотное наполнение, которое не проседает. Такая мебель прослужит десятилетия и останется в вашей семье надолго</p>
+            </div>
+
+            <!-- Карточка 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 text-green-700">
+                    <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Мебель для реальной жизни</h3>
+                <p class="text-gray-900 leading-relaxed">Наши диваны не боятся детских игр, легко раскладываются и оснащены глубокими ящиками для хранения. Мы продумали все бытовые мелочи, чтобы вы могли просто наслаждаться домашним теплом</p>
+            </div>
+
+            <!-- Карточка 4 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6 text-purple-700">
+                    <svg xmlns="http://www.w3.org" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Сделаем именно так, как вам нужно</h3>
+                <p class="text-gray-900 leading-relaxed">Делаем мебель четко под ваши замеры. Нужна особая длина, мягкость или редкий цвет обивки? Беремся за любые нестандартные заказы и реализуем ваши идеи</p>
             </div>
         </div>
     </div>
+</section>
+
+<!-- Order Form -->
+<div class="contacts-body" id="contacts">
+    <div class="big-grid">
+        <div class="box1">
+            <section class="order-form" id="order-section">
+                <h2 class="font-sans text-3xl font-semibold ">Заказать звонок</h2>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    
+                    <!-- Рендерим поля вручную, чтобы стили работали корректно -->
+                    <div class="form-field form-field-1">
+                        <label for="{{ form.name.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div>
+                    
+                    <div class="form-field form-field-2">
+                        <label for="{{ form.phone.id_for_label }}" class="font-sans text-1xl font-semibold ">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="form-field form-field-3">
+                        <label for="id_emeil" class="font-sans text-1xl font-semibold">Ваш имеил</label>
+                        <input type="text" name="imail" aria-label="Не заполняйте это поле" maxlength="100" id="id_email" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div style="display:none;">
+                        <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div class="form-field form-field-4">
+                        <label for="{{ form.comment.id_for_label }}" class="font-sans text-1xl font-semibold">{{ form.comment.label }}</label>
+                        {{ form.comment }}
+                    </div>
+
+                    {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }} mt-1">{{ message }}</div>{% endfor %}{% endif %}
+                    <button type="submit" class="order-btn-big">Оставить заявку</button>
+                    
+                    <label class="policy_label">
+                        <input class="policy_checkbox" type="checkbox" id="gdpr_check" required> 
+                        <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
+                    </label>
+
+                    <script>
+                    // Самая простая проверка на стороне клиента
+                    document.querySelector('form').onsubmit = function(e) {
+                        if(!document.getElementById('gdpr_check').checked) {
+                            alert('Поставь галку, иначе мебель не приедет!');
+                            return false;
+                        }
+                    };
+                    </script>
+                </form>
+            </section>
+        </div>
+        <div class="box2">
+            <div class="contact-info">
+                <h2 class="font-sans text-3xl font-semibold">Наши контакты</h2>
+                <div class="contacts-contents grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5">
+                    
+                    <!-- Телефон -->
+                    <div class="font-bold">Телефон:</div>
+                    <div>
+                        <a href="tel:{{ site_settings.phone|clean_phone }}" class="text-blue-600 hover:underline">
+                            {{ site_settings.phone|safe }}
+                        </a>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="font-bold">Email:</div>
+                    <div class="text-amber-900">{{ site_settings.email|safe }}</div>
+
+                    <!-- Адрес -->
+                    <div class="font-bold">Адрес:</div>
+                    <div>{{ site_settings.address|safe }}</div>
+
+                    <!-- Режим работы -->
+                    <div class="font-bold">Режим работы:</div>
+                    <div class="self-end">{{ site_settings.working_hours|safe }}</div>
+                    
+                </div>
+                <!-- <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p> -->
+            </div>
+        </div>
+        <div class="box3">
+            <div class="map">
+                {{ site_settings.map_script|safe }}
+            </div>
+        </div>
+    </div>
+</div>
     
 
-    <!-- Content Blocks -->
-    <section class="content-block">
-        <h2 class="text-2xl font-bold mb-4">Наши проекты</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <a href="{% static 'img/flat1.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat1.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 1"></a>
-            <a href="{% static 'img/flat2.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat2.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 2"></a>
-            <a href="{% static 'img/flat3.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat3.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 3"></a>
-            <a href="{% static 'img/flat4.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat4.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 4"></a>
-        </div>
-    </section>
+<!-- Content Blocks -->
+<!-- <section class="content-block">
+    <h2 class="text-2xl font-bold mb-4">Наши проекты</h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <a href="{% static 'img/flat1.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat1.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 1"></a>
+        <a href="{% static 'img/flat2.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat2.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 2"></a>
+        <a href="{% static 'img/flat3.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat3.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 3"></a>
+        <a href="{% static 'img/flat4.jpg' %}" data-fancybox="gallery" class="outline-none duration-500 active:scale-110 lg:hover:scale-105"><img src="{% static 'img/flat4.webp' %}" alt="Дизайн-проект интерьера квартиры в Екатеринбурге. Фото 4"></a>
+    </div>
+</section> -->
 
 {% endblock %}
 

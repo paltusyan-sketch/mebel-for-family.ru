@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Category, Product, Setting, ProductImage, SEO
+from .models import Category, Product, Setting, ProductImage, SEO, FAQItem
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage  # Та самая модель, которую ты добавишь в models.py
@@ -9,6 +10,35 @@ class ProductImageInline(admin.TabularInline):
     # Чтобы превью стояло первым, можно явно указать порядок полей:
     fields = ('image_tag', 'image')
 
+# 1. Создаем универсальный инлайн
+class FAQItemGenericInline(GenericTabularInline):
+    model = FAQItem
+    extra = 1
+    fields = ['question', 'answer', 'order']
+
+
+@admin.register(FAQItem)
+class FAQItemAdmin(admin.ModelAdmin):
+    list_display = ('question', 'page', 'product', 'url_path', 'order')
+    list_filter = ('page', 'product')
+    search_fields = ('question', 'answer')
+    
+    # Группируем поля, чтобы они разделялись визуальными блоками
+    fieldsets = (
+        ('Контент вопроса', {
+            'fields': ('question', 'answer', 'order')
+        }),
+        ('Вариант 1: Привязка к разделу', {
+            'fields': ('page',),
+        }),
+        ('Вариант 2: Привязка к товару', {
+            'fields': ('product',),
+        }),
+        ('Вариант 3: Кастомная привязка по ссылке', {
+            'fields': ('url_path',),
+        }),
+    )
+
 
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
@@ -16,7 +46,7 @@ class SettingAdmin(admin.ModelAdmin):
         return not Setting.objects.exists()
     def has_delete_permission(self, request, obj=None):
         return False
-    
+
 
 @admin.register(SEO)
 class SEOAdmin(admin.ModelAdmin):
@@ -97,6 +127,5 @@ class ProductAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [ProductImageInline]
-
+    # inlines = [FAQItemGenericInline]
 
