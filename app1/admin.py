@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from .models import Category, Product, Setting, ProductImage, SEO, FAQItem
 from django.contrib.contenttypes.admin import GenericTabularInline
 
@@ -10,11 +11,17 @@ class ProductImageInline(admin.TabularInline):
     # Чтобы превью стояло первым, можно явно указать порядок полей:
     fields = ('image_tag', 'image')
 
-# 1. Создаем универсальный инлайн
-class FAQItemGenericInline(GenericTabularInline):
-    model = FAQItem
-    extra = 1
-    fields = ['question', 'answer', 'order']
+
+class FAQItemAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Если поле product есть в форме, отрубаем ему весь сопутствующий интерфейс
+        if 'product' in self.fields:
+            widget = self.fields['product'].widget
+            widget.can_add_related = False     # Сносит плюс (+)
+            widget.can_change_related = False  # Сносит карандаш
+            widget.can_delete_related = False  # Сносит крестик
+            widget.can_view_related = False    # Сносит глаз (если он был)
 
 
 @admin.register(FAQItem)
@@ -22,6 +29,10 @@ class FAQItemAdmin(admin.ModelAdmin):
     list_display = ('question', 'page', 'product', 'url_path', 'order')
     list_filter = ('page', 'product')
     search_fields = ('question', 'answer')
+    list_editable = ('page', 'product', 'url_path', 'order')
+
+    def get_changelist_form(self, request, **kwargs):
+        return FAQItemAdminForm
     
     # Группируем поля, чтобы они разделялись визуальными блоками
     fieldsets = (
@@ -127,5 +138,5 @@ class ProductAdmin(admin.ModelAdmin):
         }),
     )
 
-    # inlines = [FAQItemGenericInline]
+    inlines = [ProductImageInline]
 
