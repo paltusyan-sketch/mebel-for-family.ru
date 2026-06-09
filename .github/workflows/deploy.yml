@@ -1,0 +1,54 @@
+name: Django Auto Deploy
+
+on:
+  push:
+    branches:
+      - main  # Запуск только при пуше в главную ветку
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Забираем код из твоего GitHub репозитория
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Логинимся в Docker Hub через твои секреты
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3. Собираем свежий образ Django и заливаем его на Docker Hub
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: vitaliitutovic2018/mebel-django:latest
+
+      # 4. Заходим на твой сервер по SSH и обновляем проект
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            # Переходим в папку проекта (ЕСЛИ ПУТЬ ДРУГОЙ — ЗАМЕНИ ТУТ НА СВОЙ!)
+            cd /home/vito/mebel-project
+            
+            # Скачиваем новый образ web с Docker Hub
+            docker compose -f docker-compose.prod.yml pull
+            
+            # Перезапускаем контейнеры в фоновом режиме
+            docker compose -f docker-compose.prod.yml up -d
+            
+            # Накатываем миграции и собираем статику внутри контейнера web
+            docker compose -f docker-compose.prod.yml exec -T web python manage.py migrate --noinput
+            docker compose -f docker-compose.prod.yml exec -T web python manage.py collectstatic --noinput --clear
+            
+            # Удаляем старый хлам, чтобы не забивать диск сервера
+            docker image prune -f
