@@ -1,5 +1,6 @@
 import requests
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from django.db.models import Q
@@ -7,6 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category, Setting, FAQItem
 from .forms import OrderForm
 from random import choice
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -150,49 +152,25 @@ def contacts_page(request):
 
     if product_slug:
         try:
-            # Находим продукт по ID
             product = Product.objects.get(product_slug=product_slug)
-            print(product.name)
-            # Формируем текст комментария
             initial_data["comment"] = (
                 f"Здравствуйте! Заинтересовал товар: {product.name}."
             )
         except Product.DoesNotExist:
             pass
 
-    if request.method == "POST":
-        form = OrderForm(request.POST)
-        if request.POST.get("imail") or request.POST.get("honeypot"):
-            form.is_valid()
-            form.cleaned_data["imail"] = request.POST.get("imail")
-            form.cleaned_data["honeypot"] = request.POST.get("honeypot")
-            send_telegram_notification(
-                form.cleaned_data, True, chat_id=settings.SETTING_TELEGRAM_CHAT_ID
-            )
-            messages.error(request, "Система распосзнала, что вы бот!")
-            return redirect(request.path)
-        if form.is_valid():
-            send_telegram_notification(
-                form.cleaned_data, False, chat_id=settings.TELEGRAM_CHAT_ID
-            )
-            messages.success(request, "Ваша заявка успешно отправлена!")
-            return redirect(request.path)  # Перенаправляем на ту же страницу
-    else:
-        # Если метод GET, создаем пустую форму
-        form = OrderForm(initial=initial_data)
+    current_url = request.path
 
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='contacts') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
+
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'contacts' or (faq.url_path and faq.url_path in current_url)
     ]
 
-    context = {"form": form}
+    context = {"form": OrderForm(initial=initial_data)}
     context["faqs"] = faqs
     context["seo_adress"] = (
         Setting.objects.first().address.replace("&nbsp;", " ").replace("<br>", " ")
@@ -202,10 +180,7 @@ def contacts_page(request):
 
 def policy_page(request):
     products = Product.objects.all()
-    # images = []
-    # for i in products:
-    #     images.append()
-    
+        
     current_url = request.path  # вернет "/"
     # Забираем потенциальные вопросы для главной
     all_potential_faqs = FAQItem.objects.filter(
@@ -276,3 +251,29 @@ def cooperation_page(request):
     context = {}
     context["faqs"] = faqs
     return render(request, "cooperation.html", context)
+ 
+
+def api_order_submit(request):
+    # return JsonResponse({'status': 'error', 'errors': {'phone': ['Номер телефона заполнен криво!']}}, status=400)
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Метод не разрешен'}, status=405)
+        
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Кривой JSON'}, status=400)
+
+    if data.get("imail") or data.get("honeypot"):
+        send_telegram_notification(data, is_spam=True, chat_id=settings.SETTING_TELEGRAM_CHAT_ID)
+        return JsonResponse({'status': 'success', 'message': 'Заявка обрабатывается'})
+
+    form = OrderForm(data)
+    
+    if form.is_valid():
+        send_telegram_notification(form.cleaned_data, is_spam=False, chat_id=settings.TELEGRAM_CHAT_ID)
+        return JsonResponse({'status': 'success', 'message': 'Ваша заявка успешно отправлена!'})
+
+    return JsonResponse({
+        'status': 'error', 
+        'errors': form.errors.get_json_data()
+    }, status=400)

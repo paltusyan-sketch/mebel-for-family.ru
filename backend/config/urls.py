@@ -32,7 +32,8 @@ urlpatterns = [
     path("projects/", views.projects_page),
     path("restoration/", views.restoration_page),
     path("cooperation/", views.cooperation_page),
-    
+    path('api/v1/order-submit/', views.api_order_submit, name='api_order_submit'),
+
 ]
 
 
