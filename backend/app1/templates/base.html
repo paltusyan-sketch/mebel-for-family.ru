@@ -53,6 +53,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script src="{% static 'js/order-form.js' %}"></script>
     
     <!-- Сюда дочерние шаблоны смогут добавить свой CSS (например, catalog_style.css) -->
     {% block extra_head %}{% endblock %}
@@ -356,34 +358,5 @@
             });
         });
     </script>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("JS завелся, отправляем тестовый словарь на Django...");
-
-    // 1. Наш словарик (объект), который мы хотим запулить в Питон
-    const myData = {
-        name: "Виталик"
-    };
-
-    // 2. Стреляем fetch-запросом в созданный эндпоинт
-    fetch('/api/test-connect/', {
-        method: 'POST', // КАК шлем
-        headers: {
-            'Content-Type': 'application/json', // ЧТО шлем (JSON)
-            // Пока тестируем без форм, защиту CSRF временно опустим, Django пропустит чистый JsonResponse
-        },
-        body: JSON.stringify(myData) // Превращаем JS-объект в текстовую JSON-строку
-    })
-    .then(response => response.json()) // Ловим ответ от сервера и парсим его в JS-словарь
-    .then(data => {
-        // 3. Выводим в консоль браузера то, что нам прислал Питон!
-        console.log("ОТВЕТ ОТ СЕРВЕРА ДЖАНГО:", data);
-        if (data.status === 'success') {
-            alert(data.message); // Прямо на экране выскочит окно с приветом от Джанго!
-        }
-    })
-    .catch(error => console.error("Бля, что-то пошло по пизде:", error));
-});
-</script>
 </body>
 </html>

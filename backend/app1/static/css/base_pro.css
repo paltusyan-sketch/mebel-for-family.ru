@@ -164,3 +164,14 @@ header {
         font-size: 2rem;
     }
 }
+
+/* ==========================================================================
+   6. АНИМАЦИЯ ДЛЯ ФОРМЫ
+   ========================================================================== */
+@keyframes customFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+.my-fade-in {
+    animation: customFadeIn 1.4s ease-out forwards;
+}

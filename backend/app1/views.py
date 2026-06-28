@@ -50,43 +50,20 @@ def send_telegram_notification(
 
 
 def index_page(request):
-    # Если данные отправлены методом POST
-    if request.method == "POST":
-        form = OrderForm(request.POST)
-        if request.POST.get("imail") or request.POST.get("honeypot"):
-            form.is_valid()
-            form.cleaned_data["imail"] = request.POST.get("imail")
-            form.cleaned_data["honeypot"] = request.POST.get("honeypot")
-            send_telegram_notification(
-                form.cleaned_data, True, chat_id=settings.SETTING_TELEGRAM_CHAT_ID
-            )
-            messages.error(request, "Система распознала, что вы бот!")
-            return redirect(request.path)
-        if form.is_valid():
-            send_telegram_notification(
-                form.cleaned_data, False, chat_id=settings.TELEGRAM_CHAT_ID
-            )
-            messages.success(request, "Ваша заявка успешно отправлена!")
-            return redirect("main")  # Перенаправляем на ту же страницу
-    else:
-        # Если метод GET, создаем пустую форму
-        form = OrderForm()
 
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
+    current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='main') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
+
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'main' or (faq.url_path and faq.url_path in current_url)
     ]
 
-    context = {"form": form}
+    context = {"form": OrderForm()}
     context["categories"] = Category.objects.all()
     context["faqs"] = faqs
-    print(faqs) if faqs else print(None)
     return render(request, "index.html", context)
 
 
@@ -100,12 +77,10 @@ def catalog_page(request, category_slug=None):
         context = {"products": all_products}
 
 
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
+    current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='catalog') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'catalog' or (faq.url_path and faq.url_path in current_url)
@@ -181,12 +156,10 @@ def contacts_page(request):
 def policy_page(request):
     products = Product.objects.all()
         
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
+    current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='policy') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'policy' or (faq.url_path and faq.url_path in current_url)
@@ -200,12 +173,10 @@ def policy_page(request):
 
 def projects_page(request):
 
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
+    current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='projects') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'projects' or (faq.url_path and faq.url_path in current_url)
@@ -218,12 +189,10 @@ def projects_page(request):
 
 def restoration_page(request):
 
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
+    current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='restoration') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'restoration' or (faq.url_path and faq.url_path in current_url)
@@ -237,12 +206,10 @@ def restoration_page(request):
 
 def cooperation_page(request):
 
-    current_url = request.path  # вернет "/"
-    # Забираем потенциальные вопросы для главной
+    current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
         Q(page='cooperation') | Q(url_path__isnull=False)
     ).distinct()
-    # Фильтруем: оставляем если в choices выбрана главная ИЛИ если url_path совпал с корнем
     faqs = [
         faq for faq in all_potential_faqs 
         if faq.page == 'cooperation' or (faq.url_path and faq.url_path in current_url)

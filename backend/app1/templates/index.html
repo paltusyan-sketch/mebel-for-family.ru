@@ -160,7 +160,9 @@
                         {{ form.comment }}
                     </div>
 
-                    {% if messages %}{% for message in messages %}<div class="message alert-{{ message.tags }} mt-1">{{ message }}</div>{% endfor %}{% endif %}
+                    <!-- Сюда JavaScript будет плавно вставлять текст ответа от Джанго -->
+                    <div id="api-message" class="hidden mt-1 mb-2 p-4 rounded-xl text-sm font-semibold text-center select-none transition-all duration-300"></div>
+
                     <button type="submit" class="order-btn-big">Оставить заявку</button>
                     
                     <label class="policy_label">
@@ -168,15 +170,6 @@
                         <p class="policy_text">Я согласен на <a class="policy_link" href="/policy" target="_blank">обработку персональных данных</a></p>
                     </label>
 
-                    <script>
-                    // Самая простая проверка на стороне клиента
-                    document.querySelector('form').onsubmit = function(e) {
-                        if(!document.getElementById('gdpr_check').checked) {
-                            alert('Поставь галку, иначе мебель не приедет!');
-                            return false;
-                        }
-                    };
-                    </script>
                 </form>
             </section>
         </div>
@@ -206,7 +199,6 @@
                     <div class="self-end">{{ site_settings.working_hours|safe }}</div>
                     
                 </div>
-                <!-- <p style="color: brown;" class="happy">Мы всегда рады ответить на ваши вопросы и принять заказ!</p> -->
             </div>
         </div>
         <div class="box3">
@@ -233,50 +225,6 @@
 
 
 {% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Находим поле по ID (у тебя это 'id_phone')
-    const phoneInput = document.getElementById('id_phone');
-    
-    if (phoneInput) {
-        // Чистим старую маску, если она была привязана библиотекой
-        // (лучше вообще удали тот старый скрипт с Inputmask)
-
-        phoneInput.addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\D/g, ''); // Только цифры
-            
-            if (!value) { e.target.value = ''; return; }
-
-            // ВОТ ТА САМАЯ МАГИЯ: замена 8 на 7
-            if (value[0] === '8') {
-                value = '7' + value.slice(1);
-            }
-            // Если начинают с 9 (без кода страны), подставляем 7
-            if (value[0] !== '7') {
-                value = '7' + value;
-            }
-
-            if (value.length > 11) value = value.slice(0, 11);
-
-            // Форматируем строку
-            let formattedValue = '+7';
-            if (value.length > 1) formattedValue += ' (' + value.slice(1, 4);
-            if (value.length >= 5) formattedValue += ') ' + value.slice(4, 7);
-            if (value.length >= 8) formattedValue += '-' + value.slice(7, 9);
-            if (value.length >= 10) formattedValue += '-' + value.slice(9, 11);
-
-            e.target.value = formattedValue;
-        });
-
-        // Чтобы не стиралось по одной цифре скобки и тире
-        phoneInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && e.target.value.replace(/\D/g, '').length <= 1) {
-                e.target.value = '';
-            }
-        });
-    }
-});
-</script>
 
 <script>
 // Эта штука находит все элементы с атрибутом data-fancybox и вешает на них логику окна
@@ -285,28 +233,6 @@ Fancybox.bind("[data-fancybox]", {
     infinite: true, // чтобы листалось по кругу
     transitionEffect: "fade", // плавное появление
 });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const formSection = document.getElementById('order-section');
-        
-        // 1. Проверяем, есть ли сохраненная позиция прокрутки в локальном хранилище
-        const savedScrollPos = localStorage.getItem('formScrollPos');
-        
-        if (savedScrollPos) {
-            // 2. Если есть, прокручиваем страницу к этой позиции
-            window.scrollTo(0, parseInt(savedScrollPos, 10));
-            // Очищаем хранилище, чтобы при следующем посещении страницы не прыгать
-            localStorage.removeItem('formScrollPos');
-        }
-
-        // 3. Перехватываем событие отправки формы
-        formSection.querySelector('form').addEventListener('submit', () => {
-            // 4. Перед отправкой сохраняем текущую позицию прокрутки
-            localStorage.setItem('formScrollPos', window.scrollY);
-        });
-    });
 </script>
 {% endblock %}
 
