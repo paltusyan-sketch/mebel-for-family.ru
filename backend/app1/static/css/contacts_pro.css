@@ -140,6 +140,10 @@ input.policy_checkbox {
     text-decoration: underline;
 }
 
+.policy_text {
+    margin-left: 1rem;
+}
+
 input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
