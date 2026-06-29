@@ -1,59 +1,59 @@
-/* --- Основные стили страницы продукта --- */
+/* 1. СТРУКТУРА СТРАНИЦЫ И КОНТЕЙНЕРЫ  */
 .product-page {
-    margin-top: 0rem; 
+    margin-top: 0rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     padding: 1.7rem 0;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    /* Убираем лишние боковые отступы внутри контейнера на больших экранах */
     padding: 0; 
 }
 
 .product-container {
     display: flex;
-    /* Уменьшаем расстояние между картинкой и текстом */
     gap: 5rem; 
     flex-wrap: wrap; 
 }
 
-/* Галерея */
+/* 2. ГАЛЕРЕЯ (СЛЕВА)  */
+/* .photo_cont {
+    margin-left: 3rem;
+}
+
+@media (max-width: 1280px) {
+    .photo_cont {
+        margin-left: 0rem;
+}
+} */
+
 .product-gallery {
-    /* Делаем блок изображения немного шире, чем информационный блок */
     flex: 2; 
     min-width: 300px;
-    /* Добавляем отступы слева и справа, чтобы картинка не прилипала к краям окна */
     padding: 0 1rem 1rem 1rem; 
 }
 
 .main-image {
     width: 100%;
-    /* Увеличиваем высоту изображения, чтобы она соответствовала описанию */
     height: 480px; 
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* Информация */
+/* Кастомный блок обертки галереи (Alpine) */
+.relative.w-full.max-w-2xl.mx-auto.shadow-2xl.rounded-xl.overflow-hidden.bg-white.p-4.fotos {
+    background-color: #e4e4e4;
+    margin-left: 2rem;
+}
+
+/* 3. ИНФОРМАЦИЯ О ТОВАРЕ (СПРАВА)  */
 .product-info-side {
     flex: 1.5; 
     min-width: 300px;
-     /* Добавляем отступы справа и снизу */
     padding: 0 1rem 1rem 0;
-}
-
-/* Все остальные стили ниже остаются без изменений */
-.breadcrumb {
-    font-size: 0.8rem;
-    color: #888;
-    margin-bottom: 1rem;
-}
-
-.breadcrumb a { 
-    color: #9b7e55; 
-    text-decoration: none; 
 }
 
 .product-info-side h1 {
@@ -69,6 +69,7 @@
     margin-bottom: 2rem;
 }
 
+/* Характеристики */
 .characteristics {
     margin-bottom: 2rem;
     border-top: 1px solid #eee;
@@ -85,14 +86,21 @@
 .char-item span:first-child { color: #777; }
 .char-item span:last-child { font-weight: 600; }
 
-.description {
-    margin-bottom: 2rem;
+.material-text {
+    display: block;
+    width: fit-content;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: 0;
+    text-align: left;
+    padding-right: 0;
 }
 
+/* Описание и кнопки */
+.description { margin-bottom: 2rem; }
 .description h3 { margin-bottom: 0.5rem; }
 .description p { color: #555; line-height: 1.7; }
 
-/* Кнопка */
 .order-btn-big {
     width: 100%;
     padding: 1.2rem;
@@ -111,91 +119,36 @@
     transform: scale(1.02);
 }
 
-/* --- Адаптивные стили (Медиа-запросы) --- */
+button { outline: none !important; border: none; }
+
+/* 4. АДАПТИВ (MEDIA QUERIES)  */
 @media (max-width: 768px) {
     .product-container { 
         flex-direction: column; 
-        gap: 2rem; 
+        gap: 1.5rem; 
     }
+
     .product-page {
-        padding-top: 6rem;
-    }
-    .main-image {
-        height: auto;
-    }
-    /* Добавляем отступы на мобилках */
-    .product-gallery, .product-info-side {
-        padding: 0 1rem;
-    }
-}
-
-
-/* --- Адаптивные стили для страницы продукта (Медиа-запросы) --- */
-@media (max-width: 768px) {
-
-    /* Основной контейнер теперь выстраивается вертикально */
-    .product-container { 
-        flex-direction: column; 
-        gap: 1.5rem; /* Уменьшаем расстояние между блоками на мобильных */
-    }
-
-    /* Верхний отступ страницы на мобильных (меньше, чем 8rem на десктопе) */
-    .product-page {
-        margin-top: 0rem;
         padding-top: 0rem;
     }
-    
-    /* Добавляем отступы по бокам, чтобы контент не прилипал к краям экрана */
+
     .product-gallery, .product-info-side {
         padding: 0 1rem;
-        /* flex: auto; width: auto; уже работают благодаря flex-direction: column */
     }
 
-    /* Убираем фиксированную высоту изображения, чтобы оно масштабировалось */
     .main-image {
         height: auto;
-        /* Убираем тень или делаем ее менее выраженной */
         box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
     }
     
-    /* Уменьшаем размер шрифтов заголовков и цены */
-    .product-info-side h1 {
-        font-size: 2rem;
-    }
+    .product-info-side h1 { font-size: 2rem; }
+    .price { font-size: 1.5rem; }
+    textarea { width: 100%; }
 
-    .price {
-        font-size: 1.5rem;
-    }
-}
-
-
-.relative.w-full.max-w-2xl.mx-auto.shadow-2xl.rounded-xl.overflow-hidden.bg-white.p-4.fotos {
-    background-color: #e4e4e4;
-    margin-left: 2rem;
-}
-
-@media (max-width: 768px) {
+    /* Обертка галереи на мобилках */
     .relative.w-full.max-w-2xl.mx-auto.shadow-2xl.rounded-xl.overflow-hidden.bg-white.p-4.fotos {
         background-color: #e4e4e4;
         margin-left: 0rem;
         padding-top: 1.5rem;
     }
-}
-
-
-
-button {
-    outline: none !important;
-    border: none; /* на всякий случай, если это рамка */
-}
-
-
-.material-text {
-    display: block;
-    width: fit-content;
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: 0;
-    text-align: left;
-    padding-right: 0;
 }
