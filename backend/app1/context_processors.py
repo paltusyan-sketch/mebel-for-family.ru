@@ -31,3 +31,11 @@ def seo_settings(request):
         seo = SEO.objects.first()
 
     return {'seo': seo}
+
+
+def debug_status(request):
+    from django.conf import settings
+    """
+    Прокидывает статус режима отладки (True/False) напрямую в шаблоны.
+    """
+    return {'debug': settings.DEBUG}

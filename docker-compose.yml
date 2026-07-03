@@ -27,5 +27,15 @@ services:
     env_file:
       - .env
 
+  tailwind:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    mem_limit: 512m
+    command: sh -c "npm run watch"
+    depends_on:
+      - web
+
 volumes:
   postgres_data:

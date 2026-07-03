@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Проверяем галочку согласия персональных данных
         if (!document.getElementById('gdpr_check').checked) {
-            alert('Поставь галку, иначе мебель не приедет!');
+            alert('Поставьте галку, иначе мебель не приедет!');
             return;
         }
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
             else if (data.errors) {
                 // Сценарий 2: Сервер прислал конкретный словарь ошибок формы
-                msgBlock.innerText = "Ошибка заполнения. Проверьте поля формы, бро!";
+                msgBlock.innerText = "Ошибка заполнения. Проверьте поля формы!";
                 msgBlock.classList.remove('hidden');
                 msgBlock.classList.add('bg-rose-100', 'text-rose-800', 'my-fade-in');
                 console.log("Ошибки полей:", data.errors);
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } catch (err) {
-            console.error("Бля, связь с сервером оборвалась:", err);
+            console.error("Связь с сервером оборвалась:", err);
             alert("Ошибка отправки. Попробуйте позже.");
         }
     };

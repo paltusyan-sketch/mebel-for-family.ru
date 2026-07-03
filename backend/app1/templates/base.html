@@ -50,11 +50,14 @@
     <script src="{% static 'libs/fancybox/fancybox.umd.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+    <script src="{% static 'libs/alpine/alpine.min.js' %}"></script>
     <script src="{% static 'js/order-form.js' %}"></script>
+    
+    {% if debug %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% else %}
+    <link rel="stylesheet" href="{% static 'css/tailwind-all.css' %}">
+    {% endif %}
     
     <!-- Сюда дочерние шаблоны смогут добавить свой CSS (например, catalog_style.css) -->
     {% block extra_head %}{% endblock %}

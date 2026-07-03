@@ -10,3 +10,4 @@ media/
 staticfiles_collected/
 .DS_Store
 Thumbs.db
+node_modules/
