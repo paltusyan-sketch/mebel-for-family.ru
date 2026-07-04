@@ -1,3 +1,26 @@
+@font-face {
+    font-family: 'Great Vibes';
+    src: url('/static/fonts/greatvibes/greatvibes-regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block; /* Чтобы текст не моргал белым при загрузке */
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/static/fonts/montserrat/montserrat-variable.woff2') format('woff2');
+    font-weight: 100 900; /* Резиновая жирность на будущее */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('/static/fonts/playfair/playfairdisplay-italic-variableFont_wght.woff2') format('woff2');
+    font-weight: 100 900; /* Гнется по жирности от тонкого до жирного */
+    font-style: italic;   /* ЖЕСТКИЙ ФИКС: Обязательно указываем курсив! */
+    font-display: swap;
+}
 /* ==========================================================================
    1. ОБНУЛЕНИЕ И БАЗОВЫЕ НАСТРОЙКИ (RESET)
    ========================================================================== */

@@ -23,35 +23,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <title>СМ Мебель Екб | {% block title %}Семейная мастерская{% endblock %}</title>
+
+    <!-- ЖЕСТКИЙ ПРЕЛОАД: Скачиваем шрифт логотипа на опережение, до загрузки стилей -->
+    <link rel="preload" href="{% static 'fonts/greatvibes/greatvibes-regular.woff2' %}" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    
+    <script src="{% static 'libs/alpine/alpine.min.js' %}"></script>
+    <script src="{% static 'js/order-form.js' %}"></script>
+
     <meta name="description" content="{% block description %}{% endblock %}">
     <link rel="icon" type="image/png" href="{% static 'img/icons/favicon-32x32.png' %}">
-    
-    <!-- Подключение всех шрифтов и основного CSS (STYLES.CSS) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-    <!-- <link rel="stylesheet" href="{% static 'fonts/montserrat/montserrat-regular.woff2' %}"/>
-    <link rel="stylesheet" href="{% static 'fonts/montserrat/montserrat-medium.woff2' %}"/>
-    <link rel="stylesheet" href="{% static 'fonts/montserrat/montserrat-bold.woff2' %}"/>
-    <link rel="stylesheet" href="{% static 'fonts/playfair/playfair-display-bold-italic.woff2' %}"/>
-    <link rel="stylesheet" href="{% static 'fonts/greatvibes/great-vibes-regular.woff2' %}"/> -->
-
-
-
+    <!-- Swiper CSS -->
     <link rel="stylesheet" href="{% static 'libs/swiper/swiper-bundle.min.css' %}"/>
+    <!-- Swiper JS -->
     <script src="{% static 'libs/swiper/swiper-bundle.min.js' %}"></script>
 
     <!-- Fancybox CSS -->
     <link rel="stylesheet" href="{% static 'libs/fancybox/fancybox.css' %}" />
     <!-- Fancybox JS -->
     <script src="{% static 'libs/fancybox/fancybox.umd.js' %}"></script>
-
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <script src="{% static 'libs/alpine/alpine.min.js' %}"></script>
-    <script src="{% static 'js/order-form.js' %}"></script>
     
     {% if debug %}
     <script src="https://cdn.tailwindcss.com"></script>
