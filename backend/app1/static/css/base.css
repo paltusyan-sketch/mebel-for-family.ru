@@ -127,7 +127,7 @@ header {
    3. КОМПОНЕНТЫ (КНОПКИ И ПР.)
    ========================================================================== */
 .order-call {
-    background: #5a7650;
+    background: #863a3a;
     color: white;
     border: none;
     padding: 10px 24px;
@@ -142,7 +142,7 @@ header {
 }
 
 .order-call:hover {
-    background: #177c3e;
+    background: #232a46;
     box-shadow: 0 4px 12px rgba(23, 124, 62, 0.2);
 }
 

@@ -11,3 +11,6 @@ staticfiles_collected/
 .DS_Store
 Thumbs.db
 node_modules/
+package-lock.json
+package.json
+tailwind.config.js
