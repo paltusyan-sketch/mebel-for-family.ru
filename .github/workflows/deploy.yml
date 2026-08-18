@@ -9,6 +9,15 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+            # Копируем папку nginx с конфигом из Гитхаба прямо на твой сервер
+      - name: Copy Nginx config to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "nginx/nginx.conf"
+          target: "/home/vito/mebel-project/"
       # 1. Забираем код из твоего GitHub репозитория
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,7 +38,26 @@ jobs:
           push: true
           tags: vitaliitutovic2018/mebel-django:latest
 
-      # 4. Заходим на твой сервер по SSH и обновляем проект
+      # 4. Собираем и пушим кастомный Nginx на Docker Hub
+      - name: Build and push Nginx image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
+          push: true
+          tags: vitaliitutovic2018/mebel-nginx:latest
+
+      # 5. САМЫЙ ВАЖНЫЙ ШАГ: Гитхаб сам копирует файл docker-compose на сервер!
+      - name: Copy docker-compose to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "docker-compose.prod.yml"
+          target: "/home/vito/mebel-project/"
+        
+      # 6. Заходим на твой сервер по SSH и обновляем проект
       - name: SSH Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
