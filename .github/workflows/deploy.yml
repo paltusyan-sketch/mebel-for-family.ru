@@ -9,15 +9,6 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-            # Копируем папку nginx с конфигом из Гитхаба прямо на твой сервер
-      - name: Copy Nginx config to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          source: "nginx/nginx.conf"
-          target: "/home/vito/mebel-project/"
       # 1. Забираем код из твоего GitHub репозитория
       - name: Checkout code
         uses: actions/checkout@v4
