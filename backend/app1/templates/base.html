@@ -45,11 +45,12 @@
     <!-- Fancybox JS -->
     <script src="{% static 'libs/fancybox/fancybox.umd.js' %}"></script>
     
-    {% if debug %}
+    <!-- {% if debug %}
     <script src="https://cdn.tailwindcss.com"></script>
     {% else %}
     <link rel="stylesheet" href="{% static 'css/tailwind-all.css' %}">
-    {% endif %}
+    {% endif %} -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Сюда дочерние шаблоны смогут добавить свой CSS (например, catalog_style.css) -->
     {% block extra_head %}{% endblock %}
