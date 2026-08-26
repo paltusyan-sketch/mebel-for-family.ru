@@ -62,20 +62,21 @@ def index_page(request):
     ]
 
     context = {"form": OrderForm()}
-    context["categories"] = Category.objects.all()
+    context["categories"] = Category.objects.filter(is_active=True)
     context["faqs"] = faqs
     return render(request, "index.html", context)
 
 
 def catalog_page(request, category_slug=None):
 
-    if category_slug:
-        products = Product.objects.filter(category__category_slug=category_slug)
-        context = {"products": products}
-    else:
-        all_products = Product.objects.all()
-        context = {"products": all_products}
+    active_products = Product.objects.filter(is_active=True, category__is_active=True)
 
+    if category_slug:
+        products = active_products.filter(category__category_slug=category_slug)
+    else:
+        products = active_products
+
+    context = {"products": products}
 
     current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
@@ -86,7 +87,7 @@ def catalog_page(request, category_slug=None):
         if faq.page == 'catalog' or (faq.url_path and faq.url_path in current_url)
     ]
     context["faqs"] = faqs
-    context["categories"] = Category.objects.all()
+    context["categories"] = Category.objects.filter(is_active=True)
     return render(request, "catalog.html", context)
 
 
@@ -95,6 +96,8 @@ def product_page(request, category_slug, product_slug):
         Product,
         product_slug=product_slug,
         category__category_slug=category_slug,  # Дополнительная проверка для безопасности
+        is_active=True,
+        category__is_active=True,
     )
 
     images = ([product.main_image.url] if product.main_image else []) + [

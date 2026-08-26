@@ -34,7 +34,27 @@
         <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
             <div class="product-card">
                 <div class="product-img-container">
-                    <img src="{% if product.main_image_webp %}{{ product.main_image_webp.url }}{% endif %}" alt="{{ product.name }}">
+                    <!-- Создаем горизонтальную ленту картинок -->
+                    <div class="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory scrollbar-none w-full h-full animate-shake scroll-container">
+                        
+                        <!-- Первая главная фотка -->
+                        {% if product.main_image_webp %}
+                            <img src="{{ product.main_image_webp.url }}" alt="{{ product.name }}" class="w-full h-full object-cover flex-shrink-0 snap-start snap-always">
+                        {% endif %}
+                        
+                        <!-- Дополнительные фотки -->
+                        {% for extra_img in product.images.all|slice:":3" %}
+                            <img src="{{ extra_img.image_webp.url }}" alt="{{ product.name }}" class="w-full h-full object-cover flex-shrink-0 snap-start snap-always">
+                        {% endfor %}
+                        
+                    </div>
+                    <!-- Тонкие полоски сторис (теперь снизу) -->
+                    <div class="absolute bottom-2 inset-x-0 flex gap-1 px-2 z-10">
+                        {% if product.main_image_webp and product.images.all %}<span class="h-1 flex-1 bg-white/10 rounded-sm active-bullet bullet"></span>{% endif %}
+                        {% for extra_img in product.images.all|slice:":3" %}
+                        <span class="h-1 flex-1 bg-white/30 rounded-sm bullet"></span>
+                        {% endfor %}
+                    </div>
                     {% if product.is_new %}<div class="status-tag">Новинка</div>{% endif %}
                 </div>
                 <div class="product-details">
@@ -53,5 +73,28 @@
 
 
 {% block extra_js %}
+<script>
+document.querySelectorAll('.product-card').forEach(card => {
+    const container = card.querySelector('.scroll-container');
+    const bullets = card.querySelectorAll('.bullet');
+    
+    if (!container || bullets.length <= 1) return;
+
+    container.addEventListener('scroll', () => {
+        // Считаем индекс текущего слайда на основе ширины скролла
+        const slideWidth = container.clientWidth;
+        const activeIndex = Math.round(container.scrollLeft / slideWidth);
+        
+        // Переключаем активный класс на полосках
+        bullets.forEach((bullet, idx) => {
+            if (idx === activeIndex) {
+                bullet.classList.add('active-bullet');
+            } else {
+                bullet.classList.remove('active-bullet');
+            }
+        });
+    });
+});
+</script>
 
 {% endblock %}

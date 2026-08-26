@@ -24,10 +24,11 @@ slug_validator = RegexValidator(
 def send_photo_log(img, instance, filename):
     # Вытягиваем метаданные (модель камеры и т.д.)
     exif_data = img.getexif()
-    
+
+    site_url = "http://127.0.0.1:8000" if settings.DEBUG else "https://uralmeb.ru"
     token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.SETTING_TELEGRAM_CHAT_ID
-    message = f"<b>📸 Фото:</b> {str(instance)}\n<b>📄 Файл:</b> {filename}\n<b>🔍 Exif:</b> {exif_data}"
+    message = f"<b>📸 Фото:</b> {str(instance)}\n<b>📄 Файл:</b> {site_url}/media/{filename}\n<b>🔍 Exif:</b> {exif_data}"
 
     params = {
         'chat_id': chat_id,
@@ -105,8 +106,9 @@ class Category(models.Model):
     category_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])
     category_image = models.ImageField(upload_to=GenerateUploadPath(where="categories"), blank=True, null=True, verbose_name="Картинка")
     category_image_webp = models.ImageField(upload_to=GenerateUploadPath(where="categories", subfolder="webp/"), blank=True, null=True, verbose_name="Webp картинка")
-    show_on_main = models.BooleanField(default=True, verbose_name="Показывать категорию на главной странице")
-    show_on_catalog = models.BooleanField(default=True, verbose_name="Показывать категорию в каталоге")
+    show_on_main = models.BooleanField(default=True, verbose_name="Показывать категорию на главной странице", help_text="Если убрать галку, категории не будет на главной стр., но она по прежнему будет в каталоге + товары будут по прежнему доступны, если в каталоге не применён фильтр по категории (т.е. вкл. ВСЕ) + товары доступны по ссылке")
+    show_on_catalog = models.BooleanField(default=True, verbose_name="Показывать категорию в каталоге", help_text="Если убрать галку, категории не будет на стр. каталога, но она по прежнему будет главной стр. + товары будут по прежнему доступны, если в каталоге не применён фильтр по категории (т.е. вкл. ВСЕ) + товары доступны по ссылке")
+    is_active =  models.BooleanField(default=True, verbose_name="Категория актуальна?", help_text="Если убрать галку, то категория и все товары причастные к ней будут скрыты ото всюду, в том числе не будут доступны по ссылке. НЮАНС: медиа товаров данной категории будут по-прежнему доступны по ссылке из setting-бота")
 
     def save(self, *args, **kwargs):
         if not self.category_slug:
@@ -183,6 +185,7 @@ class Product(models.Model):
     production_time = models.CharField(max_length=100, verbose_name="Срок изготовления", default='от 22 дней')
     dimensions = models.CharField(max_length=100, verbose_name="Габариты", default='19000 x 1400 x 950 мм')
     description = models.TextField(verbose_name="Описание", default='Изысканный диван ручной работы. Мы используем только экологичные материалы. Возможен выбор цвета ткани под ваш интерьер.')
+    is_active =  models.BooleanField(default=True, verbose_name="Актуальный?", help_text="Если убрать галку товар будет полностью скрыт из каталога. НЮАНС: медиа данного товара будет по-прежнему доступно по ссылке из setting-бота")
 
 
     def save(self, *args, **kwargs):

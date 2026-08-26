@@ -100,16 +100,16 @@ class CategoryAdmin(admin.ModelAdmin):
     readonly_fields = ('category_image_tag',)
     
     fields = (
-        'category_image_tag', 'category_image', 'category_slug', 'name', ('show_on_main', 'show_on_catalog')
+        'category_image_tag', 'category_image', 'category_slug', 'name', ('show_on_main', 'show_on_catalog', 'is_active')
     )
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     # 1. Список всех товаров (в таблце)
-    list_display = ('main_image_tag', 'name', 'product_slug', 'category', 'price', 'is_from', 'is_green', 'is_new')
-    list_filter = ('category', 'is_new', 'is_green') # Фильтры справа
-    list_editable = ('price', 'is_from', 'is_green', 'is_new') # Можно менять прямо в списке!
+    list_display = ('main_image_tag', 'name', 'product_slug', 'category', 'price', 'is_from', 'is_green', 'is_new', 'is_active')
+    list_filter = ('category', 'is_new', 'is_green', 'is_active') # Фильтры справа
+    list_editable = ('price', 'is_from', 'is_green', 'is_new', 'is_active') # Можно менять прямо в списке!
     
     # 2. Карточка самого товара (внутри)
     readonly_fields = ('main_image_tag', 'og_image_tag')
@@ -122,7 +122,7 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('main_image_tag', 'main_image')
         }),
         ('Основная инфа', {
-            'fields': ('category', 'name', 'subtitle')
+            'fields': ('category', ('name', 'is_active'), 'subtitle')
         }),
         ('Ценник и статусы', {
             'fields': (('price', 'is_from'), ('is_green', 'is_new')) # В одну строку для компактности

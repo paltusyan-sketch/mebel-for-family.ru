@@ -68,9 +68,11 @@
     width: 23rem;
 }
 
-.product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+@media (min-width: 1180px) {
+        .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
 }
 
 .product-img-container {
@@ -139,4 +141,9 @@
 
 .buy-btn:hover {
     background: #177c3e; /* Фиолетовый как на кнопке звонка (оставил коммент как был) */
+}
+
+/* Активная полоска индикатора */
+.active-bullet {
+    background-color: #e0e0e0 !important;
 }
