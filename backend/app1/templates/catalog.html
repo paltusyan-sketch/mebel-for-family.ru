@@ -22,7 +22,7 @@
         <a href="{% url 'catalog' %}" class="filter-btn {% active_link 'catalog' 'active' strict=True %}">Все</a>
         {% for cat in categories %}
         {% if cat.show_on_catalog %}
-        <a href="{% url 'catalog_by_category' cat.category_slug %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug=cat.category_slug strict=True %}">{{ cat.name|safe }}</a>
+        <a href="{% url 'catalog_by_category' cat.category_slug %}" class="filter-btn {% active_link 'catalog_by_category' 'active' category_slug=cat.category_slug strict=True %}">{{ cat.name|safe|cut:"<br>" }}</a>
         {% endif %}
         {% endfor %}
     </div>
@@ -34,6 +34,13 @@
         <a href="{% url 'product_page' product.category.category_slug product.product_slug %}">
             <div class="product-card">
                 <div class="product-img-container">
+                    <!-- Сектора для ПК (hidden lg:flex — на смартфонах их не будет физически) -->
+                    <div class="gallery-sectors absolute inset-0 hidden lg:flex z-20">
+                        <div class="sector flex-1 h-full" data-index="0"></div>
+                        {% for extra_img in product.images.all|slice:":3" %}
+                            <div class="sector flex-1 h-full" data-index="{{ forloop.counter }}"></div>
+                        {% endfor %}
+                    </div>
                     <!-- Создаем горизонтальную ленту картинок -->
                     <div class="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory scrollbar-none w-full h-full animate-shake scroll-container">
                         
@@ -44,13 +51,13 @@
                         
                         <!-- Дополнительные фотки -->
                         {% for extra_img in product.images.all|slice:":3" %}
-                            <img src="{{ extra_img.image_webp.url }}" alt="{{ product.name }}" class="w-full h-full object-cover flex-shrink-0 snap-start snap-always">
+                            <img src="{{ extra_img.image_webp.url }}" {% if forloop.counter > 1 %}loading="lazy"{% endif %} alt="{{ product.name }}" class="w-full h-full object-cover flex-shrink-0 snap-start snap-always">
                         {% endfor %}
                         
                     </div>
                     <!-- Тонкие полоски сторис (теперь снизу) -->
                     <div class="absolute bottom-2 inset-x-0 flex gap-1 px-2 z-10">
-                        {% if product.main_image_webp and product.images.all %}<span class="h-1 flex-1 bg-white/10 rounded-sm active-bullet bullet"></span>{% endif %}
+                        {% if product.main_image_webp and product.images.all %}<span class="h-1 flex-1 bg-white/30 rounded-sm active-bullet bullet"></span>{% endif %}
                         {% for extra_img in product.images.all|slice:":3" %}
                         <span class="h-1 flex-1 bg-white/30 rounded-sm bullet"></span>
                         {% endfor %}
@@ -64,6 +71,7 @@
                         <span class="price" {% if product.is_green %}style="color: #177c3e;"{% endif %}>{% if product.is_from %}от {% endif %}{{ product.price|format_price }}₽</span>
                         <button class="buy-btn">Выбрать</button>
                     </div>
+                    <span class="text-xs text-slate-400 block">Опубликовано: 24.08.2026</span>
                 </div>
             </div>
         </a>
@@ -73,7 +81,7 @@
 
 
 {% block extra_js %}
-<script>
+<!-- <script>
 document.querySelectorAll('.product-card').forEach(card => {
     const container = card.querySelector('.scroll-container');
     const bullets = card.querySelectorAll('.bullet');
@@ -95,6 +103,48 @@ document.querySelectorAll('.product-card').forEach(card => {
         });
     });
 });
+</script> -->
+
+<script>
+document.querySelectorAll('.product-card').forEach(card => {
+    const container = card.querySelector('.scroll-container');
+    const bullets = card.querySelectorAll('.bullet');
+    const sectors = card.querySelectorAll('.sector');
+    
+    if (!container || bullets.length <= 1) return;
+
+    // Переменная-предохранитель, чтобы не перегружать процессор
+    let isScrolling = false;
+
+    // Оживление полосок на мобилках (ОПТИМИЗИРОВАНО)
+    container.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                const activeIndex = Math.round(container.scrollLeft / container.clientWidth);
+                updateBullets(activeIndex);
+                isScrolling = false; // Освобождаем предохранитель для следующего кадра
+            });
+            isScrolling = true; // Блокируем лишние вызовы внутри одного кадра
+        }
+    });
+
+    // Сектора на компе (наведение мышки)
+    sectors.forEach(sector => {
+        sector.addEventListener('mouseenter', () => {
+            const index = parseInt(sector.getAttribute('data-index'));
+            container.scrollTo({ left: index * container.clientWidth, behavior: 'auto' });
+            updateBullets(index);
+        });
+    });
+
+    function updateBullets(activeIndex) {
+        bullets.forEach((bullet, idx) => {
+            if (idx === activeIndex) bullet.classList.add('active-bullet');
+            else bullet.classList.remove('active-bullet');
+        });
+    }
+});
 </script>
+
 
 {% endblock %}
