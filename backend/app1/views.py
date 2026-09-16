@@ -9,6 +9,7 @@ from .models import Product, Category, Setting, FAQItem
 from .forms import OrderForm
 from random import choice
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -76,7 +77,11 @@ def catalog_page(request, category_slug=None):
     else:
         products = active_products
 
-    context = {"products": products}
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    context = {"products": page_obj}
 
     current_url = request.path
     all_potential_faqs = FAQItem.objects.filter(
