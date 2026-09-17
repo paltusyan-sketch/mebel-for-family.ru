@@ -1,7 +1,86 @@
-from django.contrib import admin
+import os
+import tarfile
+import subprocess
 from django import forms
+from django.contrib import admin
+from django.http import FileResponse, Http404
+from django.urls import path
+from django.conf import settings
+from django.utils.safestring import mark_safe
 from .models import Category, Product, Setting, ProductImage, SEO, FAQItem
 from django.contrib.contenttypes.admin import GenericTabularInline
+
+
+import os
+import subprocess
+import tarfile
+from django.contrib import admin
+from django.http import FileResponse, Http404
+from django.urls import path
+from django.conf import settings # ИМПОРТИРУЕМ НАСТРОЙКИ ДЖАНГО
+
+def download_backup_view(request):
+    if not request.user.is_staff:
+        raise Http404("Доступ ограничен")
+
+    archive_path = "/app/final_backup_manual.tar.gz"
+    db_sql_path = "/app/backup_db.sql"
+    media_path = "/app/media"
+
+    # АВТО-ВЫТЯГИВАНИЕ ДАННЫХ ИЗ ТВОЕЙ КОНФИГУРАЦИИ ДЖАНГО
+    # Джанга берет их из .env, так что тут всегда будут 100% правильные доступы
+    db_config = settings.DATABASES['default']
+    db_name = db_config['NAME']
+    db_user = db_config['USER']
+    db_password = db_config['PASSWORD']
+    db_host = db_config.get('HOST', 'db') # Если хост не задан, берем стандартный 'db'
+
+    # Формируем универсальную команду с реальными параметрами текущей базы
+    cmd = (
+        f"pg_dump -h {db_host} -U {db_user} -d {db_name} > {db_sql_path} && "
+        f"tar -czf {archive_path} -C /app/ backup_db.sql media && "
+        f"rm -f {db_sql_path}"
+    )
+
+    try:
+        env = os.environ.copy()
+        # Передаем РЕАЛЬНЫЙ пароль, под которым Джанга прямо сейчас работает с базой
+        env["PGPASSWORD"] = db_password
+
+        subprocess.run(cmd, shell=True, check=True, env=env)
+
+        if os.path.exists(archive_path) and os.path.getsize(archive_path) > 0:
+            
+            # Создаем кастомный класс ответа, который сам удалит файл при закрытии
+            class DeleteOnCloseFileResponse(FileResponse):
+                def close(self):
+                    super().close()
+                    if os.path.exists(archive_path):
+                        os.remove(archive_path)
+            
+            # Отдаем файл через наш надежный класс
+            response = DeleteOnCloseFileResponse(open(archive_path, 'rb'), as_attachment=True, filename='backup.tar.gz')
+            return response
+        else:
+            raise Http404("Не удалось сформировать архив.")
+
+    except subprocess.CalledProcessError as e:
+        raise Http404(f"Ошибка утилиты pg_dump/tar внутри контейнера: {e}. Проверь логи контейнера базы данных!")
+    except Exception as e:
+        raise Http404(f"Ошибка бэкапа: {e}")
+
+    
+
+# Регистрация URL (Твоя рабочая схема, которую ты оставил)
+original_get_urls = admin.site.get_urls
+def custom_get_urls():
+    urls = original_get_urls()
+    my_urls = [
+        path('download-backup/', admin.site.admin_view(download_backup_view), name='download_backup'),
+    ]
+    return my_urls + urls
+admin.site.get_urls = custom_get_urls
+
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage  # Та самая модель, которую ты добавишь в models.py
@@ -57,6 +136,17 @@ class SettingAdmin(admin.ModelAdmin):
         return not Setting.objects.exists()
     def has_delete_permission(self, request, obj=None):
         return False
+    # Встроенный метод Джанго, который выводит зелёную кнопку на страницу Настроек
+    def changelist_view(self, request, extra_context=None):
+        button_html = (
+            "<h3>📦 Резервное копирование UralMeb</h3>"
+            "<a href='/admin/download-backup/' style='"
+            "display: inline-block; padding: 8px 16px; background: #177c3e; "
+            "color: #fff; border-radius: 4px; text-decoration: none; font-weight: bold; margin-top: 5px;"
+            "'>Скачать полный бэкап сайта (.tar.gz)</a>"
+        )
+        self.message_user(request, mark_safe(button_html))
+        return super().changelist_view(request, extra_context=extra_context)
 
 
 @admin.register(SEO)
