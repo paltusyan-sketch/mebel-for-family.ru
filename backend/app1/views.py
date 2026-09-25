@@ -10,45 +10,9 @@ from .forms import OrderForm
 from random import choice
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from .utils import send_telegram_msg
 
 # Create your views here.
-
-
-def send_telegram_notification(
-    data, is_spam=False, chat_id=settings.SETTING_TELEGRAM_CHAT_ID
-):
-    if data["comment"]:
-        comment = f"\nКомментарий: <b>{data['comment']}</b>"
-    else:
-        comment = ""
-
-    if is_spam:
-        spam_message = f"СПАМ !!!\n\n<b>imail:</b> {data['imail'] if data['imail'] else 'None'}\n<b>honeypot:</b> {data['honeypot'] if data['honeypot'] else 'None'}\n\n"
-    else:
-        spam_message = ""
-
-    raw_phone = (
-        data["phone"]
-        .replace(" ", "")
-        .replace("(", "")
-        .replace(")", "")
-        .replace("-", "")
-    )
-    message = (
-        spam_message
-        + f"Имя: <b>{data['name']}</b>\nТелефон: <b>{raw_phone}</b>"
-        + comment
-    )
-
-    url = f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
-    params = {
-        "chat_id": chat_id,
-        "text": message,
-        "parse_mode": "HTML",
-        "disable_notification": is_spam,
-    }
-    response = requests.post(url, data=params)
-
 
 def index_page(request):
 
@@ -238,14 +202,39 @@ def api_order_submit(request):
     except json.JSONDecodeError:
         return JsonResponse({'status': 'error', 'message': 'Кривой JSON'}, status=400)
 
-    if data.get("imail") or data.get("honeypot"):
-        send_telegram_notification(data, is_spam=True, chat_id=settings.SETTING_TELEGRAM_CHAT_ID)
-        return JsonResponse({'status': 'success', 'message': 'Заявка обрабатывается'})
-
     form = OrderForm(data)
     
     if form.is_valid():
-        send_telegram_notification(form.cleaned_data, is_spam=False, chat_id=settings.TELEGRAM_CHAT_ID)
+        clean = form.cleaned_data 
+
+        is_spam = True if data.get("imail") or data.get("honeypot") else False
+        chat_id = settings.SETTING_TELEGRAM_CHAT_ID if is_spam else settings.TELEGRAM_CHAT_ID
+
+        raw_phone = (
+            clean["phone"]
+            .replace(" ", "")
+            .replace("(", "")
+            .replace(")", "")
+            .replace("-", "")
+        )
+
+        if is_spam:
+            spam_message = f"СПАМ !!!\n\n<b>imail:</b> {str(data.get('imail', 'None'))[:800]}\n<b>honeypot:</b> {str(data.get('honeypot', 'None'))[:800]}\n\n"
+        else:
+            spam_message = ""
+
+        if clean.get("comment"):
+            comment = f"\nКомментарий: <b>{clean['comment']}</b>"
+        else:
+            comment = ""
+
+        message = (
+            spam_message
+            + f"Имя: <b>{clean['name']}</b>\nТелефон: <b>{raw_phone}</b>"
+            + comment
+        )
+        
+        send_telegram_msg(message=message, chat_id=chat_id, disable_notification=is_spam)
         return JsonResponse({'status': 'success', 'message': 'Ваша заявка успешно отправлена!'})
 
     return JsonResponse({

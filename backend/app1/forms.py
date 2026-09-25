@@ -6,6 +6,7 @@ class OrderForm(forms.Form):
     phone = forms.CharField(label='Номер телефона', max_length=20, widget=forms.TextInput(attrs={'class': 'form-input phone-mask', 'placeholder': '+7 (999) 123-45-67'}))
     comment = forms.CharField(
         label="Комментарий/Вопрос",
+        max_length=1000,
         required=False,
         widget=forms.Textarea(
             attrs={
