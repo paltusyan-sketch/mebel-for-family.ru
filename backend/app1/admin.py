@@ -9,6 +9,7 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 from .models import Category, Product, Setting, ProductImage, SEO, FAQItem
 from django.contrib.contenttypes.admin import GenericTabularInline
+from .utils import send_telegram_msg
 
 
 import os
@@ -18,10 +19,18 @@ from django.contrib import admin
 from django.http import FileResponse, Http404
 from django.urls import path
 from django.conf import settings # ИМПОРТИРУЕМ НАСТРОЙКИ ДЖАНГО
+from django.utils import timezone
 
 def download_backup_view(request):
     if not request.user.is_staff:
         raise Http404("Доступ ограничен")
+
+    # ВЫЧИСЛЯЕМ ТЕКУЩУЮ ДАТУ И ВРЕМЯ СЕРВЕРА
+    # Сделает строку формата: "26.09.2026 в 14:30"
+    current_time = timezone.localtime(timezone.now()).strftime("%d.%m.%Y %H:%M")
+    
+    # Сделаем строку для безопасного имени файла: "2026-09-26_14-30"
+    file_time_str = timezone.localtime(timezone.now()).strftime("%Y-%m-%d_%H-%M")
 
     archive_path = "/app/final_backup_manual.tar.gz"
     db_sql_path = "/app/backup_db.sql"
@@ -50,16 +59,36 @@ def download_backup_view(request):
         subprocess.run(cmd, shell=True, check=True, env=env)
 
         if os.path.exists(archive_path) and os.path.getsize(archive_path) > 0:
-            
+
+            # ---- ВЫЧИСЛЯЕМ ФИЗИЧЕСКИЙ ВЕС АРХИВА ДЛЯ ЛОГА ----
+            size_bytes = os.path.getsize(archive_path)
+            size_mb = size_bytes / (1024 * 1024)
+            # Если архив весит меньше 1 МБ — выводим в КБ, если больше — в МБ
+            backup_weight = f"{size_bytes / 1024:.1f}KB" if size_mb < 1.0 else f"{size_mb:.2f}MB"
+
+            # Собираем пацанское информативное сообщение
+            backup_log_message = (
+                f"<b>📦 Сформирован бэкап</b>\n\n"
+                f"<b>👤 Инициатор:</b> {request.user.username}\n"
+                f"<b>📅 Дата создания:</b> <code>{current_time}</code>\n"
+                f"<b>⚖️ Вес архива:</b> <code>{backup_weight}</code>\n"
+                f"<b>🗄 Состав:</b> Дамп базы данных (SQL) + Папка картинок (media)"
+            )
+
+            # ВЫЗЫВАЕМ ТВОЙ УНИВЕРСАЛЬНЫЙ ОТПРАВЩИК:
+            # Шлем чистый текст лога в твой чат настроек (насчет пересылки самого файла архива в ТГ — сделаем позже через Селери)
+            send_telegram_msg(message=backup_log_message)
+
             # Создаем кастомный класс ответа, который сам удалит файл при закрытии
             class DeleteOnCloseFileResponse(FileResponse):
                 def close(self):
                     super().close()
                     if os.path.exists(archive_path):
                         os.remove(archive_path)
-            
+
+            custom_filename = f"backup_{file_time_str}.tar.gz"
             # Отдаем файл через наш надежный класс
-            response = DeleteOnCloseFileResponse(open(archive_path, 'rb'), as_attachment=True, filename='backup.tar.gz')
+            response = DeleteOnCloseFileResponse(open(archive_path, 'rb'), as_attachment=True, filename=custom_filename)
             return response
         else:
             raise Http404("Не удалось сформировать архив.")

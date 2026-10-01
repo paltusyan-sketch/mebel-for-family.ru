@@ -11,6 +11,7 @@ from pillow_heif import register_heif_opener
 import requests
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from .utils import send_telegram_msg
 
 register_heif_opener()
 # Create your models here.
@@ -26,21 +27,54 @@ def send_photo_log(img, instance, filename):
     exif_data = img.getexif()
 
     site_url = "http://127.0.0.1:8000" if settings.DEBUG else "https://uralmeb.ru"
-    token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.SETTING_TELEGRAM_CHAT_ID
-    message = f"<b>📸 Фото:</b> {str(instance)}\n<b>📄 Файл:</b> {site_url}/media/{filename}\n<b>🔍 Exif:</b> {exif_data}"
-
-    params = {
-        'chat_id': chat_id,
-        'text': message,
-        'parse_mode': 'HTML',
-    }
     
+    orig_text = "0 KB"
+    # webp_text = "0 KB"
+
+    # 1. Меряем и форматируем вес оригинала
+    file_path = getattr(instance, 'main_image', getattr(instance, 'image', None))
+    if file_path and os.path.exists(file_path.path):
+        size_bytes = os.path.getsize(file_path.path)
+        size_mb = size_bytes / (1024 * 1024)
+        
+        # Если оригинал меньше 0.1 MB (примерно 100 КБ) — переводим в КБ
+        if size_mb < 1:
+            orig_text = f"{size_bytes / 1024:.1f}KB"
+        else:
+            orig_text = f"{size_mb:.2f}MB"
+
+    message = (
+        f"<b>📸 Фото товара:</b> {str(instance)}\n"
+        f"<b>📄 Файл:</b> {site_url}/media/{filename}\n"
+        f"<b>⚖️ Вес оригинала:</b> <code>{orig_text}</code>\n"
+        # f"<b>📉 Вес WebP:</b> <code>{webp_text}</code>\n"
+        f"<b>🔍 Exif:</b> {exif_data if exif_data else 'Нет данных'}"
+    )
+
+
     try:
-        requests.post(f"https://api.telegram.org/bot{token}/sendMessage", data=params)
-        print("Done")
-    except:
-        print("NO Done")
+        file_path = getattr(instance, 'main_image', getattr(instance, 'image', None))
+        if file_path and os.path.exists(file_path.path):
+            # Открываем оригинальный файл с диска на чтение байтов ('rb')
+            with open(file_path.path, 'rb') as photo_file:
+                # ВЫЗЫВАЕМ ТВОЙ УНИВЕРСАЛЬНЫЙ КОМБАЙН В ОДНУ СТРОЧКУ!
+                # Передаем текст в message, а открытый файл в file. Имя берем оригинальное.
+                # Функция utils.py сама увидит расширение .jpg/.png и пришлет раскрытую фотку!
+                send_telegram_msg(
+                    message=message,
+                    file=photo_file,
+                    filename=os.path.basename(filename),
+                    chat_id=chat_id,
+                    as_document=False
+                )
+        else:
+            # Предохранитель: если вдруг файла на диске нет, шлем просто текст лога
+            send_telegram_msg(message=message, chat_id=chat_id)
+            
+        print("Done send_photo_log")
+    except Exception as e:
+        print(f"NO Done: {e}")
         pass
 
 

@@ -10,7 +10,8 @@ def send_telegram_msg(
     chat_id: str = settings.SETTING_TELEGRAM_CHAT_ID, 
     bot_token: str = settings.TELEGRAM_BOT_TOKEN, 
     disable_notification: bool = False, 
-    parse_mode: str = "HTML"
+    parse_mode: str = "HTML",
+    as_document: bool = False
 ):
     
     params = {
@@ -23,9 +24,9 @@ def send_telegram_msg(
         if file:
             # Вытаскиваем расширение (.jpg, .tar.gz и т.д.)
             ext = os.path.splitext(filename)[1].lower()
-            image_extensions = ['.jpg', '.jpeg', '.png', '.webp']
+            image_extensions = ['.jpg', '.jpeg', '.png', '.webp', '.jfif']
 
-            if ext in image_extensions:
+            if ext in image_extensions and not as_document:
                 # РЕЖИМ ФОТО: Если расширение картинки — шлем красиво и раскрыто
                 params["caption"] = message
                 files = {"photo": (filename, file, f"image/{ext.replace('.', '')}")}
