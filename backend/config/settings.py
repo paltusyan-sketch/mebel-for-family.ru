@@ -141,7 +141,8 @@ STATICFILES_DIRS = [BASE_DIR / 'app1' / 'static']
 # STATIC_ROOT - место куда соберутся все статические файлы при деплое.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_collected')
 
-
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')

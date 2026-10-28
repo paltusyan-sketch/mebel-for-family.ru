@@ -1,5 +1,26 @@
 
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: uralmeb_redis_local
+    restart: always
+    ports:
+      - "127.0.0.1:6379:6379" # На локалке тоже зажимаем на всякий случай
+
+  celery:
+    build: ./backend # Собираем из твоего локального Dockerfile
+    container_name: uralmeb_celery_local
+    restart: always
+    # Вместо 'config' подставим имя твоей папки со settings.py
+    command: celery -A config worker --loglevel=info
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app # Прокидываем локальную папку с кодом и медиа транзитом
+    depends_on:
+      - db
+      - redis
+
   db:
     image: postgres:15-alpine
     volumes:
@@ -8,11 +29,6 @@ services:
       - .env
     ports:
       - "5432:5432"
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
 
   web:
     build: ./backend
@@ -26,16 +42,6 @@ services:
       - redis
     env_file:
       - .env
-
-  tailwind:
-    image: node:20-alpine
-    working_dir: /app
-    volumes:
-      - .:/app
-    mem_limit: 512m
-    command: sh -c "npm run watch"
-    depends_on:
-      - web
 
 volumes:
   postgres_data:

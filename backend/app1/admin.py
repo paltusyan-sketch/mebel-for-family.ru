@@ -3,13 +3,14 @@ import tarfile
 import subprocess
 from django import forms
 from django.contrib import admin
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, JsonResponse
 from django.urls import path
 from django.conf import settings
 from django.utils.safestring import mark_safe
 from .models import Category, Product, Setting, ProductImage, SEO, FAQItem
 from django.contrib.contenttypes.admin import GenericTabularInline
 from .utils import send_telegram_msg
+from .tasks import telegram_backup_task
 
 
 import os
@@ -68,11 +69,12 @@ def download_backup_view(request):
 
             # Собираем пацанское информативное сообщение
             backup_log_message = (
-                f"<b>📦 Сформирован бэкап</b>\n\n"
+                f"<b>📦 Резервное копирование UralMeb</b>\n\n"
+                f"<b>⚙️ Тип:</b> <code>📥 Скачивание на компьютер</code>\n"
                 f"<b>👤 Инициатор:</b> {request.user.username}\n"
-                f"<b>📅 Дата создания:</b> <code>{current_time}</code>\n"
-                f"<b>⚖️ Вес архива:</b> <code>{backup_weight}</code>\n"
-                f"<b>🗄 Состав:</b> Дамп базы данных (SQL) + Папка картинок (media)"
+                f"<b>📅 Дата:</b> {current_time}\n"
+                f"<b>⚖️ Вес:</b> <code>{backup_weight}</code>\n"
+                f"<b>🗄 Состав:</b> База данных (SQL) + Каталог медиа"
             )
 
             # ВЫЗЫВАЕМ ТВОЙ УНИВЕРСАЛЬНЫЙ ОТПРАВЩИК:
@@ -98,6 +100,18 @@ def download_backup_view(request):
     except Exception as e:
         raise Http404(f"Ошибка бэкапа: {e}")
 
+
+
+def telegram_backup_submit(request):
+    # Мгновенно выплевываем задачу в Redis для Celery воркера
+    telegram_backup_task.delay(username=request.user.username)
+    
+    # Возвращаем JSON. Скрипт на фронтенде поймает его и завершит анимацию кнопки!
+    return JsonResponse({
+        'status': 'success',
+        'message': 'Сборка бэкапа успешно запущена в фоне! Процесс ушёл в Celery воркер, архив скоро прилетит к вам в Телеграм.'
+    })
+
     
 
 # Регистрация URL (Твоя рабочая схема, которую ты оставил)
@@ -106,6 +120,7 @@ def custom_get_urls():
     urls = original_get_urls()
     my_urls = [
         path('download-backup/', admin.site.admin_view(download_backup_view), name='download_backup'),
+        path('run-telegram-backup/', admin.site.admin_view(telegram_backup_submit), name='telegram_backup'),
     ]
     return my_urls + urls
 admin.site.get_urls = custom_get_urls
@@ -168,14 +183,79 @@ class SettingAdmin(admin.ModelAdmin):
     # Встроенный метод Джанго, который выводит зелёную кнопку на страницу Настроек
     def changelist_view(self, request, extra_context=None):
         button_html = (
-            "<h3>📦 Резервное копирование UralMeb</h3>"
-            "<a href='/admin/download-backup/' style='"
-            "display: inline-block; padding: 8px 16px; background: #177c3e; "
-            "color: #fff; border-radius: 4px; text-decoration: none; font-weight: bold; margin-top: 5px;"
-            "'>Скачать полный бэкап сайта (.tar.gz)</a>"
+            "<h3>📦 Управление бэкапами UralMeb</h3>"
+            "<div style='display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;'>"
+            
+                # Кнопка локального скачивания (тип 'local')
+                "<button onclick='runBackup(this, \"local\")' style='"
+                "display: inline-block; padding: 10px 16px; background: #177c3e; border: none; "
+                "color: #fff; border-radius: 4px; font-weight: bold; "
+                "min-width: 210px; text-align: center; cursor: pointer; font-size: 14px;"
+                "'>📥 Скачать бэкап на комп</button>"
+                
+                # Кнопка фонового бэкапа в телегу (тип 'telegram')
+                "<button onclick='runBackup(this, \"telegram\")' style='"
+                "display: inline-block; padding: 10px 16px; background: #2f60a3; border: none; "
+                "color: #fff; border-radius: 4px; font-weight: bold; "
+                "min-width: 210px; text-align: center; cursor: pointer; font-size: 14px;"
+                "'>🚀 Бэкап в Telegram</button>"
+                
+            "</div>"
+            "<script>"
+            "function runBackup(btn, type) {"
+            "    var oldText = btn.innerText;"
+            "    var oldBg = btn.style.background;"
+            "    btn.disabled = true;"
+            "    btn.style.background = '#6c757d';"
+            "    btn.innerText = '⏳ Сборка архива...';"
+            "    "
+            "    if (type === 'local') {"
+            "        fetch('/admin/download-backup/')"
+            "        .then(response => {"
+            "            if (!response.ok) throw new Error();"
+            "            return response.blob();"
+            "        })"
+            "        .then(blob => {"
+            "            var url = window.URL.createObjectURL(blob);"
+            "            var a = document.createElement('a');"
+            "            a.style.display = 'none';"
+            "            a.href = url;"
+            "            a.download = 'backup.tar.gz';"
+            "            document.body.appendChild(a);"
+            "            a.click();"
+            "            window.URL.revokeObjectURL(url);"
+            "            btn.innerText = oldText;"
+            "            btn.disabled = false;"
+            "            btn.style.background = oldBg;"
+            "        })"
+            "        .catch(() => {"
+            "            alert('Ошибка при скачивании бэкапа!');"
+            "            btn.innerText = '❌ Ошибка';"
+            "            btn.disabled = false;"
+            "            btn.style.background = '#d9534f';"
+            "        });"
+            "    } else if (type === 'telegram') {"
+            "        fetch('/admin/run-telegram-backup/')"
+            "        .then(response => response.json())"
+            "        .then(data => {"
+            "            alert(data.message);"
+            "            btn.innerText = oldText;"
+            "            btn.disabled = false;"
+            "            btn.style.background = oldBg;"
+            "        })"
+            "        .catch(() => {"
+            "            alert('Ошибка связи с сервером!');"
+            "            btn.innerText = '❌ Ошибка';"
+            "            btn.disabled = false;"
+            "            btn.style.background = '#d9534f';"
+            "        });"
+            "    }"
+            "}"
+            "</script>"
         )
         self.message_user(request, mark_safe(button_html))
         return super().changelist_view(request, extra_context=extra_context)
+
 
 
 @admin.register(SEO)
