@@ -7,19 +7,10 @@ from django.http import FileResponse, Http404, JsonResponse
 from django.urls import path
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from .models import Category, Product, Setting, ProductImage, SEO, FAQItem
+from .models import Category, Product, Setting, ProductImage, SEO, FAQItem, RedirectLink
 from django.contrib.contenttypes.admin import GenericTabularInline
 from .utils import send_telegram_msg
 from .tasks import telegram_backup_task
-
-
-import os
-import subprocess
-import tarfile
-from django.contrib import admin
-from django.http import FileResponse, Http404
-from django.urls import path
-from django.conf import settings # ИМПОРТИРУЕМ НАСТРОЙКИ ДЖАНГО
 from django.utils import timezone
 
 def download_backup_view(request):
@@ -191,14 +182,14 @@ class SettingAdmin(admin.ModelAdmin):
                 "display: inline-block; padding: 10px 16px; background: #177c3e; border: none; "
                 "color: #fff; border-radius: 4px; font-weight: bold; "
                 "min-width: 210px; text-align: center; cursor: pointer; font-size: 14px;"
-                "'>📥 Скачать бэкап на комп</button>"
+                "'>📥 Скачать бэкап на комп (SQL + media)</button>"
                 
                 # Кнопка фонового бэкапа в телегу (тип 'telegram')
                 "<button onclick='runBackup(this, \"telegram\")' style='"
                 "display: inline-block; padding: 10px 16px; background: #2f60a3; border: none; "
                 "color: #fff; border-radius: 4px; font-weight: bold; "
                 "min-width: 210px; text-align: center; cursor: pointer; font-size: 14px;"
-                "'>🚀 Бэкап в Telegram</button>"
+                "'>🚀 Бэкап в Telegram (только SQL)</button>"
                 
             "</div>"
             "<script>"
@@ -339,3 +330,10 @@ class ProductAdmin(admin.ModelAdmin):
 
     inlines = [ProductImageInline]
 
+
+
+@admin.register(RedirectLink)
+class RedirectLinkAdmin(admin.ModelAdmin):
+    fields = ('short_code', 'target_url', 'delay', ('is_active', 'send_log'), 'clicks_count',)
+    list_display = ('short_code', 'target_url', 'delay', 'clicks_count',)
+    readonly_fields = ('clicks_count',)

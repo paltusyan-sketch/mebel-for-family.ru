@@ -135,6 +135,19 @@ class FAQItem(models.Model):
 
 
 
+class RedirectLink(models.Model):
+    short_code = models.CharField("Короткий код (например: 1)", max_length=50, unique=True)
+    target_url = models.URLField("Куда редиректить (Сайт, ТГ и т.д.)")
+    delay = models.IntegerField("Задержка перед редиректом (в секундах)", default=0)
+    is_active = models.BooleanField("Активна", default=True)
+    send_log = models.BooleanField("Отправлять лог в телеграм", default=True)
+    clicks_count = models.PositiveIntegerField("Количество переходов", default=0)
+
+    def __str__(self):
+        return f"Редирект r/{self.short_code} -> {self.target_url}"
+
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название категории")
     category_slug = models.SlugField(max_length=255, unique=True, blank=True, validators=[slug_validator])

@@ -79,7 +79,7 @@ def telegram_backup_task(self, username):
 
     cmd = (
         f"pg_dump -h {db_host} -U {db_user} -d {db_name} > {db_sql_path} && "
-        f"tar -czf {archive_path} -C /app/ backup_db.sql media && "
+        f"tar -czf {archive_path} -C /app/ backup_db.sql && "
         f"rm -f {db_sql_path}"
     )
 
@@ -101,7 +101,7 @@ def telegram_backup_task(self, username):
                 f"<b>👤 Инициатор:</b> {username}\n"
                 f"<b>📅 Дата:</b> {current_time}\n"
                 f"<b>⚖️ Вес:</b> <code>{backup_weight}</code>\n"
-                f"<b>🗄 Состав:</b> База данных (SQL) + Каталог медиа"
+                f"<b>🗄 Состав:</b> База данных (SQL)"
             )
 
             # 2. ОТПРАВЛЯЕМ САМ ТЯЖЁЛЫЙ ФАЙЛ АРХИВА ДОКУМЕНТОМ В ТЕЛИК
@@ -113,7 +113,7 @@ def telegram_backup_task(self, username):
                 log_res = send_telegram_msg(
                     message=log_message,
                     file_bytes=bytes_data,
-                    filename=f"backup_{file_time_str}.tar.gz",
+                    filename=f"backup_SQL_{file_time_str}.tar.gz",
                     as_document=True
                 )
                 print("LOG_BACKUP_TELEGRAM"+f"--- TG TEXT STATUS: {log_res.status_code} ---")
